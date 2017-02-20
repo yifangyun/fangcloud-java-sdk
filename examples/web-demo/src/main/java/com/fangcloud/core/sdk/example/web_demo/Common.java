@@ -4,8 +4,6 @@ import com.fangcloud.core.sdk.YfyRequestConfig;
 import com.fangcloud.core.sdk.exception.InvalidTokenException;
 import com.fangcloud.core.sdk.exception.NeedAuthorizationException;
 import com.fangcloud.core.sdk.exception.YfyException;
-import com.fangcloud.core.sdk.http.HttpRequestor;
-import com.fangcloud.core.sdk.http.StandardHttpRequestor;
 import com.fangcloud.core.sdk.util.LangUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,9 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.Proxy;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -209,9 +205,9 @@ public class Common {
     }
 
     public YfyRequestConfig getProxyRequestConfig() {
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8888));
-        HttpRequestor proxyHttpRequestor = new StandardHttpRequestor(
-                StandardHttpRequestor.Config.builder().withProxy(proxy).build());
-        return new YfyRequestConfig(proxyHttpRequestor);
+        // Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8888));
+        // HttpRequestor proxyHttpRequestor = new StandardHttpRequestor(
+        //         StandardHttpRequestor.Config.builder().withProxy(proxy).build());
+        return new YfyRequestConfig();
     }
 }

@@ -16,6 +16,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class YfyClient {
+    private static final String USER_AGENT_ID = "OfficialFangcloudJavaSDK";
+
     private volatile String accessToken;
     private volatile String refreshToken;
     private boolean autoRefresh;
@@ -130,8 +132,7 @@ public class YfyClient {
         return executeRetriable(new RetriableExecution<T>() {
             @Override
             public T execute(boolean isRefresh) throws YfyException {
-                final List<HttpRequestor.Header> headers = new ArrayList<HttpRequestor.Header>();
-                YfyRequestUtil.addAuthHeader(headers, lockAccessToken(isRefresh));
+                final List<HttpRequestor.Header> headers = addApiHeaders(isRefresh);
                 return YfyRequestUtil.doPostNoAuth(
                         requestConfig, host, String.format(path, listParams), arg, method, headers, tClass);
             }
@@ -141,6 +142,7 @@ public class YfyClient {
     private List<HttpRequestor.Header> addApiHeaders(boolean isRefresh) throws NeedAuthorizationException {
         final List<HttpRequestor.Header> headers = new ArrayList<HttpRequestor.Header>();
         YfyRequestUtil.addAuthHeader(headers, lockAccessToken(isRefresh));
+        YfyRequestUtil.addApiCustomHeader(headers, USER_AGENT_ID);
         return headers;
     }
 

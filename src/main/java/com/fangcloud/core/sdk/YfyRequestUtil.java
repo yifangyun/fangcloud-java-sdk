@@ -97,6 +97,14 @@ public final class YfyRequestUtil {
         return headers;
     }
 
+    public static List<HttpRequestor.Header> addApiCustomHeader(List<HttpRequestor.Header> headers,
+                                                                String sdkUserAgentIdentifier) {
+        headers.add(new HttpRequestor.Header("User-Agent",
+                YfyAppInfo.getKey() + " " + sdkUserAgentIdentifier + "/" + YfySdkVersion.Version));
+        headers.add(new HttpRequestor.Header("Accept", "application/v1+json"));
+        return headers;
+    }
+
     public static <T> T doGetNoAuth(YfyRequestConfig requestConfig,
                                     String host,
                                     String path,

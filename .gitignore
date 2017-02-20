@@ -26,4 +26,4 @@ target/
 sftp-config.json
 
 #others
-.db
+*.db
