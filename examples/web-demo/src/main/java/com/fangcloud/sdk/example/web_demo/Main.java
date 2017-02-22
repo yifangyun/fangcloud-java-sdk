@@ -6,6 +6,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 
 import java.io.File;
+import java.io.InputStream;
+import java.util.Properties;
 
 import static com.fangcloud.sdk.util.StringUtil.jq;
 
@@ -14,25 +16,10 @@ import static com.fangcloud.sdk.util.StringUtil.jq;
  */
 public class Main {
 
-    public static void main(String[] args) {
-        if (args.length != 4) {
-            System.out.println("");
-            System.out.println("Usage: COMMAND <http-listen-port> <app-key> <app-secret> <database-file>");
-            System.out.println("");
-            System.out.println(" <http-listen-port>: The port to run the HTTP server on.  For example,");
-            System.out.println("    \"8080\".");
-            System.out.println("");
-            System.out.println(" <app-key>: Fangcloud API app key");
-            System.out.println("");
-            System.out.println(" <app-secret>: Fangcloud API app secret");
-            System.out.println("");
-            System.out.println(" <database-file>: Where you want this program to store its database.  For");
-            System.out.println("    example, \"web-demo.db\".");
-            System.exit(1);
-            return;
-        }
+    public static void main(String[] args) throws Exception {
+        Properties prop = loadProp();
 
-        String argPort = args[0];
+        String argPort = prop.getProperty("port");
         int port;
         try {
             port = Integer.parseInt(argPort);
@@ -45,12 +32,12 @@ public class Main {
             System.exit(1); return;
         }
 
-        String appKey = args[1];
-        String appSecret = args[2];
+        String appKey = prop.getProperty("client_id");
+        String appSecret = prop.getProperty("client_secret");
         YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
         YfyAppInfo.initAppInfo(appKey, appSecret, testHost);
 
-        File dbFile = new File(args[3]);
+        File dbFile = new File(prop.getProperty("db_file"));
 
         try {
             WebHandler handler = new WebHandler(dbFile);
@@ -68,6 +55,14 @@ public class Main {
             System.err.println("Error running server: " + ex.getMessage());
             System.exit(1);
         }
+    }
+
+    private static Properties loadProp() throws Exception {
+        String configFileName = "/config.properties";
+        Properties prop = new Properties();
+        InputStream in = Main.class.getResourceAsStream(configFileName);
+        prop.load(in);
+        return prop;
     }
 
 }

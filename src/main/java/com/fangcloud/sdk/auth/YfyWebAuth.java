@@ -92,15 +92,17 @@ public class YfyWebAuth {
             request.sessionStore.set(prefix);
         }
 
-        if (request.state == null) {
-            return prefix;
-        } else {
-            String combined = prefix + request.state;
-            if (combined.length() > Request.MAX_STATE_SIZE) {
-                throw new AssertionError("unexpected combined state length: " + combined.length());
+        String state = prefix;
+        if (request.state != null) {
+            state = prefix + request.state;
+            if (state.length() > Request.MAX_STATE_SIZE) {
+                throw new AssertionError("unexpected combined state length: " + state.length());
             }
-            return combined;
         }
+        if (request.sessionStore != null) {
+            request.sessionStore.set(state);
+        }
+        return state;
     }
 
     /**
@@ -173,7 +175,7 @@ public class YfyWebAuth {
         }
     }
 
-    private static String verifyAndStripCsrfToken(String state, YfySessionStore sessionStore)
+    private static void verifyAndStripCsrfToken(String state, YfySessionStore sessionStore)
             throws CsrfException, BadStateException {
         String expected = sessionStore.get();
         if (expected == null) {
@@ -187,16 +189,9 @@ public class YfyWebAuth {
             throw new CsrfException("Token too small: " + state);
         }
 
-        String actual = state.substring(0, CSRF_STRING_SIZE);
-        if (!StringUtil.secureStringEquals(expected, actual)) {
-            throw new CsrfException("expecting " + jq(expected) + ", got " + jq(actual));
+        if (!StringUtil.secureStringEquals(expected, state)) {
+            throw new CsrfException("expecting " + jq(expected) + ", got " + jq(state));
         }
-
-        String stripped = state.substring(CSRF_STRING_SIZE, state.length());
-
-        sessionStore.clear();
-
-        return stripped.isEmpty() ? null : stripped;
     }
 
     private YfyAuthFinish finish(String code, String redirectUri) throws YfyException {

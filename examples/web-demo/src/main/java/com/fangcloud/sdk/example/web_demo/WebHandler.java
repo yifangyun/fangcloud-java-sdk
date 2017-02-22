@@ -2,7 +2,6 @@ package com.fangcloud.sdk.example.web_demo;
 
 import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfyRefreshListener;
-import com.fangcloud.sdk.api.file.UploadFileResult;
 import com.fangcloud.sdk.api.user.YfyUser;
 import com.fangcloud.sdk.exception.YfyException;
 import org.eclipse.jetty.server.Request;
@@ -169,10 +168,12 @@ public class WebHandler extends AbstractHandler {
                 out.println("<p>your Fangcloud account name: " + htmlEncode(yfyUser.getName()) + "</p>");
                 out.println("<p>your Fangcloud account id: " + yfyUser.getId() + "</p>");
                 out.println("<p>your Fangcloud account email: " + htmlEncode(yfyUser.getEmail()) + "</p>");
-                UploadFileResult result = client.files().directUploadFile(0L, "chrome.crx", "/Users/Wien/Downloads/chrome.crx");
-                out.println("<p>");
-                out.println("upload file success!file name: " + result.getNewFile().getName());
-                out.println("</p>");
+
+                // upload test
+                // UploadFileResult result = client.files().directUploadFile(0L, "chrome.crx", "/Users/Wien/Downloads/chrome.crx");
+                // out.println("<p>");
+                // out.println("upload file success!file name: " + result.getNewFile().getName());
+                // out.println("</p>");
 
                 // out.println("<p>");
                 // out.println("<form method=\"post\"action=\"" + client.files().preSignatureUpload(0L, "chrome.crx").getUploadUrl()
@@ -182,6 +183,7 @@ public class WebHandler extends AbstractHandler {
                 // out.println("</form>");
                 // out.println("</p>");
 
+                // download test
                 // GetChildrenResult result = client.folders().getChildren(0L, 0, 1, "file");
                 // for (YfyFileInfo fileInfo : result.getFiles()) {
                 //     client.files().directDownloadFile(fileInfo.getId(), fileInfo.getName());
@@ -227,6 +229,7 @@ public class WebHandler extends AbstractHandler {
         private final Common common;
         private final User user;
 
+        // import your user storage
         public MyRefreshListener(Common common, User user) {
             this.common = common;
             this.user = user;

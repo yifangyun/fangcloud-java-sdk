@@ -35,6 +35,7 @@ public class FangcloudAuth {
                 // After we redirect the user to the Fangcloud website for authorization,
                 // Fangcloud will redirect them back here.
                 .withRedirectUri(getRedirectUri(request), getSessionStore(request))
+                .withState("test")
                 .build();
         String authorizeUrl = getWebAuth().authorize(authRequest);
 
