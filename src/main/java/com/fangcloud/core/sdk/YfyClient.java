@@ -1,13 +1,25 @@
 package com.fangcloud.core.sdk;
 
+import com.fangcloud.core.sdk.api.file.UploadFileResult;
 import com.fangcloud.core.sdk.api.file.YfyFileRequest;
+import com.fangcloud.core.sdk.api.folder.YfyFolderRequest;
 import com.fangcloud.core.sdk.api.user.YfyUserRequest;
 import com.fangcloud.core.sdk.auth.YfyAuthFinish;
+import com.fangcloud.core.sdk.exception.BadResponseException;
 import com.fangcloud.core.sdk.exception.InvalidTokenException;
+import com.fangcloud.core.sdk.exception.JsonReadException;
 import com.fangcloud.core.sdk.exception.NeedAuthorizationException;
+import com.fangcloud.core.sdk.exception.NetworkIOException;
 import com.fangcloud.core.sdk.exception.YfyException;
 import com.fangcloud.core.sdk.http.HttpRequestor;
+import com.fangcloud.core.sdk.util.IOUtil;
+import com.fangcloud.core.sdk.util.StringUtil;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +29,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class YfyClient {
     private static final String USER_AGENT_ID = "OfficialFangcloudJavaSDK";
+    private static final String BOUNDARY = "--WebKitFormBoundaryPjbcBBB6fBCxfBFq";
+    private static final String BOUNDARY_STR = "----WebKitFormBoundaryPjbcBBB6fBCxfBFq";
 
     private volatile String accessToken;
     private volatile String refreshToken;
@@ -27,6 +41,7 @@ public class YfyClient {
     private final YfyHost host;
     private final YfyFileRequest fileRequest;
     private final YfyUserRequest userRequest;
+    private final YfyFolderRequest folderRequest;
     private YfyRefreshListener refreshListener;
 
     public YfyClient(YfyRequestConfig requestConfig,
@@ -42,6 +57,7 @@ public class YfyClient {
         this.host = YfyAppInfo.getHost();
         this.fileRequest = new YfyFileRequest(this);
         this.userRequest = new YfyUserRequest(this);
+        this.folderRequest = new YfyFolderRequest(this);
         if (refreshToken != null && refreshListener != null) {
             this.autoRefresh = true;
             this.refreshListener = refreshListener;
@@ -102,6 +118,10 @@ public class YfyClient {
         return userRequest;
     }
 
+    public YfyFolderRequest folders() {
+        return folderRequest;
+    }
+
     public boolean canRefresh() {
         return autoRefresh && refreshToken != null;
     }
@@ -122,6 +142,23 @@ public class YfyClient {
         });
     }
 
+    public InputStream doDownload(String downloadUrl) throws YfyException {
+        try {
+            HttpRequestor.Response response =
+                    requestConfig.getHttpRequestor().doGet(downloadUrl, new ArrayList<HttpRequestor.Header>());
+            if (response.getStatusCode() != 200) {
+                throw YfyRequestUtil.unexpectedStatus(response);
+            } else {
+                return response.getBody();
+            }
+
+        } catch (IOException ex) {
+            throw new NetworkIOException(ex);
+        } catch (JsonReadException ex) {
+            throw new BadResponseException("Bad JSON in response : " + ex.getMessage(), ex);
+        }
+    }
+
     public <T> T doPost(final String host,
                         final String path,
                         final Object[] listParams,
@@ -137,6 +174,46 @@ public class YfyClient {
                         requestConfig, host, String.format(path, listParams), arg, method, headers, tClass);
             }
         });
+    }
+
+    public UploadFileResult doUpload(String uploadUrl, String filePath) throws YfyException {
+        List<HttpRequestor.Header> headers = new ArrayList<HttpRequestor.Header>();
+        headers.add(new HttpRequestor.Header("Content-Type", "multipart/form-data; boundary=" + BOUNDARY));
+
+        try {
+            HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPost(
+                    YfySdkConstant.POST_METHOD, uploadUrl, headers);
+            try {
+                writeData(uploader.getBody(), filePath);
+                return YfyRequestUtil.finishResponse(uploader.finish(), UploadFileResult.class);
+            } finally {
+                uploader.close();
+            }
+        } catch (IOException ex) {
+            throw new NetworkIOException(ex);
+        }
+
+    }
+
+    private void writeData(OutputStream outputStream, String filePath) throws IOException {
+        String[] filePathSplit = filePath.split(File.separator);
+        int fileNameIndex = filePathSplit.length - 1;
+        String fileName = filePathSplit[fileNameIndex];
+        StringBuilder sb = new StringBuilder(BOUNDARY_STR);
+        sb.append("\r\n");
+        sb.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\n");
+        sb.append("Content-Type: application/octet-stream");
+        sb.append("\r\n\r\n");
+        sb.append("\r\n\r\n");
+        outputStream.write(StringUtil.stringToUtf8(sb.toString()));
+        try {
+            IOUtil.copyStreamToStream(new FileInputStream(filePath), outputStream);
+            outputStream.write(StringUtil.stringToUtf8("\r\n\r\n" + BOUNDARY_STR + "--"));
+        } catch (IOUtil.ReadException ex) {
+            throw ex.getCause();
+        } finally {
+            outputStream.close();
+        }
     }
 
     private List<HttpRequestor.Header> addApiHeaders(boolean isRefresh) throws NeedAuthorizationException {

@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.regex.Pattern;
 
-public class YfySdkVersion
-{
+public class YfySdkVersion {
     public static final String Version;
     static {
         Version = loadVersion();

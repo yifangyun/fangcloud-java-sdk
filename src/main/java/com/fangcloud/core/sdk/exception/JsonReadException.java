@@ -16,4 +16,8 @@ public class JsonReadException extends Exception {
         super(cause);
         this.jsonStr = jsonStr;
     }
+
+    public String getJsonStr() {
+        return jsonStr;
+    }
 }

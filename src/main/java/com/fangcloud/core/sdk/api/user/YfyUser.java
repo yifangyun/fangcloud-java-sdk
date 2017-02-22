@@ -1,8 +1,9 @@
 package com.fangcloud.core.sdk.api.user;
 
+import com.fangcloud.core.sdk.api.YfyBaseDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class YfyUser {
+public class YfyUser extends YfyBaseDTO {
     private long id;
     @JsonProperty("enterprise_id")
     private long enterpriseId;

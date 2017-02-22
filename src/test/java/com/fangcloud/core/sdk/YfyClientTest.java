@@ -69,7 +69,11 @@ public class YfyClientTest {
         YfyRequestConfig config = new YfyRequestConfig(mockRequestor);
 
         final YfyAuthFinish expectedAuthFinish = new YfyAuthFinish("test-access-token", "test-refresh-token", 3600, "Bearer", "all");
-        final YfyFile expectedFile = new YfyFile(12345L, "哈哈", 54321L, 1234567890L);
+        YfyFile expectedFile = new YfyFile();
+        expectedFile.setId(12345L);
+        expectedFile.setName("哈哈");
+        expectedFile.setSize(54321L);
+        expectedFile.setCreatedAt(1234567890L);
 
         YfyRefreshListener refreshListener = new YfyRefreshListener() {
             @Override

@@ -7,7 +7,7 @@ public final class YfyHost {
      */
     public static final YfyHost DEFAULT = new YfyHost(
             "open.fangcloud.com",
-            "auth.fangcloud.com"
+            "oauth.fangcloud.com"
     );
 
     private final String api;

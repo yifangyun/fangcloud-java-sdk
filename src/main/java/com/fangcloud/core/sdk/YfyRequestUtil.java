@@ -226,7 +226,8 @@ public final class YfyRequestUtil {
     public static <T> T convertStreamToObj(InputStream inputStream, Class<T> tClass)
             throws NetworkIOException, JsonReadException {
         try {
-            return OBJECT_MAPPER.readValue(inputStream, tClass);
+            String jsonStr = IOUtil.toUtf8String(inputStream);
+            return OBJECT_MAPPER.readValue(jsonStr, tClass);
         } catch (JsonParseException ex) {
             throw new JsonReadException(ex);
         } catch (JsonMappingException ex) {
