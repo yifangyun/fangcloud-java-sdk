@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.fanglcloud.core</groupId>
-    <artifactId>fangcloud-core-sdk-examples</artifactId>
+    <groupId>com.fanglcloud</groupId>
+    <artifactId>sdk-examples</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
@@ -14,8 +14,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.fanglcloud.core</groupId>
-            <artifactId>fangcloud-core-sdk</artifactId>
+            <groupId>com.fanglcloud</groupId>
+            <artifactId>java-sdk</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
