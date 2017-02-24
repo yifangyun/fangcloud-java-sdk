@@ -1,9 +1,8 @@
 package com.fangcloud.sdk.api;
 
-import com.fangcloud.sdk.api.item.YfyItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class YfyFileInfo extends YfyItem {
+public class YfyFileInfo extends YfyItemInfo {
     @JsonProperty("comments_count")
     private long commentsCount;
     @JsonProperty("extension_category")

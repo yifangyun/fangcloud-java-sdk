@@ -1,6 +1,7 @@
 package com.fangcloud.sdk.example.web_demo;
 
 import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyClientFactory;
 import com.fangcloud.sdk.YfyRefreshListener;
 import com.fangcloud.sdk.api.user.YfyUser;
 import com.fangcloud.sdk.exception.YfyException;
@@ -21,10 +22,13 @@ import static com.fangcloud.sdk.example.web_demo.Common.htmlEncode;
 public class WebHandler extends AbstractHandler {
     private final Common common;
     private final FangcloudAuth fangcloudAuth;
+    private final YfyClientFactory<String> clientFactory;
 
     public WebHandler(File userDbFile) throws IOException {
         this.common = new Common(userDbFile);
         this.fangcloudAuth = new FangcloudAuth(common);
+        this.clientFactory = new YfyClientFactory<String>(10, common.getProxyRequestConfig(),
+                new MyRefreshListener(common));
     }
 
     @Override
@@ -160,8 +164,7 @@ public class WebHandler extends AbstractHandler {
 
         if (user.getAccessToken() != null) {
             // Show information about linked Fangcloud account.
-            YfyClient client = new YfyClient(common.getProxyRequestConfig(), user.getAccessToken(), user.getRefreshToken(),
-                    new MyRefreshListener(common, user));
+            YfyClient client = clientFactory.getClient(user.getUsername(), user.getAccessToken(), user.getRefreshToken());
             try {
                 YfyUser yfyUser = client.users().getSelfInfo();
                 out.println("<p>Linked to your Fangcloud account (" + htmlEncode(user.getAccessToken()) + ")</p>");
@@ -225,24 +228,26 @@ public class WebHandler extends AbstractHandler {
         response.sendRedirect("/");
     }
 
-    private class MyRefreshListener implements YfyRefreshListener {
+    private class MyRefreshListener implements YfyRefreshListener<String> {
         private final Common common;
-        private final User user;
 
-        // import your user storage
-        public MyRefreshListener(Common common, User user) {
+        // import your own user storage into refresh listener
+        public MyRefreshListener(Common common) {
             this.common = common;
-            this.user = user;
         }
 
         @Override
-        public void tokenRefresh(String accessToken, String refreshToken, long expireIn) {
-            user.setRefreshToken(accessToken);
-            user.setRefreshToken(refreshToken);
-            try {
-                common.saveUserDb();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        public void tokenRefresh(String key, String accessToken, String refreshToken, long expireIn) {
+            System.out.println("user " + key + " has refresh token successfully");
+            User user = common.getUserDb().get(key);
+            if (user != null) {
+                user.setAccessToken(accessToken);
+                user.setRefreshToken(refreshToken);
+                try {
+                    common.saveUserDb();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

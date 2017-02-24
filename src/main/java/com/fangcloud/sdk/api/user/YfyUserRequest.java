@@ -6,9 +6,9 @@ import com.fangcloud.sdk.exception.YfyException;
 public class YfyUserRequest {
     private static String SELF_INFO_PATH = "api/user/info";
 
-    private final YfyClient client;
+    private final YfyClient<?>.YfyInternalClient client;
 
-    public YfyUserRequest(YfyClient client) {
+    public YfyUserRequest(YfyClient.YfyInternalClient client) {
         this.client = client;
     }
 

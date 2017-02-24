@@ -10,9 +10,9 @@ import java.util.Map;
 public class YfyFolderRequest {
     private static String GET_CHILDREN_PATH = "api/folder/children";
 
-    private final YfyClient client;
+    private final YfyClient<?>.YfyInternalClient client;
 
-    public YfyFolderRequest(YfyClient client) {
+    public YfyFolderRequest(YfyClient.YfyInternalClient client) {
         this.client = client;
     }
 

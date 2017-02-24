@@ -1,13 +1,10 @@
-package com.fangcloud.sdk.sdk;
+package com.fangcloud.sdk;
 
-import com.fangcloud.sdk.YfyAppInfo;
-import com.fangcloud.sdk.YfyClient;
-import com.fangcloud.sdk.YfyRefreshListener;
-import com.fangcloud.sdk.YfyRequestConfig;
+import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.auth.YfyAuthFinish;
 import com.fangcloud.sdk.exception.InvalidTokenException;
+import com.fangcloud.sdk.exception.NeedAuthorizationException;
 import com.fangcloud.sdk.exception.YfyException;
-import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.http.HttpRequestor;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class YfyClientTest {
+    private String userName = "wien";
 
     @Before
     public void before() {
@@ -40,7 +38,7 @@ public class YfyClientTest {
         HttpRequestor mockRequestor = mock(HttpRequestor.class);
         YfyRequestConfig config = new YfyRequestConfig(mockRequestor);
 
-        YfyClient client = new YfyClient(config, "fakeAccessToken", "fakeFreshToken");
+        YfyClient<String> client = new YfyClient<>(userName, config, "fakeAccessToken", "fakeFreshToken");
 
         ByteArrayInputStream responseStream = new ByteArrayInputStream(
                 (
@@ -54,7 +52,7 @@ public class YfyClientTest {
                 ).getBytes("UTF-8")
         );
         HttpRequestor.Response finishResponse = new HttpRequestor.Response(
-                400, responseStream, new HashMap<String, List<String>>());
+                401, responseStream, new HashMap<String, List<String>>());
         when(mockRequestor.doGet(anyString(), anyListOf(HttpRequestor.Header.class)))
                 .thenReturn(finishResponse);
 
@@ -66,9 +64,9 @@ public class YfyClientTest {
         }
     }
 
-    @Test(expected = InvalidTokenException.class)
+    @Test(expected = NeedAuthorizationException.class)
     @SuppressWarnings("deprecation")
-    public void testAutoFreshEnabled() throws YfyException, IOException {
+    public void testAutoRefreshEnabled() throws YfyException, IOException {
         HttpRequestor mockRequestor = mock(HttpRequestor.class);
         YfyRequestConfig config = new YfyRequestConfig(mockRequestor);
 
@@ -79,16 +77,17 @@ public class YfyClientTest {
         expectedFile.setSize(54321L);
         expectedFile.setCreatedAt(1234567890L);
 
-        YfyRefreshListener refreshListener = new YfyRefreshListener() {
+        YfyRefreshListener<String> refreshListener = new YfyRefreshListener<String>() {
             @Override
-            public void tokenRefresh(String accessToken, String refreshToken, long expireIn) {
+            public void tokenRefresh(String key, String accessToken, String refreshToken, long expireIn) {
+                assertEquals(key, userName);
                 assertEquals(accessToken, expectedAuthFinish.getAccessToken());
                 assertEquals(refreshToken, expectedAuthFinish.getRefreshToken());
                 assertEquals(expireIn, expectedAuthFinish.getExpiresIn());
             }
         };
 
-        YfyClient client = new YfyClient(config, "fakeAccessToken", "fakeFreshToken", refreshListener);
+        YfyClient<String> client = new YfyClient<>(userName, config, "fakeAccessToken", "fakeFreshToken", refreshListener);
 
         byte[] apiFailByte = (
                 "{" +
@@ -110,7 +109,7 @@ public class YfyClientTest {
 
         // first fail, then success
         when(mockRequestor.doGet(anyString(), anyListOf(HttpRequestor.Header.class)))
-                .thenReturn(createResponse(apiFailByte, 400))
+                .thenReturn(createResponse(apiFailByte, 401))
                 .thenReturn(createResponse(apiSuccessByte, 200));
 
         ByteArrayOutputStream body = new ByteArrayOutputStream();
@@ -144,8 +143,8 @@ public class YfyClientTest {
 
         // first fail, then fail
         when(mockRequestor.doGet(anyString(), anyListOf(HttpRequestor.Header.class)))
-                .thenReturn(createResponse(apiFailByte, 400))
-                .thenReturn(createResponse(apiFailByte, 400));
+                .thenReturn(createResponse(apiFailByte, 401))
+                .thenReturn(createResponse(apiFailByte, 401));
 
         try {
             client.files().getFile(12345L);

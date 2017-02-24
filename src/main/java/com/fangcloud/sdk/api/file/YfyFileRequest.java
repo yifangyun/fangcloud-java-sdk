@@ -19,9 +19,9 @@ public class YfyFileRequest {
     private static String PRE_SIGNATURE_DOWNLOAD_PATH = "api/file/%s/download";
     private static String PRE_SIGNATURE_UPLOAD_PATH = "api/file/upload";
 
-    private final YfyClient client;
+    private final YfyClient<?>.YfyInternalClient client;
 
-    public YfyFileRequest(YfyClient client) {
+    public YfyFileRequest(YfyClient.YfyInternalClient client) {
         this.client = client;
     }
 
