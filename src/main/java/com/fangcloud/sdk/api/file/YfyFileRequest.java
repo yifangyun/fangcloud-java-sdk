@@ -13,18 +13,19 @@ import java.io.InputStream;
 import java.util.List;
 
 public class YfyFileRequest {
-    private final static String GET_FILE_PATH = "api/file/%s/info";
-    private final static String COPY_FILE_PATH = "api/file/copy";
-    private final static String PRE_SIGNATURE_DOWNLOAD_PATH = "api/file/%s/download";
-    private final static String PRE_SIGNATURE_UPLOAD_PATH = "api/file/upload";
-    private final static String NEW_VERSION_PRE_SIGNATURE_UPLOAD_PATH = "api/file/%s/new_version";
-    private final static String UPDATE_FILE_PATH = "api/file/%s/update";
-    private final static String DELETE_FILE_PATH = "api/file/delete";
-    private final static String DELETE_FILE_FROM_TRASH_PATH = "api/file/delete_from_trash";
-    private final static String RESTORE_FILE_FROM_TRASH_PATH = "api/file/restore_from_trash";
-    private final static String MOVE_FILE_PATH = "api/file/move";
-    private final static String PREVIEW_PATH = "api/file/%s/preview";
-    private final static String DOWNLOAD_PREVIEW_PATH = "api/file/%s/preview_download";
+    private final static String FILE_API_PATH = "api/file/";
+    private final static String GET_FILE_PATH = FILE_API_PATH + "%s/info";
+    private final static String COPY_FILE_PATH = FILE_API_PATH + "copy";
+    private final static String PRE_SIGNATURE_DOWNLOAD_PATH = FILE_API_PATH + "%s/download";
+    private final static String PRE_SIGNATURE_UPLOAD_PATH = FILE_API_PATH + "upload";
+    private final static String NEW_VERSION_PRE_SIGNATURE_UPLOAD_PATH = FILE_API_PATH + "%s/new_version";
+    private final static String UPDATE_FILE_PATH = FILE_API_PATH + "%s/update";
+    private final static String DELETE_FILE_PATH = FILE_API_PATH + "delete";
+    private final static String DELETE_FILE_FROM_TRASH_PATH = FILE_API_PATH + "delete_from_trash";
+    private final static String RESTORE_FILE_FROM_TRASH_PATH = FILE_API_PATH + "restore_from_trash";
+    private final static String MOVE_FILE_PATH = FILE_API_PATH + "move";
+    private final static String PREVIEW_PATH = FILE_API_PATH + "%s/preview";
+    private final static String DOWNLOAD_PREVIEW_PATH = FILE_API_PATH + "%s/preview_download";
 
     private final YfyClient<?>.YfyInternalClient client;
 
@@ -36,7 +37,7 @@ public class YfyFileRequest {
      * Retrieve file info
      *
      * @param fileId File id in fangcloud
-     * @return {@link YfyFile} model with file info
+     * @return Detailed file's information
      * @throws YfyException
      */
     public YfyFile getFile(long fileId) throws YfyException {
@@ -45,8 +46,7 @@ public class YfyFileRequest {
     }
 
     private YfyFile getFile(String[] params) throws YfyException {
-        return client.doGet(client.getHost().getApi(),
-                GET_FILE_PATH,
+        return client.doGet(GET_FILE_PATH,
                 params,
                 null,
                 YfyFile.class);
@@ -58,7 +58,7 @@ public class YfyFileRequest {
      * @param fileId File id in fangcloud
      * @param newName File new name, can not be null
      * @param newDescription File new description, can be null
-     * @return {@link YfyFile} model with file info
+     * @return Detailed file's information
      * @throws YfyException
      */
     public YfyFile updateFile(long fileId, String newName, String newDescription) throws YfyException {
@@ -67,8 +67,7 @@ public class YfyFileRequest {
     }
 
     private YfyFile updateFile(String[] params, UpdateFileArg updateFileArg) throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                UPDATE_FILE_PATH,
+        return client.doPost(UPDATE_FILE_PATH,
                 params,
                 updateFileArg,
                 YfySdkConstant.PUT_METHOD,
@@ -87,8 +86,7 @@ public class YfyFileRequest {
     }
 
     private SuccessResult deleteFile(DeleteFileArg deleteFileArg) throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                DELETE_FILE_PATH,
+        return client.doPost(DELETE_FILE_PATH,
                 null,
                 deleteFileArg,
                 YfySdkConstant.DELETE_METHOD,
@@ -96,7 +94,7 @@ public class YfyFileRequest {
     }
 
     /**
-     * Permanently delete files that are in the trash. The file will no longer exist in fangcloud.
+     * Permanently delete specific files that are in the trash. The files will no longer exist in fangcloud.
      * This action cannot be undone.
      *
      * @param fileIds File ids list in fangcloud
@@ -122,8 +120,7 @@ public class YfyFileRequest {
     }
 
     private SuccessResult deleteFileFromTrash(DeleteFileFromTrashArg deleteFileFromTrashArg) throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                DELETE_FILE_FROM_TRASH_PATH,
+        return client.doPost(DELETE_FILE_FROM_TRASH_PATH,
                 null,
                 deleteFileFromTrashArg,
                 YfySdkConstant.DELETE_METHOD,
@@ -157,8 +154,7 @@ public class YfyFileRequest {
     }
 
     private SuccessResult restoreFileFromTrash(RestoreFileFromTrashArg restoreFileFromTrashArg) throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                RESTORE_FILE_FROM_TRASH_PATH,
+        return client.doPost(RESTORE_FILE_FROM_TRASH_PATH,
                 null,
                 restoreFileFromTrashArg,
                 YfySdkConstant.POST_METHOD,
@@ -178,8 +174,7 @@ public class YfyFileRequest {
     }
 
     private SuccessResult moveFile(MoveFileArg moveFileArg) throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                MOVE_FILE_PATH,
+        return client.doPost(MOVE_FILE_PATH,
                 null,
                 moveFileArg,
                 YfySdkConstant.POST_METHOD,
@@ -199,8 +194,7 @@ public class YfyFileRequest {
     }
 
     private PreSignatureDownloadResult preSignatureDownload(String[] params) throws YfyException {
-        return client.doGet(client.getHost().getApi(),
-                PRE_SIGNATURE_DOWNLOAD_PATH,
+        return client.doGet(PRE_SIGNATURE_DOWNLOAD_PATH,
                 params,
                 null,
                 PreSignatureDownloadResult.class);
@@ -252,8 +246,7 @@ public class YfyFileRequest {
 
     private PreSignatureUploadResult preSignatureUpload(PreSignatureUploadArg preSignatureUploadArg)
             throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                PRE_SIGNATURE_UPLOAD_PATH,
+        return client.doPost(PRE_SIGNATURE_UPLOAD_PATH,
                 null,
                 preSignatureUploadArg,
                 YfySdkConstant.POST_METHOD,
@@ -279,8 +272,7 @@ public class YfyFileRequest {
     private PreSignatureUploadResult newVersionPreSignatureUpload(
             String[] param, NewVersionPreSignatureUploadArg newVersionPreSignatureUploadArg)
             throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                NEW_VERSION_PRE_SIGNATURE_UPLOAD_PATH,
+        return client.doPost(NEW_VERSION_PRE_SIGNATURE_UPLOAD_PATH,
                 param,
                 newVersionPreSignatureUploadArg,
                 YfySdkConstant.POST_METHOD,
@@ -292,6 +284,7 @@ public class YfyFileRequest {
      *
      * @param uploadUrl Upload url returned by the {@link this#preSignatureUpload(long,String)}
      * @param filePath The file path which you'd like upload to server
+     * @return Detailed new file info
      * @throws YfyException
      */
     public YfyFile uploadFile(String uploadUrl, String filePath) throws YfyException {
@@ -305,6 +298,7 @@ public class YfyFileRequest {
      * @param parentId Parent folder id you want to store the file in, the root folder is 0
      * @param name File name
      * @param filePath The file path which you'd like to upload to server
+     * @return Detailed new file's information
      * @throws YfyException
      */
     public YfyFile directUploadFile(long parentId, String name, String filePath) throws YfyException {
@@ -326,8 +320,7 @@ public class YfyFileRequest {
     }
 
     private PreviewResult preview(String[] param, PreviewArg previewArg) throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                PREVIEW_PATH,
+        return client.doPost(PREVIEW_PATH,
                 param,
                 previewArg,
                 YfySdkConstant.POST_METHOD,
@@ -353,8 +346,7 @@ public class YfyFileRequest {
 
     private DownloadPreviewResult downloadPreview(String[] param, DownloadPreviewArg downloadPreviewArg)
             throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                DOWNLOAD_PREVIEW_PATH,
+        return client.doPost(DOWNLOAD_PREVIEW_PATH,
                 param,
                 downloadPreviewArg,
                 YfySdkConstant.POST_METHOD,
@@ -366,7 +358,7 @@ public class YfyFileRequest {
      *
      * @param fileId File id in fangcloud
      * @param targetFolderId Id of the destination folder in fangcloud
-     * @return {@link YfyFile} model with the new file info
+     * @return Detailed new file's information
      * @throws YfyException
      */
     public YfyFile copyFile(long fileId, long targetFolderId) throws YfyException {
@@ -374,8 +366,7 @@ public class YfyFileRequest {
     }
 
     private YfyFile copyFile(CopyFileArg copyFileArg) throws YfyException {
-        return client.doPost(client.getHost().getApi(),
-                COPY_FILE_PATH,
+        return client.doPost(COPY_FILE_PATH,
                 null,
                 copyFileArg,
                 YfySdkConstant.POST_METHOD,

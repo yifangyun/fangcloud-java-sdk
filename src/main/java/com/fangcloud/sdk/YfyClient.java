@@ -3,6 +3,7 @@ package com.fangcloud.sdk;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.api.folder.YfyFolderRequest;
+import com.fangcloud.sdk.api.item.YfyItemRequest;
 import com.fangcloud.sdk.api.user.YfyUserRequest;
 import com.fangcloud.sdk.auth.YfyAuthFinish;
 import com.fangcloud.sdk.exception.BadResponseException;
@@ -31,6 +32,7 @@ public class YfyClient<K> {
     private final YfyFileRequest fileRequest;
     private final YfyUserRequest userRequest;
     private final YfyFolderRequest folderRequest;
+    private final YfyItemRequest itemRequest;
 
     private K key;
     private volatile String accessToken;
@@ -54,6 +56,7 @@ public class YfyClient<K> {
         this.fileRequest = new YfyFileRequest(internalClient);
         this.userRequest = new YfyUserRequest(internalClient);
         this.folderRequest = new YfyFolderRequest(internalClient);
+        this.itemRequest = new YfyItemRequest(internalClient);
 
         this.requestConfig = requestConfig;
         this.host = YfyAppInfo.getHost();
@@ -86,6 +89,10 @@ public class YfyClient<K> {
 
     public YfyFolderRequest folders() {
         return folderRequest;
+    }
+
+    public YfyItemRequest items() {
+        return itemRequest;
     }
 
     public void setAutoRefresh(boolean autoRefresh) {
@@ -138,16 +145,15 @@ public class YfyClient<K> {
         private static final String BOUNDARY = "--WebKitFormBoundaryPjbcBBB6fBCxfBFq";
         private static final String BOUNDARY_STR = "--" + BOUNDARY;
 
-        public YfyHost getHost() {
-            return host;
-        }
-
         public boolean canRefresh() {
             return autoRefresh && refreshToken != null;
         }
 
-        public <T> T doGet(final String host,
-                           final String path,
+        public YfyHost getHost() {
+            return host;
+        }
+
+        public <T> T doGet(final String path,
                            final Object[] listParams,
                            final Map<String, String> mapParams,
                            final Class<T> tClass)
@@ -157,7 +163,7 @@ public class YfyClient<K> {
                 public T execute(boolean isRefresh) throws YfyException {
                     final List<HttpRequestor.Header> headers = addApiHeaders(isRefresh);
                     return YfyRequestUtil.doGetNoAuth(
-                            requestConfig, host, String.format(path, listParams), mapParams, headers, tClass);
+                            requestConfig, host.getApi(), String.format(path, listParams), mapParams, headers, tClass);
                 }
             });
         }
@@ -179,8 +185,7 @@ public class YfyClient<K> {
             }
         }
 
-        public <T> T doPost(final String host,
-                            final String path,
+        public <T> T doPost(final String path,
                             final Object[] listParams,
                             final YfyArg arg,
                             final String method,
@@ -191,7 +196,7 @@ public class YfyClient<K> {
                 public T execute(boolean isRefresh) throws YfyException {
                     final List<HttpRequestor.Header> headers = addApiHeaders(isRefresh);
                     return YfyRequestUtil.doPostNoAuth(
-                            requestConfig, host, String.format(path, listParams), arg, method, headers, tClass);
+                            requestConfig, host.getApi(), String.format(path, listParams), arg, method, headers, tClass);
                 }
             });
         }

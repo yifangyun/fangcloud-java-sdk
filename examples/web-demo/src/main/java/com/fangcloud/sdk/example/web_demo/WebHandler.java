@@ -166,7 +166,7 @@ public class WebHandler extends AbstractHandler {
             // Show information about linked Fangcloud account.
             YfyClient client = clientFactory.getClient(user.getUsername(), user.getAccessToken(), user.getRefreshToken());
             try {
-                YfyUser yfyUser = client.users().getSelfInfo();
+                YfyUser yfyUser = client.users().getSelf();
                 out.println("<p>Linked to your Fangcloud account (" + htmlEncode(user.getAccessToken()) + ")</p>");
                 out.println("<p>your Fangcloud account name: " + htmlEncode(yfyUser.getName()) + "</p>");
                 out.println("<p>your Fangcloud account id: " + yfyUser.getId() + "</p>");
@@ -198,7 +198,7 @@ public class WebHandler extends AbstractHandler {
 
             } catch (YfyException ex) {
                 ex.printStackTrace();
-                common.handleYfyException(response, user, ex, "users getSelfInfo");
+                common.handleYfyException(response, user, ex, "users getSelf");
             }
         } else {
             // They haven't linked their Fangcloud account.  Display the "Link" form.

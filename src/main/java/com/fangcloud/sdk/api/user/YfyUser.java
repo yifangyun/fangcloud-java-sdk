@@ -11,7 +11,7 @@ public class YfyUser extends YfyBaseDTO {
     private String phone;
     private String email;
     @JsonProperty("profile_pic_key")
-    private String profilePicPath;
+    private String profilePicKey;
     private boolean active;
     @JsonProperty("full_name_pinyin")
     private String fullNamePinyin;
@@ -58,12 +58,12 @@ public class YfyUser extends YfyBaseDTO {
         this.email = email;
     }
 
-    public String getProfilePicPath() {
-        return profilePicPath;
+    public String getProfilePicKey() {
+        return profilePicKey;
     }
 
-    public void setProfilePicPath(String profilePicPath) {
-        this.profilePicPath = profilePicPath;
+    public void setProfilePicKey(String profilePicKey) {
+        this.profilePicKey = profilePicKey;
     }
 
     public boolean isActive() {
