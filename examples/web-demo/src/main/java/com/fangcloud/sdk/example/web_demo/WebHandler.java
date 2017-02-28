@@ -173,9 +173,9 @@ public class WebHandler extends AbstractHandler {
                 out.println("<p>your Fangcloud account email: " + htmlEncode(yfyUser.getEmail()) + "</p>");
 
                 // upload test
-                // UploadFileResult result = client.files().directUploadFile(0L, "chrome.crx", "/Users/Wien/Downloads/chrome.crx");
+                // YfyFile result = client.files().directUploadFile(0L, "chrome.crx", "/Users/Wien/Downloads/chrome.crx");
                 // out.println("<p>");
-                // out.println("upload file success!file name: " + result.getNewFile().getName());
+                // out.println("upload file success!file name: " + result.getName());
                 // out.println("</p>");
 
                 // out.println("<p>");
@@ -188,10 +188,10 @@ public class WebHandler extends AbstractHandler {
 
                 // download test
                 // GetChildrenResult result = client.folders().getChildren(0L, 0, 1, "file");
-                // for (YfyFileInfo fileInfo : result.getFiles()) {
-                //     client.files().directDownloadFile(fileInfo.getId(), fileInfo.getName());
+                // for (YfyFile file : result.getFiles()) {
+                //     client.files().directDownloadFile(file.getId(), file.getName());
                 //     out.println("<p><a href=\""
-                //             + client.files().preSignatureDownload(fileInfo.getId()).getDownloadUrls().get(fileInfo.getId())
+                //             + client.files().preSignatureDownload(file.getId()).getDownloadUrls().get(file.getId())
                 //             + "\">" + fileInfo.getName() + "</a></p>");
                 // }
 

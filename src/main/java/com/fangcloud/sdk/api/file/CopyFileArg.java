@@ -9,8 +9,6 @@ public class CopyFileArg implements YfyArg {
     @JsonProperty("target_folder_id")
     private long targetFolderId;
 
-    public CopyFileArg() {}
-
     public CopyFileArg(long fileId, long targetFolderId) {
         this.fileId = fileId;
         this.targetFolderId = targetFolderId;

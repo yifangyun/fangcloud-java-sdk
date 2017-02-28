@@ -1,6 +1,6 @@
 package com.fangcloud.sdk;
 
-import com.fangcloud.sdk.api.file.UploadFileResult;
+import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.api.folder.YfyFolderRequest;
 import com.fangcloud.sdk.api.user.YfyUserRequest;
@@ -196,7 +196,7 @@ public class YfyClient<K> {
             });
         }
 
-        public UploadFileResult doUpload(String uploadUrl, String filePath) throws YfyException {
+        public YfyFile doUpload(String uploadUrl, String filePath) throws YfyException {
             List<HttpRequestor.Header> headers = new ArrayList<HttpRequestor.Header>();
             headers.add(new HttpRequestor.Header("Content-Type", "multipart/form-data; boundary=" + BOUNDARY));
 
@@ -205,7 +205,7 @@ public class YfyClient<K> {
                         YfySdkConstant.POST_METHOD, uploadUrl, headers);
                 try {
                     writeMultipartData(uploader.getBody(), filePath);
-                    return YfyRequestUtil.finishResponse(uploader.finish(), UploadFileResult.class);
+                    return YfyRequestUtil.finishResponse(uploader.finish(), YfyFile.class);
                 } finally {
                     uploader.close();
                 }
@@ -223,7 +223,6 @@ public class YfyClient<K> {
             sb.append("\r\n");
             sb.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\n");
             sb.append("Content-Type: application/octet-stream");
-            sb.append("\r\n\r\n");
             sb.append("\r\n\r\n");
             outputStream.write(StringUtil.stringToUtf8(sb.toString()));
             try {

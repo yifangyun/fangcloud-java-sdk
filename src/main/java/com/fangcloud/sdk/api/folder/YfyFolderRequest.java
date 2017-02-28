@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class YfyFolderRequest {
-    private static String GET_CHILDREN_PATH = "api/folder/children";
+    private final static String GET_CHILDREN_PATH = "api/folder/children";
 
     private final YfyClient<?>.YfyInternalClient client;
 

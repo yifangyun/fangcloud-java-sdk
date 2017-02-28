@@ -6,6 +6,8 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.fangcloud.sdk.util.LangUtil.mkAssert;
 
@@ -201,5 +203,17 @@ public class StringUtil {
         }
 
         return buf.toString();
+    }
+
+    public static void checkNameValid(String name) {
+        boolean valid = false;
+        if (name != null && name.length() >= 1 && name.length() <= 222) {
+            Pattern pattern = Pattern.compile(".*[\\\\/?:*\\\"><|].*");
+            Matcher matcher = pattern.matcher(name);
+            valid = !matcher.matches();
+        }
+        if (!valid) {
+            throw new IllegalArgumentException("name:" + name + " is invalid");
+        }
     }
 }

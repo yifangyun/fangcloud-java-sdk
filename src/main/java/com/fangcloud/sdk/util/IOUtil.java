@@ -79,11 +79,11 @@ public class IOUtil {
         return baos.toByteArray();
     }
 
-    public void copyFileToStream(File fin, OutputStream out) throws ReadException, WriteException {
+    public static void copyFileToStream(File fin, OutputStream out) throws ReadException, WriteException {
         copyFileToStream(fin, out, DEFAULT_COPY_BUFFER_SIZE);
     }
 
-    public void copyFileToStream(File fin, OutputStream out, int copyBufferSize) throws ReadException, WriteException {
+    public static void copyFileToStream(File fin, OutputStream out, int copyBufferSize) throws ReadException, WriteException {
         FileInputStream in;
         try {
             in = new FileInputStream(fin);
@@ -98,11 +98,11 @@ public class IOUtil {
         }
     }
 
-    public void copyStreamToFile(InputStream in, File fout) throws ReadException, WriteException {
+    public static void copyStreamToFile(InputStream in, File fout) throws ReadException, WriteException {
         copyStreamToFile(in, fout, DEFAULT_COPY_BUFFER_SIZE);
     }
 
-    public void copyStreamToFile(InputStream in, File fout, int copyBufferSize) throws ReadException, WriteException {
+    public static void copyStreamToFile(InputStream in, File fout, int copyBufferSize) throws ReadException, WriteException {
         FileOutputStream out;
         try {
             out = new FileOutputStream(fout);
