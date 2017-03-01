@@ -1,8 +1,5 @@
-package com.fangcloud.sdk.api.item;
+package com.fangcloud.sdk.api;
 
-import com.fangcloud.sdk.api.YfyBaseDTO;
-import com.fangcloud.sdk.api.YfyMiniUser;
-import com.fangcloud.sdk.api.YfyPathFolder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

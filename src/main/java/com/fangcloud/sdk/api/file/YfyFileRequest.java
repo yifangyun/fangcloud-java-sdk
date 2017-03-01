@@ -3,6 +3,7 @@ package com.fangcloud.sdk.api.file;
 import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.SuccessResult;
+import com.fangcloud.sdk.exception.ClientValidationException;
 import com.fangcloud.sdk.exception.NetworkIOException;
 import com.fangcloud.sdk.exception.YfyException;
 import com.fangcloud.sdk.util.IOUtil;
@@ -103,7 +104,7 @@ public class YfyFileRequest {
      */
     public SuccessResult deleteFileFromTrash(List<Long> fileIds) throws YfyException {
         if (fileIds == null || fileIds.isEmpty()) {
-            throw new IllegalArgumentException("file ids can not be null or be empty");
+            throw new ClientValidationException("file ids can not be null or be empty");
         }
         return deleteFileFromTrash(new DeleteFileFromTrashArg(fileIds, false));
     }
@@ -137,7 +138,7 @@ public class YfyFileRequest {
      */
     public SuccessResult restoreFileFromTrash(List<Long> fileIds) throws YfyException {
         if (fileIds == null || fileIds.isEmpty()) {
-            throw new IllegalArgumentException("file ids can not be null or be empty");
+            throw new ClientValidationException("file ids can not be null or be empty");
         }
         return restoreFileFromTrash(new RestoreFileFromTrashArg(fileIds, false));
     }

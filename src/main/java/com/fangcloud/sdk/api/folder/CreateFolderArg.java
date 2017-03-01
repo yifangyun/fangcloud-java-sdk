@@ -1,6 +1,7 @@
 package com.fangcloud.sdk.api.folder;
 
 import com.fangcloud.sdk.YfyArg;
+import com.fangcloud.sdk.exception.ClientValidationException;
 import com.fangcloud.sdk.util.StringUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,7 +10,7 @@ public class CreateFolderArg implements YfyArg {
     @JsonProperty("parent_id")
     private long parentId;
 
-    public CreateFolderArg(String name, long parentId) {
+    public CreateFolderArg(String name, long parentId) throws ClientValidationException {
         StringUtil.checkNameValid(name);
         this.name = name;
         this.parentId = parentId;

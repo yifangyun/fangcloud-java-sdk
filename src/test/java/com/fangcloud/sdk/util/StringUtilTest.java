@@ -1,14 +1,16 @@
 package com.fangcloud.sdk.util;
 
+import com.fangcloud.sdk.exception.ClientValidationException;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
 
 import static com.fangcloud.sdk.util.StringUtil.jq;
+import static org.junit.Assert.assertEquals;
 
 public class StringUtilTest {
     @Test
-    public void base64Encode() {
+    public void base64EncodeTest() {
         // Some examples from Wikipedia.
         checkBase64(
                 "Man is distinguished, not only by his reason, but by this singular passion from " +
@@ -35,5 +37,22 @@ public class StringUtilTest {
         if (!encoded.equals(expected)) {
             throw new AssertionError("original=" + jq(original) + ", encoded=" +  jq(encoded) + ", expected=" + jq(expected));
         }
+    }
+
+    @Test
+    public void checkNameValidTest() {
+        int result = 0;
+        String invalidString = "/?:*\\\"><\\";
+        int length = invalidString.length();
+        char test;
+        for (int i = 0; i < length; i++) {
+            test = invalidString.charAt(i);
+            try {
+                StringUtil.checkNameValid(String.valueOf(test));
+            } catch (ClientValidationException e) {
+                result++;
+            }
+        }
+        assertEquals(length, result);
     }
 }

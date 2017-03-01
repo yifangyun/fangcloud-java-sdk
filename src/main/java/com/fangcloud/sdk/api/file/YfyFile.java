@@ -1,6 +1,6 @@
 package com.fangcloud.sdk.api.file;
 
-import com.fangcloud.sdk.api.item.YfyItem;
+import com.fangcloud.sdk.api.YfyItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class YfyFile extends YfyItem {

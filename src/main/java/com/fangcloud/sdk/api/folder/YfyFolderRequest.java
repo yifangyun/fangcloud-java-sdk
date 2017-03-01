@@ -4,6 +4,7 @@ import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.ItemTypeEnum;
 import com.fangcloud.sdk.api.SuccessResult;
+import com.fangcloud.sdk.exception.ClientValidationException;
 import com.fangcloud.sdk.exception.YfyException;
 
 import java.util.HashMap;
@@ -96,7 +97,7 @@ public class YfyFolderRequest {
      */
     public SuccessResult deleteFolder(List<Long> folderIds) throws YfyException {
         if (folderIds == null || folderIds.isEmpty()) {
-            throw new IllegalArgumentException("folder ids can not be null or be empty");
+            throw new ClientValidationException("folder ids can not be null or be empty");
         }
         return deleteFolder(new DeleteFolderArg(folderIds));
     }
@@ -119,7 +120,7 @@ public class YfyFolderRequest {
      */
     public SuccessResult deleteFolderFromTrash(List<Long> folderIds) throws YfyException {
         if (folderIds == null || folderIds.isEmpty()) {
-            throw new IllegalArgumentException("folder ids can not be null or be empty");
+            throw new ClientValidationException("folder ids can not be null or be empty");
         }
         return deleteFolderFromTrash(new DeleteFolderFromTrashArg(folderIds, false));
     }
@@ -153,7 +154,7 @@ public class YfyFolderRequest {
      */
     public SuccessResult restoreFolderFromTrash(List<Long> folderIds) throws YfyException {
         if (folderIds == null || folderIds.isEmpty()) {
-            throw new IllegalArgumentException("folder ids can not be null or be empty");
+            throw new ClientValidationException("folder ids can not be null or be empty");
         }
         return restoreFolderFromTrash(new RestoreFolderFromTrashArg(folderIds, false));
     }

@@ -1,6 +1,7 @@
 package com.fangcloud.sdk.api.file;
 
 import com.fangcloud.sdk.YfyArg;
+import com.fangcloud.sdk.exception.ClientValidationException;
 import com.fangcloud.sdk.util.StringUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,7 +12,7 @@ public class PreSignatureUploadArg implements YfyArg {
     @JsonProperty("upload_type")
     private String uploadType;
 
-    public PreSignatureUploadArg(long parentId, String name, String uploadType) {
+    public PreSignatureUploadArg(long parentId, String name, String uploadType) throws ClientValidationException {
         StringUtil.checkNameValid(name);
         this.parentId = parentId;
         this.name = name;

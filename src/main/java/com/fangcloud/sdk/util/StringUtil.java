@@ -1,5 +1,7 @@
 package com.fangcloud.sdk.util;
 
+import com.fangcloud.sdk.exception.ClientValidationException;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -205,7 +207,7 @@ public class StringUtil {
         return buf.toString();
     }
 
-    public static void checkNameValid(String name) {
+    public static void checkNameValid(String name) throws ClientValidationException {
         boolean valid = false;
         if (name != null && name.length() >= 1 && name.length() <= 222) {
             Pattern pattern = Pattern.compile(".*[\\\\/?:*\\\"><|].*");
@@ -213,7 +215,7 @@ public class StringUtil {
             valid = !matcher.matches();
         }
         if (!valid) {
-            throw new IllegalArgumentException("name:" + name + " is invalid");
+            throw new ClientValidationException("name:" + name + " is invalid");
         }
     }
 }
