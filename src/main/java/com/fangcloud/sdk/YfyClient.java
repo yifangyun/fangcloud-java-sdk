@@ -16,8 +16,6 @@ import com.fangcloud.sdk.http.HttpRequestor;
 import com.fangcloud.sdk.util.IOUtil;
 import com.fangcloud.sdk.util.StringUtil;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -75,8 +73,8 @@ public class YfyClient<K> {
         this(key, requestConfig, accessToken, refreshToken, null);
     }
 
-    public YfyClient(K key, YfyRequestConfig requestConfig, String accessToken) {
-        this(key, requestConfig, accessToken, null);
+    public YfyClient(YfyRequestConfig requestConfig, String accessToken) {
+        this(null, requestConfig, accessToken, null);
     }
 
     public YfyFileRequest files() {
@@ -201,7 +199,7 @@ public class YfyClient<K> {
             });
         }
 
-        public YfyFile doUpload(String uploadUrl, String filePath) throws YfyException {
+        public YfyFile doUpload(String uploadUrl, InputStream fileStream, String fileName) throws YfyException {
             List<HttpRequestor.Header> headers = new ArrayList<HttpRequestor.Header>();
             headers.add(new HttpRequestor.Header("Content-Type", "multipart/form-data; boundary=" + BOUNDARY));
 
@@ -209,7 +207,7 @@ public class YfyClient<K> {
                 HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPost(
                         YfySdkConstant.POST_METHOD, uploadUrl, headers);
                 try {
-                    writeMultipartData(uploader.getBody(), filePath);
+                    writeMultipartData(uploader.getBody(), fileStream, fileName);
                     return YfyRequestUtil.finishResponse(uploader.finish(), YfyFile.class);
                 } finally {
                     uploader.close();
@@ -220,10 +218,8 @@ public class YfyClient<K> {
 
         }
 
-        private void writeMultipartData(OutputStream outputStream, String filePath) throws IOException {
-            String[] filePathSplit = filePath.split(File.separator);
-            int fileNameIndex = filePathSplit.length - 1;
-            String fileName = filePathSplit[fileNameIndex];
+        private void writeMultipartData(OutputStream outputStream, InputStream fileStream, String fileName)
+                throws IOException {
             StringBuilder sb = new StringBuilder(BOUNDARY_STR);
             sb.append("\r\n");
             sb.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\n");
@@ -231,7 +227,7 @@ public class YfyClient<K> {
             sb.append("\r\n\r\n");
             outputStream.write(StringUtil.stringToUtf8(sb.toString()));
             try {
-                IOUtil.copyStreamToStream(new FileInputStream(filePath), outputStream);
+                IOUtil.copyStreamToStream(fileStream, outputStream);
                 outputStream.write(StringUtil.stringToUtf8("\r\n\r\n" + BOUNDARY_STR + "--"));
             } catch (IOUtil.ReadException ex) {
                 throw ex.getCause();

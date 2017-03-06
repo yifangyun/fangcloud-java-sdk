@@ -284,26 +284,42 @@ public class YfyFileRequest {
      * When get a file upload url, can use this method to upload the file to the server
      *
      * @param uploadUrl Upload url returned by the {@link this#preSignatureUpload(long,String)}
-     * @param filePath The file path which you'd like upload to server
+     * @param fileStream The file stream which you'd like upload to server
+     * @param fileName Name of the upload file
      * @return Detailed new file info
      * @throws YfyException
      */
-    public YfyFile uploadFile(String uploadUrl, String filePath) throws YfyException {
-        return client.doUpload(uploadUrl, filePath);
+    public YfyFile uploadFile(String uploadUrl, InputStream fileStream, String fileName) throws YfyException {
+        return client.doUpload(uploadUrl, fileStream, fileName);
     }
 
     /**
-     * Combine the {@link YfyFileRequest#preSignatureUpload(long, String)}
-     * and {@link YfyFileRequest#uploadFile(String,String)} method, direct upload the file
+     * Combine the {@link this#preSignatureUpload(long, String)}
+     * and {@link this#uploadFile(String,InputStream,String)} method, direct upload the file
      *
      * @param parentId Parent folder id you want to store the file in, the root folder is 0
      * @param name File name
-     * @param filePath The file path which you'd like to upload to server
+     * @param fileStream The file stream which you'd like upload to server
      * @return Detailed new file's information
      * @throws YfyException
      */
-    public YfyFile directUploadFile(long parentId, String name, String filePath) throws YfyException {
-        return uploadFile(preSignatureUpload(parentId, name).getUploadUrl(), filePath);
+    public YfyFile directUploadFile(long parentId, String name, InputStream fileStream) throws YfyException {
+        return uploadFile(preSignatureUpload(parentId, name).getUploadUrl(), fileStream, name);
+    }
+
+    /**
+     * Combine the {@link this#newVersionPreSignatureUpload(long,String,String)}
+     * and {@link this#uploadFile(String,InputStream,String)} method, direct upload the new version file
+     *
+     * @param fileId File id that you want to upload the new version to
+     * @param name New version file name
+     * @param remark Remark of the new version
+     * @param fileStream The file stream which you'd like upload to server
+     * @return Detailed new file's information
+     * @throws YfyException
+     */
+    public YfyFile directUploadNewVersionFile(long fileId, String name, String remark, InputStream fileStream) throws YfyException {
+        return uploadFile(newVersionPreSignatureUpload(fileId, name, remark).getUploadUrl(), fileStream, name);
     }
 
     /**

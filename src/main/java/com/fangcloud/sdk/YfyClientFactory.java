@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class YfyClientFactory<T> {
     private YfyRequestConfig requestConfig;
     private YfyRefreshListener<T> refreshListener;
-    private Map<T, YfyClient<T>> lruCache;
+    private volatile Map<T, YfyClient<T>> lruCache;
 
     public YfyClientFactory(int maxCapacity, YfyRequestConfig requestConfig, YfyRefreshListener<T> refreshListener) {
         if (requestConfig == null) {
