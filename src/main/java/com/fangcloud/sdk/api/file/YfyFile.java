@@ -8,9 +8,7 @@ public class YfyFile extends YfyItem {
     @JsonProperty("file_version_key")
     private String fileVersionKey;
     @JsonProperty("comments_count")
-    private long commentsCount;
-    @JsonProperty("extension_category")
-    private String extensionCategory;
+    private Long commentsCount;
 
     public String getSha1() {
         return sha1;
@@ -28,19 +26,11 @@ public class YfyFile extends YfyItem {
         this.fileVersionKey = fileVersionKey;
     }
 
-    public long getCommentsCount() {
+    public Long getCommentsCount() {
         return commentsCount;
     }
 
-    public void setCommentsCount(long commentsCount) {
+    public void setCommentsCount(Long commentsCount) {
         this.commentsCount = commentsCount;
-    }
-
-    public String getExtensionCategory() {
-        return extensionCategory;
-    }
-
-    public void setExtensionCategory(String extensionCategory) {
-        this.extensionCategory = extensionCategory;
     }
 }

@@ -101,7 +101,7 @@ public final class YfyRequestUtil {
                                                                 String sdkUserAgentIdentifier) {
         headers.add(new HttpRequestor.Header("User-Agent",
                 YfyAppInfo.getKey() + " " + sdkUserAgentIdentifier + "/" + YfySdkVersion.Version));
-        headers.add(new HttpRequestor.Header("Accept", "application/v1+json"));
+        headers.add(new HttpRequestor.Header("Accept", "application/v2+json"));
         return headers;
     }
 
@@ -136,7 +136,7 @@ public final class YfyRequestUtil {
         byte[] encodedParams = StringUtil.stringToUtf8(encodeUrlParams(params));
 
         headers.add(new HttpRequestor.Header("Content-Type", "application/x-www-form-urlencoded; charset=utf-8"));
-        HttpRequestor.Response response = startPostRaw(requestConfig, host, path, encodedParams, "POST", headers);
+        HttpRequestor.Response response = startPostRaw(requestConfig, host, path, encodedParams, headers);
         return finishResponse(response, tClass);
     }
 
@@ -147,14 +147,13 @@ public final class YfyRequestUtil {
                                      String host,
                                      String path,
                                      YfyArg arg,
-                                     String method,
                                      List<HttpRequestor.Header> headers,
                                      Class<T> tClass)
             throws YfyException {
         byte[] encodedParams = StringUtil.stringToUtf8(convertObjToJson(arg));
 
         headers.add(new HttpRequestor.Header("Content-Type", "application/json; charset=utf-8"));
-        HttpRequestor.Response response = startPostRaw(requestConfig, host, path, encodedParams, method, headers);
+        HttpRequestor.Response response = startPostRaw(requestConfig, host, path, encodedParams, headers);
         return finishResponse(response, tClass);
     }
     /**
@@ -164,7 +163,6 @@ public final class YfyRequestUtil {
                                                       String host,
                                                       String path,
                                                       byte[] body,
-                                                      String method,
                                                       List<HttpRequestor.Header> headers)
             throws NetworkIOException {
         String uri = buildUri(host, path);
@@ -173,7 +171,7 @@ public final class YfyRequestUtil {
         headers.add(new HttpRequestor.Header("Content-Length", Integer.toString(body.length)));
 
         try {
-            HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPost(method, uri, headers);
+            HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPost(uri, headers);
             try {
                 uploader.upload(body);
                 return uploader.finish();

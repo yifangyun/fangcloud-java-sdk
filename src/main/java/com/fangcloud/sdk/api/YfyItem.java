@@ -5,33 +5,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class YfyItem extends YfyBaseDTO {
-    private long id;
+    private Long id;
     private String type;
     private String name;
-    private long size;
+    private Long size;
     @JsonProperty("created_at")
-    private long createdAt;
+    private Long createdAt;
     @JsonProperty("modified_at")
-    private long modifiedAt;
+    private Long modifiedAt;
     private String description;
     private List<YfyPathFolder> path;
     @JsonProperty("owned_by")
     private YfyMiniUser ownedBy;
-    private boolean shared;
+    private Boolean shared;
     private YfyPathFolder parent;
     private List<String> permissions;
     @JsonProperty("sequence_id")
-    private long sequenceId;
-    @JsonProperty("in_trash")
-    private boolean inTrash;
-    @JsonProperty("is_deleted")
-    private boolean isDeleted;
+    private Long sequenceId;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,27 +47,27 @@ public class YfyItem extends YfyBaseDTO {
         this.name = name;
     }
 
-    public long getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
-    public long getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(long createdAt) {
+    public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
     }
 
-    public long getModifiedAt() {
+    public Long getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(long modifiedAt) {
+    public void setModifiedAt(Long modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 
@@ -99,11 +95,11 @@ public class YfyItem extends YfyBaseDTO {
         this.ownedBy = ownedBy;
     }
 
-    public boolean isShared() {
+    public Boolean getShared() {
         return shared;
     }
 
-    public void setShared(boolean shared) {
+    public void setShared(Boolean shared) {
         this.shared = shared;
     }
 
@@ -123,27 +119,11 @@ public class YfyItem extends YfyBaseDTO {
         this.permissions = permissions;
     }
 
-    public long getSequenceId() {
+    public Long getSequenceId() {
         return sequenceId;
     }
 
-    public void setSequenceId(long sequenceId) {
+    public void setSequenceId(Long sequenceId) {
         this.sequenceId = sequenceId;
-    }
-
-    public boolean isInTrash() {
-        return inTrash;
-    }
-
-    public void setInTrash(boolean inTrash) {
-        this.inTrash = inTrash;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 }

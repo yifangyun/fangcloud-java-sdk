@@ -1,7 +1,6 @@
 package com.fangcloud.sdk.api.file;
 
 import com.fangcloud.sdk.YfyClient;
-import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.SuccessResult;
 import com.fangcloud.sdk.exception.ClientValidationException;
 import com.fangcloud.sdk.exception.NetworkIOException;
@@ -21,10 +20,14 @@ public class YfyFileRequest {
     private final static String PRE_SIGNATURE_UPLOAD_PATH = FILE_API_PATH + "upload";
     private final static String NEW_VERSION_PRE_SIGNATURE_UPLOAD_PATH = FILE_API_PATH + "%s/new_version";
     private final static String UPDATE_FILE_PATH = FILE_API_PATH + "%s/update";
-    private final static String DELETE_FILE_PATH = FILE_API_PATH + "delete";
-    private final static String DELETE_FILE_FROM_TRASH_PATH = FILE_API_PATH + "delete_from_trash";
-    private final static String RESTORE_FILE_FROM_TRASH_PATH = FILE_API_PATH + "restore_from_trash";
-    private final static String MOVE_FILE_PATH = FILE_API_PATH + "move";
+    private final static String DELETE_FILE_BATCH_PATH = FILE_API_PATH + "delete_batch";
+    private final static String DELETE_FILE_PATH = FILE_API_PATH + "%s/delete";
+    private final static String DELETE_FILE_FROM_TRASH_PATH = FILE_API_PATH + "%s/delete_from_trash";
+    private final static String DELETE_FILE_BATCH_FROM_TRASH_PATH = FILE_API_PATH + "delete_batch_from_trash";
+    private final static String RESTORE_FILE_BATCH_FROM_TRASH_PATH = FILE_API_PATH + "restore_batch_from_trash";
+    private final static String RESTORE_FILE_FROM_TRASH_PATH = FILE_API_PATH + "%s/restore_from_trash";
+    private final static String MOVE_FILE_PATH = FILE_API_PATH + "%s/move";
+    private final static String MOVE_FILE_BATCH_PATH = FILE_API_PATH + "move_batch";
     private final static String PREVIEW_PATH = FILE_API_PATH + "%s/preview";
     private final static String DOWNLOAD_PREVIEW_PATH = FILE_API_PATH + "%s/preview_download";
 
@@ -71,8 +74,19 @@ public class YfyFileRequest {
         return client.doPost(UPDATE_FILE_PATH,
                 params,
                 updateFileArg,
-                YfySdkConstant.PUT_METHOD,
                 YfyFile.class);
+    }
+
+    /**
+     * Discard a file to the trash
+     *
+     * @param fileId File id in fangcloud
+     * @return An object only has one attribute named success
+     * @throws YfyException
+     */
+    public SuccessResult deleteFile(long fileId) throws YfyException {
+        String[] params = { String.valueOf(fileId) };
+        return deleteFile(DELETE_FILE_PATH, params, null);
     }
 
     /**
@@ -83,15 +97,27 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public SuccessResult deleteFile(List<Long> fileIds) throws YfyException {
-        return deleteFile(new DeleteFileArg(fileIds));
+        return deleteFile(DELETE_FILE_BATCH_PATH, null, new DeleteFileArg(fileIds));
     }
 
-    private SuccessResult deleteFile(DeleteFileArg deleteFileArg) throws YfyException {
-        return client.doPost(DELETE_FILE_PATH,
-                null,
+    private SuccessResult deleteFile(String path, String[] params, DeleteFileArg deleteFileArg) throws YfyException {
+        return client.doPost(path,
+                params,
                 deleteFileArg,
-                YfySdkConstant.DELETE_METHOD,
                 SuccessResult.class);
+    }
+
+    /**
+     * Permanently delete a specific file that is in the trash. The file will no longer exist in fangcloud.
+     * This action cannot be undone.
+     *
+     * @param fileId File id in fangcloud
+     * @return An object only has one attribute named success
+     * @throws YfyException
+     */
+    public SuccessResult deleteFileFromTrash(long fileId) throws YfyException {
+        String[] params = { String.valueOf(fileId) };
+        return deleteFileFromTrash(DELETE_FILE_FROM_TRASH_PATH, params, null);
     }
 
     /**
@@ -106,7 +132,7 @@ public class YfyFileRequest {
         if (fileIds == null || fileIds.isEmpty()) {
             throw new ClientValidationException("file ids can not be null or be empty");
         }
-        return deleteFileFromTrash(new DeleteFileFromTrashArg(fileIds, false));
+        return deleteFileFromTrash(DELETE_FILE_BATCH_FROM_TRASH_PATH, null, new DeleteFileFromTrashArg(fileIds, false));
     }
 
     /**
@@ -117,15 +143,27 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public SuccessResult deleteAllFileInTrash() throws YfyException {
-        return deleteFileFromTrash(new DeleteFileFromTrashArg(null, true));
+        return deleteFileFromTrash(DELETE_FILE_BATCH_FROM_TRASH_PATH, null, new DeleteFileFromTrashArg(null, true));
     }
 
-    private SuccessResult deleteFileFromTrash(DeleteFileFromTrashArg deleteFileFromTrashArg) throws YfyException {
-        return client.doPost(DELETE_FILE_FROM_TRASH_PATH,
-                null,
+    private SuccessResult deleteFileFromTrash(String path, String[] params, DeleteFileFromTrashArg deleteFileFromTrashArg) throws YfyException {
+        return client.doPost(path,
+                params,
                 deleteFileFromTrashArg,
-                YfySdkConstant.DELETE_METHOD,
                 SuccessResult.class);
+    }
+
+    /**
+     * Restore a file that has been moved to the trash. Default behavior is to restore the file to the folder
+     * it was in before it was moved to the trash
+     *
+     * @param fileId File id in fangcloud
+     * @return An object only has one attribute named success
+     * @throws YfyException
+     */
+    public SuccessResult restoreFileFromTrash(long fileId) throws YfyException {
+        String[] params = { String.valueOf(fileId) };
+        return restoreFileFromTrash(RESTORE_FILE_FROM_TRASH_PATH, params, null);
     }
 
     /**
@@ -140,7 +178,7 @@ public class YfyFileRequest {
         if (fileIds == null || fileIds.isEmpty()) {
             throw new ClientValidationException("file ids can not be null or be empty");
         }
-        return restoreFileFromTrash(new RestoreFileFromTrashArg(fileIds, false));
+        return restoreFileFromTrash(RESTORE_FILE_BATCH_FROM_TRASH_PATH, null, new RestoreFileFromTrashArg(fileIds, false));
     }
 
     /**
@@ -151,15 +189,28 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public SuccessResult restoreAllFileInTrash() throws YfyException {
-        return restoreFileFromTrash(new RestoreFileFromTrashArg(null, true));
+        return restoreFileFromTrash(RESTORE_FILE_BATCH_FROM_TRASH_PATH, null, new RestoreFileFromTrashArg(null, true));
     }
 
-    private SuccessResult restoreFileFromTrash(RestoreFileFromTrashArg restoreFileFromTrashArg) throws YfyException {
-        return client.doPost(RESTORE_FILE_FROM_TRASH_PATH,
-                null,
+    private SuccessResult restoreFileFromTrash(String path, String[] params,
+                                               RestoreFileFromTrashArg restoreFileFromTrashArg) throws YfyException {
+        return client.doPost(path,
+                params,
                 restoreFileFromTrashArg,
-                YfySdkConstant.POST_METHOD,
                 SuccessResult.class);
+    }
+
+    /**
+     * Move a file to another folder
+     *
+     * @param fileId File id in fangcloud
+     * @param targetFolderId Folder id of the destination folder in fangcloud
+     * @return An object only has one attribute named success
+     * @throws YfyException
+     */
+    public SuccessResult moveFile(long fileId, long targetFolderId) throws YfyException {
+        String[] params = { String.valueOf(fileId) };
+        return moveFile(MOVE_FILE_PATH, params, new MoveFileArg(null, targetFolderId));
     }
 
     /**
@@ -171,14 +222,13 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public SuccessResult moveFile(List<Long> fileIds, long targetFolderId) throws YfyException {
-        return moveFile(new MoveFileArg(fileIds, targetFolderId));
+        return moveFile(MOVE_FILE_BATCH_PATH, null, new MoveFileArg(fileIds, targetFolderId));
     }
 
-    private SuccessResult moveFile(MoveFileArg moveFileArg) throws YfyException {
-        return client.doPost(MOVE_FILE_PATH,
-                null,
+    private SuccessResult moveFile(String path, String[] params, MoveFileArg moveFileArg) throws YfyException {
+        return client.doPost(path,
+                params,
                 moveFileArg,
-                YfySdkConstant.POST_METHOD,
                 SuccessResult.class);
     }
 
@@ -250,7 +300,6 @@ public class YfyFileRequest {
         return client.doPost(PRE_SIGNATURE_UPLOAD_PATH,
                 null,
                 preSignatureUploadArg,
-                YfySdkConstant.POST_METHOD,
                 PreSignatureUploadResult.class);
     }
 
@@ -276,7 +325,6 @@ public class YfyFileRequest {
         return client.doPost(NEW_VERSION_PRE_SIGNATURE_UPLOAD_PATH,
                 param,
                 newVersionPreSignatureUploadArg,
-                YfySdkConstant.POST_METHOD,
                 PreSignatureUploadResult.class);
     }
 
@@ -340,7 +388,6 @@ public class YfyFileRequest {
         return client.doPost(PREVIEW_PATH,
                 param,
                 previewArg,
-                YfySdkConstant.POST_METHOD,
                 PreviewResult.class);
     }
 
@@ -366,7 +413,6 @@ public class YfyFileRequest {
         return client.doPost(DOWNLOAD_PREVIEW_PATH,
                 param,
                 downloadPreviewArg,
-                YfySdkConstant.POST_METHOD,
                 DownloadPreviewResult.class);
     }
 
@@ -386,7 +432,6 @@ public class YfyFileRequest {
         return client.doPost(COPY_FILE_PATH,
                 null,
                 copyFileArg,
-                YfySdkConstant.POST_METHOD,
                 YfyFile.class);
     }
 }

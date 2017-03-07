@@ -3,21 +3,21 @@ package com.fangcloud.sdk.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class YfyMiniUser {
-    private long id;
+    private Long id;
     private String name;
     private String login;
     private String phone;
     @JsonProperty("profile_pic_key")
     private String profilePicKey;
     @JsonProperty("enterprise_id")
-    private long enterpriseId;
+    private Long enterpriseId;
     private Boolean active;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,22 +37,6 @@ public class YfyMiniUser {
         this.login = login;
     }
 
-    public String getProfilePicKey() {
-        return profilePicKey;
-    }
-
-    public void setProfilePicKey(String profilePicKey) {
-        this.profilePicKey = profilePicKey;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -61,11 +45,27 @@ public class YfyMiniUser {
         this.phone = phone;
     }
 
-    public long getEnterpriseId() {
+    public String getProfilePicKey() {
+        return profilePicKey;
+    }
+
+    public void setProfilePicKey(String profilePicKey) {
+        this.profilePicKey = profilePicKey;
+    }
+
+    public Long getEnterpriseId() {
         return enterpriseId;
     }
 
-    public void setEnterpriseId(long enterpriseId) {
+    public void setEnterpriseId(Long enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

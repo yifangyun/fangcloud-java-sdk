@@ -17,10 +17,14 @@ public class YfyFolderRequest {
     private final static String CREATE_FOLDER_PATH = FOLDER_API_PATH + "create";
     private final static String GET_FOLDER_PATH = FOLDER_API_PATH + "%s/info";
     private final static String UPDATE_FOLDER_PATH = FOLDER_API_PATH + "%s/update";
-    private final static String DELETE_FOLDER_PATH = FOLDER_API_PATH + "delete";
-    private final static String DELETE_FOLDER_FROM_TRASH_PATH = FOLDER_API_PATH + "delete_from_trash";
-    private final static String RESTORE_FOLDER_FROM_TRASH_PATH = FOLDER_API_PATH + "restore_from_trash";
-    private final static String MOVE_FOLDER_PATH = FOLDER_API_PATH + "move";
+    private final static String DELETE_FOLDER_PATH = FOLDER_API_PATH + "%s/delete";
+    private final static String DELETE_FOLDER_BATCH_PATH = FOLDER_API_PATH + "delete_batch";
+    private final static String DELETE_FOLDER_FROM_TRASH_PATH = FOLDER_API_PATH + "%s/delete_from_trash";
+    private final static String DELETE_FOLDER_BATCH_FROM_TRASH_PATH = FOLDER_API_PATH + "delete_batch_from_trash";
+    private final static String RESTORE_FOLDER_FROM_TRASH_PATH = FOLDER_API_PATH + "%s/restore_from_trash";
+    private final static String RESTORE_FOLDER_BATCH_FROM_TRASH_PATH = FOLDER_API_PATH + "restore_batch_from_trash";
+    private final static String MOVE_FOLDER_PATH = FOLDER_API_PATH + "%s/move";
+    private final static String MOVE_FOLDER_BATCH_PATH = FOLDER_API_PATH + "move_batch";
 
     private final YfyClient<?>.YfyInternalClient client;
 
@@ -63,7 +67,6 @@ public class YfyFolderRequest {
         return client.doPost(CREATE_FOLDER_PATH,
                 null,
                 createFolderArg,
-                YfySdkConstant.POST_METHOD,
                 YfyFolder.class);
     }
 
@@ -84,14 +87,25 @@ public class YfyFolderRequest {
         return client.doPost(UPDATE_FOLDER_PATH,
                 param,
                 updateFolderArg,
-                YfySdkConstant.PUT_METHOD,
                 YfyFolder.class);
+    }
+
+    /**
+     * Delete a folder to trash
+     *
+     * @param folderId Folder id in fangcloud
+     * @return An object only has one attribute named success
+     * @throws YfyException
+     */
+    public SuccessResult deleteFolder(long folderId) throws YfyException {
+        String[] param = { String.valueOf(folderId) };
+        return deleteFolder(DELETE_FOLDER_PATH, param, null);
     }
 
     /**
      * Delete folders to trash
      *
-     * @param folderIds folder ids list in fangcloud
+     * @param folderIds Folder ids list in fangcloud
      * @return An object only has one attribute named success
      * @throws YfyException
      */
@@ -99,19 +113,31 @@ public class YfyFolderRequest {
         if (folderIds == null || folderIds.isEmpty()) {
             throw new ClientValidationException("folder ids can not be null or be empty");
         }
-        return deleteFolder(new DeleteFolderArg(folderIds));
+        return deleteFolder(DELETE_FOLDER_BATCH_PATH, null, new DeleteFolderArg(folderIds));
     }
 
-    private SuccessResult deleteFolder(DeleteFolderArg deleteFolderArg) throws YfyException {
-        return client.doPost(DELETE_FOLDER_PATH,
-                null,
+    private SuccessResult deleteFolder(String path, String[] param, DeleteFolderArg deleteFolderArg) throws YfyException {
+        return client.doPost(path,
+                param,
                 deleteFolderArg,
-                YfySdkConstant.DELETE_METHOD,
                 SuccessResult.class);
     }
 
     /**
-     * Permanently delete specific folders that are in the trash. The file will no longer exist in fangcloud.
+     * Permanently delete a specific folder that is in the trash. The folder will no longer exist in fangcloud.
+     * This action cannot be undone.
+     *
+     * @param folderId Folder id in fangcloud
+     * @return An object only has one attribute named success
+     * @throws YfyException
+     */
+    public SuccessResult deleteFolderFromTrash(long folderId) throws YfyException {
+        String[] param = { String.valueOf(folderId) };
+        return deleteFolderFromTrash(DELETE_FOLDER_FROM_TRASH_PATH, param, null);
+    }
+
+    /**
+     * Permanently delete specific folders that are in the trash. The folders will no longer exist in fangcloud.
      * This action cannot be undone.
      *
      * @param folderIds Folder ids list in fangcloud
@@ -122,7 +148,7 @@ public class YfyFolderRequest {
         if (folderIds == null || folderIds.isEmpty()) {
             throw new ClientValidationException("folder ids can not be null or be empty");
         }
-        return deleteFolderFromTrash(new DeleteFolderFromTrashArg(folderIds, false));
+        return deleteFolderFromTrash(DELETE_FOLDER_BATCH_FROM_TRASH_PATH, null, new DeleteFolderFromTrashArg(folderIds, false));
     }
 
     /**
@@ -133,22 +159,36 @@ public class YfyFolderRequest {
      * @throws YfyException
      */
     public SuccessResult deleteAllFolderInTrash() throws YfyException {
-        return deleteFolderFromTrash(new DeleteFolderFromTrashArg(null, true));
+        return deleteFolderFromTrash(DELETE_FOLDER_BATCH_FROM_TRASH_PATH, null, new DeleteFolderFromTrashArg(null, true));
     }
 
-    private SuccessResult deleteFolderFromTrash(DeleteFolderFromTrashArg deleteFolderFromTrashArg) throws YfyException {
-        return client.doPost(DELETE_FOLDER_FROM_TRASH_PATH,
-                null,
+    private SuccessResult deleteFolderFromTrash(String path, String[] param,
+                                                DeleteFolderFromTrashArg deleteFolderFromTrashArg) throws YfyException {
+        return client.doPost(path,
+                param,
                 deleteFolderFromTrashArg,
-                YfySdkConstant.DELETE_METHOD,
                 SuccessResult.class);
+    }
+
+
+    /**
+     * Restore a specific folder that have been moved to the trash. Default behavior is to restore the folder to the
+     * parent folder it was in before it was moved to the trash
+     *
+     * @param folderId Folder id in fangcloud
+     * @return An object only has one attribute named success
+     * @throws YfyException
+     */
+    public SuccessResult restoreFolderFromTrash(long folderId) throws YfyException {
+        String[] param = { String.valueOf(folderId) };
+        return restoreFolderFromTrash(RESTORE_FOLDER_FROM_TRASH_PATH, param, null);
     }
 
     /**
      * Restore specific folders that have been moved to the trash. Default behavior is to restore the folder to the
      * parent folder it was in before it was moved to the trash
      *
-     * @param folderIds folder ids in fangcloud
+     * @param folderIds Folder ids list in fangcloud
      * @return An object only has one attribute named success
      * @throws YfyException
      */
@@ -156,7 +196,8 @@ public class YfyFolderRequest {
         if (folderIds == null || folderIds.isEmpty()) {
             throw new ClientValidationException("folder ids can not be null or be empty");
         }
-        return restoreFolderFromTrash(new RestoreFolderFromTrashArg(folderIds, false));
+        return restoreFolderFromTrash(RESTORE_FOLDER_BATCH_FROM_TRASH_PATH, null,
+                new RestoreFolderFromTrashArg(folderIds, false));
     }
 
     /**
@@ -167,34 +208,46 @@ public class YfyFolderRequest {
      * @throws YfyException
      */
     public SuccessResult restoreAllFolderInTrash() throws YfyException {
-        return restoreFolderFromTrash(new RestoreFolderFromTrashArg(null, true));
+        return restoreFolderFromTrash(RESTORE_FOLDER_BATCH_FROM_TRASH_PATH, null, new RestoreFolderFromTrashArg(null, true));
     }
 
-    private SuccessResult restoreFolderFromTrash(RestoreFolderFromTrashArg restoreFolderFromTrashArg) throws YfyException {
-        return client.doPost(RESTORE_FOLDER_FROM_TRASH_PATH,
-                null,
+    private SuccessResult restoreFolderFromTrash(String path, String[] param,
+                                                 RestoreFolderFromTrashArg restoreFolderFromTrashArg) throws YfyException {
+        return client.doPost(path,
+                param,
                 restoreFolderFromTrashArg,
-                YfySdkConstant.POST_METHOD,
                 SuccessResult.class);
+    }
+
+    /**
+     * Move a folder to another folder
+     *
+     * @param folderId Folder id in fangcloud
+     * @param targetFolderId Folder id of the destination folder in fangcloud
+     * @return An object only has one attribute named success
+     * @throws YfyException
+     */
+    private SuccessResult moveFolder(long folderId, long targetFolderId) throws YfyException {
+        String[] param = { String.valueOf(folderId) };
+        return moveFolder(MOVE_FOLDER_PATH, param, new MoveFolderArg(null, targetFolderId));
     }
 
     /**
      * Move folders to another folder
      *
-     * @param folderIds Folder ids in fangcloud
+     * @param folderIds Folder ids list in fangcloud
      * @param targetFolderId Folder id of the destination folder in fangcloud
      * @return An object only has one attribute named success
      * @throws YfyException
      */
     private SuccessResult moveFolder(List<Long> folderIds, long targetFolderId) throws YfyException {
-        return moveFolder(new MoveFolderArg(folderIds, targetFolderId));
+        return moveFolder(MOVE_FOLDER_BATCH_PATH, null, new MoveFolderArg(folderIds, targetFolderId));
     }
 
-    private SuccessResult moveFolder(MoveFolderArg moveFolderArg) throws YfyException {
-        return client.doPost(MOVE_FOLDER_PATH,
-                null,
+    private SuccessResult moveFolder(String path, String[] param, MoveFolderArg moveFolderArg) throws YfyException {
+        return client.doPost(path,
+                param,
                 moveFolderArg,
-                YfySdkConstant.POST_METHOD,
                 SuccessResult.class);
     }
 

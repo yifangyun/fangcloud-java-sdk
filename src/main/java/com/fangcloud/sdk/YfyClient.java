@@ -186,7 +186,6 @@ public class YfyClient<K> {
         public <T> T doPost(final String path,
                             final Object[] listParams,
                             final YfyArg arg,
-                            final String method,
                             final Class<T> tClass)
                 throws YfyException {
             return executeRetriable(new RetriableExecution<T>() {
@@ -194,7 +193,7 @@ public class YfyClient<K> {
                 public T execute(boolean isRefresh) throws YfyException {
                     final List<HttpRequestor.Header> headers = addApiHeaders(isRefresh);
                     return YfyRequestUtil.doPostNoAuth(
-                            requestConfig, host.getApi(), String.format(path, listParams), arg, method, headers, tClass);
+                            requestConfig, host.getApi(), String.format(path, listParams), arg, headers, tClass);
                 }
             });
         }
@@ -205,7 +204,7 @@ public class YfyClient<K> {
 
             try {
                 HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPost(
-                        YfySdkConstant.POST_METHOD, uploadUrl, headers);
+                        uploadUrl, headers);
                 try {
                     writeMultipartData(uploader.getBody(), fileStream, fileName);
                     return YfyRequestUtil.finishResponse(uploader.finish(), YfyFile.class);

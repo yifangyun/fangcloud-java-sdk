@@ -1,5 +1,6 @@
 package com.fangcloud.sdk.http;
 
+import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.util.IOUtil;
 
@@ -59,15 +60,15 @@ public class StandardHttpRequestor extends HttpRequestor {
     @Override
     public Response doGet(String url, Iterable<Header> headers) throws IOException {
         HttpURLConnection conn = prepRequest(url, headers);
-        conn.setRequestMethod("GET");
+        conn.setRequestMethod(YfySdkConstant.GET_METHOD);
         conn.connect();
         return toResponse(conn);
     }
 
     @Override
-    public Uploader startPost(String method, String url, Iterable<Header> headers) throws IOException {
+    public Uploader startPost(String url, Iterable<Header> headers) throws IOException {
         HttpURLConnection conn = prepRequest(url, headers);
-        conn.setRequestMethod(method);
+        conn.setRequestMethod(YfySdkConstant.POST_METHOD);
         return new Uploader(conn);
     }
 

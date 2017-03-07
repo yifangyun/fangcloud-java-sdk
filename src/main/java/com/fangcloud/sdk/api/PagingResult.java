@@ -4,33 +4,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PagingResult extends YfyBaseDTO {
     @JsonProperty("total_count")
-    private long totalCount;
+    private Long totalCount;
     @JsonProperty("page_id")
-    private int pageId;
+    private Integer pageId;
     @JsonProperty("page_capacity")
-    private int pageCapacity;
+    private Integer pageCapacity;
 
-    public long getTotalCount() {
+    public Long getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(long totalCount) {
+    public void setTotalCount(Long totalCount) {
         this.totalCount = totalCount;
     }
 
-    public int getPageId() {
+    public Integer getPageId() {
         return pageId;
     }
 
-    public void setPageId(int pageId) {
+    public void setPageId(Integer pageId) {
         this.pageId = pageId;
     }
 
-    public int getPageCapacity() {
+    public Integer getPageCapacity() {
         return pageCapacity;
     }
 
-    public void setPageCapacity(int pageCapacity) {
+    public void setPageCapacity(Integer pageCapacity) {
         this.pageCapacity = pageCapacity;
     }
 }

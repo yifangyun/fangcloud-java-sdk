@@ -173,7 +173,7 @@ public class YfyWebAuthTest {
                 .thenReturn(body);
         when(mockUploader.finish())
                 .thenReturn(finishResponse);
-        when(mockRequestor.startPost(anyString(), anyString(), anyListOf(HttpRequestor.Header.class)))
+        when(mockRequestor.startPost(anyString(), anyListOf(HttpRequestor.Header.class)))
                 .thenReturn(mockUploader);
 
         YfyRequestConfig mockConfig = new YfyRequestConfig(mockRequestor);

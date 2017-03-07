@@ -35,7 +35,7 @@ public abstract class HttpRequestor {
     public static final long DEFAULT_READ_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(2);
 
     public abstract Response doGet(String url, Iterable<Header> headers) throws IOException;
-    public abstract Uploader startPost(String method, String url, Iterable<Header> headers) throws IOException;
+    public abstract Uploader startPost(String url, Iterable<Header> headers) throws IOException;
 
     /**
      * A simple structure holding an HTTP header, which is key/value pair.

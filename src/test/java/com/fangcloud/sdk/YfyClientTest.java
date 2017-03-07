@@ -128,7 +128,7 @@ public class YfyClientTest {
                 .thenReturn(body);
         when(mockUploader.finish())
                 .thenReturn(createResponse(authResponseByte, 200));
-        when(mockRequestor.startPost(anyString(), anyString(), anyListOf(HttpRequestor.Header.class)))
+        when(mockRequestor.startPost(anyString(), anyListOf(HttpRequestor.Header.class)))
                 .thenReturn(mockUploader);
 
         try {

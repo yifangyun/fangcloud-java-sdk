@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class YfyFolder extends YfyItem {
     @JsonProperty("item_count")
-    private long itemCount;
+    private Long itemCount;
     @JsonProperty("folder_type")
     private String folderType;
 
-    public long getItemCount() {
+    public Long getItemCount() {
         return itemCount;
     }
 
-    public void setItemCount(long itemCount) {
+    public void setItemCount(Long itemCount) {
         this.itemCount = itemCount;
     }
 
