@@ -4,6 +4,6 @@ import com.fangcloud.sdk.YfyErrorResponse;
 
 public class ServerException extends YfyException {
     public ServerException(YfyErrorResponse errorResponse) {
-        super(errorResponse.getRequestId(), errorResponse.getFirstError().getMsg());
+        super(errorResponse.getRequestId(), errorResponse.getFirstError().toString());
     }
 }

@@ -31,6 +31,11 @@ public class YfyErrorResponse {
         public void setMsg(String msg) {
             this.msg = msg;
         }
+
+        @Override
+        public String toString() {
+            return code + " " + msg;
+        }
     }
 
     public List<SpecificError> getErrors() {
