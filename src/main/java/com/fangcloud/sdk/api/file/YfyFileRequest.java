@@ -20,12 +20,12 @@ public class YfyFileRequest {
     private final static String PRE_SIGNATURE_UPLOAD_PATH = FILE_API_PATH + "upload";
     private final static String NEW_VERSION_PRE_SIGNATURE_UPLOAD_PATH = FILE_API_PATH + "%s/new_version";
     private final static String UPDATE_FILE_PATH = FILE_API_PATH + "%s/update";
-    private final static String DELETE_FILE_BATCH_PATH = FILE_API_PATH + "delete_batch";
     private final static String DELETE_FILE_PATH = FILE_API_PATH + "%s/delete";
+    private final static String DELETE_FILE_BATCH_PATH = FILE_API_PATH + "delete_batch";
     private final static String DELETE_FILE_FROM_TRASH_PATH = FILE_API_PATH + "%s/delete_from_trash";
     private final static String DELETE_FILE_BATCH_FROM_TRASH_PATH = FILE_API_PATH + "delete_batch_from_trash";
-    private final static String RESTORE_FILE_BATCH_FROM_TRASH_PATH = FILE_API_PATH + "restore_batch_from_trash";
     private final static String RESTORE_FILE_FROM_TRASH_PATH = FILE_API_PATH + "%s/restore_from_trash";
+    private final static String RESTORE_FILE_BATCH_FROM_TRASH_PATH = FILE_API_PATH + "restore_batch_from_trash";
     private final static String MOVE_FILE_PATH = FILE_API_PATH + "%s/move";
     private final static String MOVE_FILE_BATCH_PATH = FILE_API_PATH + "move_batch";
     private final static String PREVIEW_PATH = FILE_API_PATH + "%s/preview";

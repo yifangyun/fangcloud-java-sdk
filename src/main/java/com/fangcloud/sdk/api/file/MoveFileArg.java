@@ -13,9 +13,6 @@ public class MoveFileArg implements YfyArg {
     private long targetFolderId;
 
     public MoveFileArg(List<Long> fileIds, long targetFolderId) throws ClientValidationException {
-        if (fileIds == null || fileIds.isEmpty()) {
-            throw new ClientValidationException("file ids can not be null or be empty");
-        }
         this.fileIds = fileIds;
         this.targetFolderId = targetFolderId;
     }

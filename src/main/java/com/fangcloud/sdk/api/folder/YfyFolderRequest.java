@@ -227,7 +227,7 @@ public class YfyFolderRequest {
      * @return An object only has one attribute named success
      * @throws YfyException
      */
-    private SuccessResult moveFolder(long folderId, long targetFolderId) throws YfyException {
+    public SuccessResult moveFolder(long folderId, long targetFolderId) throws YfyException {
         String[] param = { String.valueOf(folderId) };
         return moveFolder(MOVE_FOLDER_PATH, param, new MoveFolderArg(null, targetFolderId));
     }
@@ -240,7 +240,7 @@ public class YfyFolderRequest {
      * @return An object only has one attribute named success
      * @throws YfyException
      */
-    private SuccessResult moveFolder(List<Long> folderIds, long targetFolderId) throws YfyException {
+    public SuccessResult moveFolder(List<Long> folderIds, long targetFolderId) throws YfyException {
         return moveFolder(MOVE_FOLDER_BATCH_PATH, null, new MoveFolderArg(folderIds, targetFolderId));
     }
 

@@ -15,7 +15,7 @@ public class YfyException extends Exception {
     }
 
     public YfyException(String requestId, String message) {
-        super(message);
+        super(requestId + " " + message);
         this.requestId = requestId;
     }
 

@@ -1,13 +1,13 @@
 package com.fangcloud.sdk.api;
 
 public class SuccessResult extends YfyBaseDTO {
-    private String success;
+    private Boolean success;
 
-    public String getSuccess() {
+    public Boolean getSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
+    public void setSuccess(Boolean success) {
         this.success = success;
     }
 }

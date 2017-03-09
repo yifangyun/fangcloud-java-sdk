@@ -6,14 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PreviewResult extends YfyBaseDTO {
     private String category;
     @JsonProperty("download_url")
-    private String download_Url;
+    private String downloadUrl;
     @JsonProperty("exif_rotation")
-    private int exifRotation;
+    private Integer exifRotation;
     private String format;
     @JsonProperty("has_2048")
-    private boolean has2048;
+    private Boolean has2048;
     @JsonProperty("page_count")
-    private long pageCount;
+    private Long pageCount;
     private String status;
     @JsonProperty("representation_fail_reason")
     private String previewFailReason;
@@ -26,19 +26,19 @@ public class PreviewResult extends YfyBaseDTO {
         this.category = category;
     }
 
-    public String getDownload_Url() {
-        return download_Url;
+    public String getDownloadUrl() {
+        return downloadUrl;
     }
 
-    public void setDownload_Url(String download_Url) {
-        this.download_Url = download_Url;
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 
-    public int getExifRotation() {
+    public Integer getExifRotation() {
         return exifRotation;
     }
 
-    public void setExifRotation(int exifRotation) {
+    public void setExifRotation(Integer exifRotation) {
         this.exifRotation = exifRotation;
     }
 
@@ -50,19 +50,19 @@ public class PreviewResult extends YfyBaseDTO {
         this.format = format;
     }
 
-    public boolean isHas2048() {
+    public Boolean getHas2048() {
         return has2048;
     }
 
-    public void setHas2048(boolean has2048) {
+    public void setHas2048(Boolean has2048) {
         this.has2048 = has2048;
     }
 
-    public long getPageCount() {
+    public Long getPageCount() {
         return pageCount;
     }
 
-    public void setPageCount(long pageCount) {
+    public void setPageCount(Long pageCount) {
         this.pageCount = pageCount;
     }
 
