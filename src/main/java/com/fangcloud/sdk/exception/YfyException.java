@@ -1,5 +1,7 @@
 package com.fangcloud.sdk.exception;
 
+import com.fangcloud.sdk.YfyErrorResponse;
+
 /**
  * The base exception thrown by Fangcloud API calls.  Normally, you'll need to do something specific
  * for {@link InvalidTokenException} and possibly for refresh and retry.  The rest you
@@ -9,6 +11,10 @@ public class YfyException extends Exception {
     private static final long serialVersionUID = 0L;
 
     private final String requestId;
+
+    public YfyException(YfyErrorResponse errorResponse) {
+        this(errorResponse.getRequestId(), errorResponse.getFirstError().toString());
+    }
 
     public YfyException(String message) {
         this(null, message);

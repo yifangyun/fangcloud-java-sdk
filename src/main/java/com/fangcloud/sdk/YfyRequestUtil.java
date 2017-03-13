@@ -5,6 +5,7 @@ import com.fangcloud.sdk.exception.InvalidTokenException;
 import com.fangcloud.sdk.exception.JsonReadException;
 import com.fangcloud.sdk.exception.NetworkIOException;
 import com.fangcloud.sdk.exception.NormalException;
+import com.fangcloud.sdk.exception.RateLimitException;
 import com.fangcloud.sdk.exception.ServerException;
 import com.fangcloud.sdk.exception.YfyException;
 import com.fangcloud.sdk.http.HttpRequestor;
@@ -210,11 +211,9 @@ public final class YfyRequestUtil {
 
         switch (response.getStatusCode()) {
             case 401:
-                YfyErrorResponse.SpecificError firstError = errorResponse.getFirstError();
-                if ("invalid_token".equals(firstError.getCode())) {
-                    return new InvalidTokenException(errorResponse);
-                }
-                break;
+                return new InvalidTokenException(errorResponse);
+            case 429:
+                return new RateLimitException(errorResponse, response.getHeaders());
             case 500:
                 return new ServerException(errorResponse);
         }
