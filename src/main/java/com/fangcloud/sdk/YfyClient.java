@@ -166,10 +166,24 @@ public class YfyClient<K> {
             });
         }
 
-        public InputStream doDownload(String downloadUrl) throws YfyException {
+        public InputStream doDownload(final String downloadUrl, boolean needToken) throws YfyException {
+            if (needToken) {
+                return executeRetriable(new RetriableExecution<InputStream>() {
+                    @Override
+                    public InputStream execute(boolean isRefresh) throws YfyException {
+                        final List<HttpRequestor.Header> headers = addApiHeaders(isRefresh);
+                        return doDownload(downloadUrl, headers);
+                    }
+                });
+            } else {
+                return doDownload(downloadUrl, new ArrayList<HttpRequestor.Header>());
+            }
+        }
+
+        public InputStream doDownload(String downloadUrl, List<HttpRequestor.Header> headers) throws YfyException {
             try {
                 HttpRequestor.Response response =
-                        requestConfig.getHttpRequestor().doGet(downloadUrl, new ArrayList<HttpRequestor.Header>());
+                        requestConfig.getHttpRequestor().doGet(downloadUrl, headers);
                 if (response.getStatusCode() != 200) {
                     throw YfyRequestUtil.unexpectedStatus(response);
                 } else {

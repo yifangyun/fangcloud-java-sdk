@@ -73,7 +73,7 @@ public class YfyUserRequest {
         String downloadUrl = YfyRequestUtil.buildUrlWithParams(
                 client.getHost().getApi(), PROFILE_PIC_DOWNLOAD_PATH, params);
 
-        InputStream body = client.doDownload(downloadUrl);
+        InputStream body = client.doDownload(downloadUrl, true);
         File file = new File(savePath);
         try {
             IOUtil.copyStreamToFile(body, file);

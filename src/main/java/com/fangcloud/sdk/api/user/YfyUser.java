@@ -4,33 +4,33 @@ import com.fangcloud.sdk.api.YfyBaseDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class YfyUser extends YfyBaseDTO {
-    private long id;
+    private Long id;
     @JsonProperty("enterprise_id")
-    private long enterpriseId;
+    private Long enterpriseId;
     private String name;
     private String phone;
     private String email;
     @JsonProperty("profile_pic_key")
     private String profilePicKey;
-    private boolean active;
+    private Boolean active;
     @JsonProperty("full_name_pinyin")
     private String fullNamePinyin;
     @JsonProperty("pinyin_first_letters")
     private String pinyinFirstLetters;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getEnterpriseId() {
+    public Long getEnterpriseId() {
         return enterpriseId;
     }
 
-    public void setEnterpriseId(long enterpriseId) {
+    public void setEnterpriseId(Long enterpriseId) {
         this.enterpriseId = enterpriseId;
     }
 
@@ -66,11 +66,11 @@ public class YfyUser extends YfyBaseDTO {
         this.profilePicKey = profilePicKey;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 

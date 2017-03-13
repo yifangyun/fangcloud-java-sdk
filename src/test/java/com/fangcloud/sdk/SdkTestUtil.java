@@ -1,10 +1,14 @@
 package com.fangcloud.sdk;
 
+import com.fangcloud.sdk.api.PagingResult;
 import com.fangcloud.sdk.api.YfyItem;
 import com.fangcloud.sdk.api.YfyMiniUser;
 import com.fangcloud.sdk.api.YfyPathFolder;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.folder.YfyFolder;
+import com.fangcloud.sdk.api.user.YfyUser;
+
+import java.io.File;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -55,6 +59,35 @@ public class SdkTestUtil {
         assertNotNull(miniUser.getName());
         assertNotNull(miniUser.getLogin());
         assertNotNull(miniUser.getEnterpriseId());
+    }
+
+    public static void assertPagingResultNotNull(PagingResult pagingResult) {
+        assertNotNull(pagingResult);
+        assertNotNull(pagingResult.getTotalCount());
+        assertNotNull(pagingResult.getPageCapacity());
+        assertNotNull(pagingResult.getPageId());
+    }
+
+    public static void assertUserNoyNull(YfyUser user) {
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(user.getEnterpriseId());
+        assertNotNull(user.getName());
+        assertNotNull(user.getPhone());
+        assertNotNull(user.getEmail());
+        assertNotNull(user.getProfilePicKey());
+        assertNotNull(user.getActive());
+        assertNotNull(user.getFullNamePinyin());
+        assertNotNull(user.getPinyinFirstLetters());
+    }
+
+    public static void deleteFile(String fileName) {
+        File file = new File(fileName);
+        if (file.isFile() && file.exists()) {
+            file.delete();
+        } else {
+            throw new RuntimeException(fileName + "is not exist");
+        }
     }
 
 

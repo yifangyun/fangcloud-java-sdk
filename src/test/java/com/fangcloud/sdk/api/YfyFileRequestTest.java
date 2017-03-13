@@ -21,11 +21,12 @@ import java.util.List;
 
 import static com.fangcloud.sdk.SdkTestUtil.assertFileNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertFolderNotNull;
+import static com.fangcloud.sdk.SdkTestUtil.deleteFile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class FileRequestTest {
+public class YfyFileRequestTest {
     private static final String FILE_NAME = "java-sdk-test.txt";
     private static final String FOLDER_NAME = "file-api-test";
     private static final YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
@@ -47,7 +48,7 @@ public class FileRequestTest {
 
     private long uploadAndAssertFile(String fileName, long parentId) throws YfyException {
         YfyFile file = fileRequest.directUploadFile(parentId, fileName,
-                FileRequestTest.class.getResourceAsStream("/" + fileName));
+                YfyFileRequestTest.class.getResourceAsStream("/" + fileName));
         assertFileNotNull(file);
         assertEquals(fileName, file.getName());
         return file.getId();
@@ -122,12 +123,13 @@ public class FileRequestTest {
     @Test
     public void testDirectDownloadFile() throws YfyException {
         fileRequest.directDownloadFile(testFileId, FILE_NAME);
+        deleteFile(FILE_NAME);
     }
 
     @Test
     public void testDirectUploadNewVersionFile() throws YfyException {
         assertFileNotNull(fileRequest.directUploadNewVersionFile(testFileId, FILE_NAME, null,
-                FileRequestTest.class.getResourceAsStream("/" + FILE_NAME)));
+                YfyFileRequestTest.class.getResourceAsStream("/" + FILE_NAME)));
     }
 
     @Test

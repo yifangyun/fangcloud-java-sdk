@@ -259,7 +259,7 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public void downloadFile(String downloadUrl, String savePath) throws YfyException {
-        InputStream body = client.doDownload(downloadUrl);
+        InputStream body = client.doDownload(downloadUrl, false);
         File file = new File(savePath);
         try {
             IOUtil.copyStreamToFile(body, file);

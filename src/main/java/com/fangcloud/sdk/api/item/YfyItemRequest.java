@@ -25,7 +25,7 @@ public class YfyItemRequest {
      * @param queryWords key words want to search for
      * @param itemType Type of item. see {@link ItemTypeEnum}
      * @param pageNumber Page number begin with 0
-     * @param searchInFolder Optional, assign the folder id to search in specific folder
+     * @param searchInFolder Assign the folder id to search in specific folder, usually 0
      * @return Object contains two lists named "folders" and "files", and other page information
      * @throws YfyException
      */

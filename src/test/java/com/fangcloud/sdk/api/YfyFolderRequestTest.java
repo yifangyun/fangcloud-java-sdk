@@ -18,11 +18,12 @@ import java.util.List;
 
 import static com.fangcloud.sdk.SdkTestUtil.assertFileNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertFolderNotNull;
+import static com.fangcloud.sdk.SdkTestUtil.assertPagingResultNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class FolderRequestTest {
+public class YfyFolderRequestTest {
     private static final String FOLDER_NAME = "folder-api-test";
     private static final String TEST_FOLDER_NAME = "java-sdk-test";
     private static final YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
@@ -109,10 +110,7 @@ public class FolderRequestTest {
     @Test
     public void testGetChildren() throws YfyException {
         GetChildrenResult getChildrenResult = folderRequest.getChildren(testParentId, 0, 2, ItemTypeEnum.ITEM);
-        assertNotNull(getChildrenResult);
-        assertNotNull(getChildrenResult.getPageCapacity());
-        assertNotNull(getChildrenResult.getPageId());
-        assertNotNull(getChildrenResult.getTotalCount());
+        assertPagingResultNotNull(getChildrenResult);
         assertNotNull(getChildrenResult.getFolders());
         for (YfyFolder folder : getChildrenResult.getFolders()) {
             assertFolderNotNull(folder);
