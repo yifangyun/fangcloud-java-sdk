@@ -19,7 +19,7 @@ public class YfyClientFactory<T> {
         if (requestConfig == null) {
             throw new NullPointerException("request config");
         }
-        this.lruCache = new LRULinkedHashMap<>(maxCapacity);
+        this.lruCache = new LRULinkedHashMap<T, YfyClient<T>>(maxCapacity);
         this.requestConfig = requestConfig;
         this.refreshListener = refreshListener;
     }

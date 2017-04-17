@@ -194,8 +194,7 @@ public class StandardHttpRequestor extends HttpRequestor {
             certPinningWarningLogged = true;
             LOGGER.warning("Certificate pinning disabled for HTTPS connections. This is likely because your JRE does not " +
                            "return javax.net.ssl.HttpsURLConnection objects for https network connections. Be aware your app " +
-                           "may be prone to man-in-the-middle attacks without proper SSL certificate validation. If you are " +
-                           "using Google App Engine, please configure DbxRequestConfig to use GoogleAppEngineRequestor.");
+                           "may be prone to man-in-the-middle attacks without proper SSL certificate validation.");
         }
     }
 

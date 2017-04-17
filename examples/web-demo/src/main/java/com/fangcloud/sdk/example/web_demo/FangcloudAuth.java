@@ -98,7 +98,7 @@ public class FangcloudAuth {
     }
 
     private YfySessionStore getSessionStore(final HttpServletRequest request) {
-        // Select a spot in the session for DbxWebAuth to store the CSRF token.
+        // Select a spot in the session for YfyWebAuth to store the CSRF token.
         HttpSession session = request.getSession(true);
         String sessionKey = "fangcloud-auth-csrf-token";
         return new YfyStandardSessionStore(session, sessionKey);

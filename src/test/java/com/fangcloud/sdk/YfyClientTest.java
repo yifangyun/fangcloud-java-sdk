@@ -38,7 +38,7 @@ public class YfyClientTest {
         HttpRequestor mockRequestor = mock(HttpRequestor.class);
         YfyRequestConfig config = new YfyRequestConfig(mockRequestor);
 
-        YfyClient<String> client = new YfyClient<>(userName, config, "fakeAccessToken", "fakeFreshToken");
+        YfyClient<String> client = new YfyClient<String>(userName, config, "fakeAccessToken", "fakeFreshToken");
 
         ByteArrayInputStream responseStream = new ByteArrayInputStream(
                 (
@@ -87,7 +87,7 @@ public class YfyClientTest {
             }
         };
 
-        YfyClient<String> client = new YfyClient<>(userName, config, "fakeAccessToken", "fakeFreshToken", refreshListener);
+        YfyClient<String> client = new YfyClient<String>(userName, config, "fakeAccessToken", "fakeFreshToken", refreshListener);
 
         byte[] apiFailByte = (
                 "{" +
