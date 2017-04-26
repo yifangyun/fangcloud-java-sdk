@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class YfyUserRequest {
-    private final static String USER_PATH = "api/user/";
+    private final static String USER_PATH = YfySdkConstant.API_VERSION + "user/";
     private final static String SELF_INFO_PATH = USER_PATH + "info";
     private final static String USER_INFO_PATH = USER_PATH + "%s/info";
     private final static String PROFILE_PIC_DOWNLOAD_PATH = USER_PATH + "profile_pic_download";

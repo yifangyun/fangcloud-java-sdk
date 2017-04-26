@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class YfyFolderRequest {
-    private final static String FOLDER_API_PATH = "api/folder/";
+    private final static String FOLDER_API_PATH = YfySdkConstant.API_VERSION + "folder/";
     private final static String GET_CHILDREN_PATH = FOLDER_API_PATH + "children";
     private final static String CREATE_FOLDER_PATH = FOLDER_API_PATH + "create";
     private final static String GET_FOLDER_PATH = FOLDER_API_PATH + "%s/info";

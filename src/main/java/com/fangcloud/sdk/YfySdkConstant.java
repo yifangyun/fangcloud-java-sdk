@@ -1,6 +1,8 @@
 package com.fangcloud.sdk;
 
 public class YfySdkConstant {
+    public final static String API_VERSION = "api/v2/";
+
     public final static String POST_METHOD = "POST";
     public final static String GET_METHOD = "GET";
 

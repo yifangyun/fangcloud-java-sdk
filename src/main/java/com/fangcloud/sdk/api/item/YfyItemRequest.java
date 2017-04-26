@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class YfyItemRequest {
-    private final static String ITEM_API_PATH = "api/item/";
+    private final static String ITEM_API_PATH = YfySdkConstant.API_VERSION + "item/";
     private final static String SEARCH_ITEM_PATH = ITEM_API_PATH + "search";
 
     private final YfyClient<?>.YfyInternalClient client;

@@ -102,7 +102,7 @@ public final class YfyRequestUtil {
                                                                 String sdkUserAgentIdentifier) {
         headers.add(new HttpRequestor.Header("User-Agent",
                 YfyAppInfo.getKey() + " " + sdkUserAgentIdentifier + "/" + YfySdkVersion.Version));
-        headers.add(new HttpRequestor.Header("Accept", "application/v2+json"));
+        // headers.add(new HttpRequestor.Header("Accept", "application/json"));
         return headers;
     }
 

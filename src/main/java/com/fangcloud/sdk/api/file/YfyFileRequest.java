@@ -1,6 +1,7 @@
 package com.fangcloud.sdk.api.file;
 
 import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.SuccessResult;
 import com.fangcloud.sdk.exception.ClientValidationException;
 import com.fangcloud.sdk.exception.NetworkIOException;
@@ -13,7 +14,7 @@ import java.io.InputStream;
 import java.util.List;
 
 public class YfyFileRequest {
-    private final static String FILE_API_PATH = "api/file/";
+    private final static String FILE_API_PATH = YfySdkConstant.API_VERSION + "file/";
     private final static String GET_FILE_PATH = FILE_API_PATH + "%s/info";
     private final static String COPY_FILE_PATH = FILE_API_PATH + "copy";
     private final static String PRE_SIGNATURE_DOWNLOAD_PATH = FILE_API_PATH + "%s/download";
