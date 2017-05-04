@@ -54,7 +54,7 @@ public class SdkTestUtil {
         assertNotNull(pathFolder.getType());
     }
 
-    private static void assertMiniUserNotNull(YfyMiniUser miniUser) {
+    public static void assertMiniUserNotNull(YfyMiniUser miniUser) {
         assertNotNull(miniUser);
         assertNotNull(miniUser.getId());
         assertNotNull(miniUser.getName());

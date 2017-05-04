@@ -111,12 +111,12 @@ public class YfyFolderRequest {
      * @return An object only has one attribute named success
      * @throws YfyException
      */
-    public SuccessResult deleteFolder(List<Long> folderIds) throws YfyException {
-        if (folderIds == null || folderIds.isEmpty()) {
-            throw new ClientValidationException("folder ids can not be null or be empty");
-        }
-        return deleteFolder(DELETE_FOLDER_BATCH_PATH, null, new DeleteFolderArg(folderIds));
-    }
+    // public SuccessResult deleteFolder(List<Long> folderIds) throws YfyException {
+    //     if (folderIds == null || folderIds.isEmpty()) {
+    //         throw new ClientValidationException("folder ids can not be null or be empty");
+    //     }
+    //     return deleteFolder(DELETE_FOLDER_BATCH_PATH, null, new DeleteFolderArg(folderIds));
+    // }
 
     private SuccessResult deleteFolder(String path, String[] param, DeleteFolderArg deleteFolderArg) throws YfyException {
         return client.doPost(path,
@@ -146,12 +146,12 @@ public class YfyFolderRequest {
      * @return An object only has one attribute named success
      * @throws YfyException
      */
-    public SuccessResult deleteFolderFromTrash(List<Long> folderIds) throws YfyException {
-        if (folderIds == null || folderIds.isEmpty()) {
-            throw new ClientValidationException("folder ids can not be null or be empty");
-        }
-        return deleteFolderFromTrash(DELETE_FOLDER_BATCH_FROM_TRASH_PATH, null, new DeleteFolderFromTrashArg(folderIds, false));
-    }
+    // public SuccessResult deleteFolderFromTrash(List<Long> folderIds) throws YfyException {
+    //     if (folderIds == null || folderIds.isEmpty()) {
+    //         throw new ClientValidationException("folder ids can not be null or be empty");
+    //     }
+    //     return deleteFolderFromTrash(DELETE_FOLDER_BATCH_FROM_TRASH_PATH, null, new DeleteFolderFromTrashArg(folderIds, false));
+    // }
 
     /**
      * Permanently delete all folders that are in the trash (not including files).
@@ -160,9 +160,9 @@ public class YfyFolderRequest {
      * @return An object only has one attribute named success
      * @throws YfyException
      */
-    public SuccessResult deleteAllFolderInTrash() throws YfyException {
-        return deleteFolderFromTrash(DELETE_FOLDER_BATCH_FROM_TRASH_PATH, null, new DeleteFolderFromTrashArg(null, true));
-    }
+    // public SuccessResult deleteAllFolderInTrash() throws YfyException {
+    //     return deleteFolderFromTrash(DELETE_FOLDER_BATCH_FROM_TRASH_PATH, null, new DeleteFolderFromTrashArg(null, true));
+    // }
 
     private SuccessResult deleteFolderFromTrash(String path, String[] param,
                                                 DeleteFolderFromTrashArg deleteFolderFromTrashArg) throws YfyException {
@@ -194,13 +194,13 @@ public class YfyFolderRequest {
      * @return An object only has one attribute named success
      * @throws YfyException
      */
-    public SuccessResult restoreFolderFromTrash(List<Long> folderIds) throws YfyException {
-        if (folderIds == null || folderIds.isEmpty()) {
-            throw new ClientValidationException("folder ids can not be null or be empty");
-        }
-        return restoreFolderFromTrash(RESTORE_FOLDER_BATCH_FROM_TRASH_PATH, null,
-                new RestoreFolderFromTrashArg(folderIds, false));
-    }
+    // public SuccessResult restoreFolderFromTrash(List<Long> folderIds) throws YfyException {
+    //     if (folderIds == null || folderIds.isEmpty()) {
+    //         throw new ClientValidationException("folder ids can not be null or be empty");
+    //     }
+    //     return restoreFolderFromTrash(RESTORE_FOLDER_BATCH_FROM_TRASH_PATH, null,
+    //             new RestoreFolderFromTrashArg(folderIds, false));
+    // }
 
     /**
      * Restore all folders that have been moved to the trash. Default behavior is to restore the folder to the
@@ -209,9 +209,9 @@ public class YfyFolderRequest {
      * @return An object only has one attribute named success
      * @throws YfyException
      */
-    public SuccessResult restoreAllFolderInTrash() throws YfyException {
-        return restoreFolderFromTrash(RESTORE_FOLDER_BATCH_FROM_TRASH_PATH, null, new RestoreFolderFromTrashArg(null, true));
-    }
+    // public SuccessResult restoreAllFolderInTrash() throws YfyException {
+    //     return restoreFolderFromTrash(RESTORE_FOLDER_BATCH_FROM_TRASH_PATH, null, new RestoreFolderFromTrashArg(null, true));
+    // }
 
     private SuccessResult restoreFolderFromTrash(String path, String[] param,
                                                  RestoreFolderFromTrashArg restoreFolderFromTrashArg) throws YfyException {
@@ -242,9 +242,9 @@ public class YfyFolderRequest {
      * @return An object only has one attribute named success
      * @throws YfyException
      */
-    public SuccessResult moveFolder(List<Long> folderIds, long targetFolderId) throws YfyException {
-        return moveFolder(MOVE_FOLDER_BATCH_PATH, null, new MoveFolderArg(folderIds, targetFolderId));
-    }
+    // public SuccessResult moveFolder(List<Long> folderIds, long targetFolderId) throws YfyException {
+    //     return moveFolder(MOVE_FOLDER_BATCH_PATH, null, new MoveFolderArg(folderIds, targetFolderId));
+    // }
 
     private SuccessResult moveFolder(String path, String[] param, MoveFolderArg moveFolderArg) throws YfyException {
         return client.doPost(path,

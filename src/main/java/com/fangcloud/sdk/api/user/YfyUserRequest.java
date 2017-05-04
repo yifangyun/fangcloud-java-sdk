@@ -17,7 +17,9 @@ public class YfyUserRequest {
     private final static String USER_PATH = YfySdkConstant.API_VERSION + "user/";
     private final static String SELF_INFO_PATH = USER_PATH + "info";
     private final static String USER_INFO_PATH = USER_PATH + "%s/info";
-    private final static String PROFILE_PIC_DOWNLOAD_PATH = USER_PATH + "profile_pic_download";
+    private final static String PROFILE_PIC_DOWNLOAD_PATH = USER_PATH + "%s/profile_pic_download";
+    private final static String UPDATE_USER_PATH = USER_PATH + "update";
+    private final static String SEARCH_USER_PATH = USER_PATH + "search";
 
     private final YfyClient<?>.YfyInternalClient client;
 
@@ -66,12 +68,12 @@ public class YfyUserRequest {
      * @throws YfyException
      */
     public void downloadProfilePic(final long userId, final String profilePicKey, String savePath) throws YfyException {
-        Map<String, String> params = new HashMap<String, String>() {{
-            put(YfySdkConstant.USER_ID, String.valueOf(userId));
+        Object[] params = { String.valueOf(userId) };
+        Map<String, String> mapParams = new HashMap<String, String>() {{
             put(YfySdkConstant.PROFILE_PIC_KEY, profilePicKey);
         }};
         String downloadUrl = YfyRequestUtil.buildUrlWithParams(
-                client.getHost().getApi(), PROFILE_PIC_DOWNLOAD_PATH, params);
+                client.getHost().getApi(), String.format(PROFILE_PIC_DOWNLOAD_PATH, params), mapParams);
 
         InputStream body = client.doDownload(downloadUrl, true);
         File file = new File(savePath);
@@ -82,6 +84,47 @@ public class YfyUserRequest {
         } finally {
             IOUtil.closeQuietly(body);
         }
+    }
+
+    /**
+     * Update self user information
+     *
+     * @param name New name
+     * @return Detailed user information
+     * @throws YfyException
+     */
+    public YfyUser updateSelf(String name) throws YfyException {
+        return updateSelf(new UpdateSelfArg(name));
+    }
+
+    private YfyUser updateSelf(UpdateSelfArg updateSelfArg) throws YfyException {
+        return client.doPost(UPDATE_USER_PATH,
+                null,
+                updateSelfArg,
+                YfyUser.class);
+    }
+
+    /**
+     * Search user in the same enterprise with query key word
+     *
+     * @param queryWords Query words about user info
+     * @param pageId Page id begin with 0
+     * @return Detailed user information
+     * @throws YfyException
+     */
+    public SearchUserResult searchUser(final String queryWords, final int pageId) throws YfyException {
+        Map<String, String> params = new HashMap<String, String>() {{
+            put(YfySdkConstant.QUERY_WORDS, queryWords);
+            put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
+        }};
+        return searchUser(params);
+    }
+
+    private SearchUserResult searchUser(Map<String, String> params) throws YfyException {
+        return client.doGet(SEARCH_USER_PATH,
+                null,
+                params,
+                SearchUserResult.class);
     }
 
 }

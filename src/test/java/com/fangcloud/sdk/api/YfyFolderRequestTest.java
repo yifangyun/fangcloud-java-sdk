@@ -13,9 +13,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.fangcloud.sdk.SdkTestUtil.assertFileNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertFolderNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertPagingResultNotNull;
@@ -72,17 +69,17 @@ public class YfyFolderRequestTest {
         assertTrue(folderRequest.restoreFolderFromTrash(testFolderId).getSuccess());
     }
 
-    @Test
-    public void testDeleteAndRestoreFolderBatch() throws YfyException {
-        List<Long> folderIds = new ArrayList<Long>() {{
-            add(testFolderId);
-        }};
-        assertTrue(folderRequest.deleteFolder(folderIds).getSuccess());
-        assertTrue(folderRequest.restoreFolderFromTrash(folderIds).getSuccess());
-        folderRequest.deleteAllFolderInTrash();
-        assertTrue(folderRequest.deleteFolder(folderIds).getSuccess());
-        assertTrue(folderRequest.restoreAllFolderInTrash().getSuccess());
-    }
+    // @Test
+    // public void testDeleteAndRestoreFolderBatch() throws YfyException {
+    //     List<Long> folderIds = new ArrayList<Long>() {{
+    //         add(testFolderId);
+    //     }};
+    //     assertTrue(folderRequest.deleteFolder(folderIds).getSuccess());
+    //     assertTrue(folderRequest.restoreFolderFromTrash(folderIds).getSuccess());
+    //     folderRequest.deleteAllFolderInTrash();
+    //     assertTrue(folderRequest.deleteFolder(folderIds).getSuccess());
+    //     assertTrue(folderRequest.restoreAllFolderInTrash().getSuccess());
+    // }
 
     @Test
     public void testDeleteFolderFromTrash() throws YfyException {
@@ -90,21 +87,21 @@ public class YfyFolderRequestTest {
         assertTrue(folderRequest.deleteFolderFromTrash(testFolderId).getSuccess());
         testFolderId = createAndAssertFolder(FOLDER_NAME, testParentId);
         assertTrue(folderRequest.deleteFolder(testFolderId).getSuccess());
-        assertTrue(folderRequest.deleteFolderFromTrash(new ArrayList<Long>() {{
-            add(testFolderId);
-        }}).getSuccess());
+        // assertTrue(folderRequest.deleteFolderFromTrash(new ArrayList<Long>() {{
+        //     add(testFolderId);
+        // }}).getSuccess());
         testFolderId = createAndAssertFolder(FOLDER_NAME, testParentId);
         assertTrue(folderRequest.deleteFolder(testFolderId).getSuccess());
-        assertTrue(folderRequest.deleteAllFolderInTrash().getSuccess());
+        // assertTrue(folderRequest.deleteAllFolderInTrash().getSuccess());
         testFolderId = createAndAssertFolder(FOLDER_NAME, testParentId);
     }
 
     @Test
     public void testMoveFolder() throws YfyException {
         assertTrue(folderRequest.moveFolder(testFolderId, 0L).getSuccess());
-        assertTrue(folderRequest.moveFolder(new ArrayList<Long>() {{
-            add(testFolderId);
-        }}, testParentId).getSuccess());
+        // assertTrue(folderRequest.moveFolder(new ArrayList<Long>() {{
+        //     add(testFolderId);
+        // }}, testParentId).getSuccess());
     }
 
     @Test
