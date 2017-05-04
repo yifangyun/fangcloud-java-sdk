@@ -16,9 +16,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.fangcloud.sdk.SdkTestUtil.assertFileNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertFolderNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.deleteFile;
@@ -85,17 +82,17 @@ public class YfyFileRequestTest {
         assertTrue(fileRequest.restoreFileFromTrash(testFileId).getSuccess());
     }
 
-    @Test
-    public void testDeleteAndRestoreFileBatch() throws YfyException {
-        List<Long> fileIds = new ArrayList<Long>() {{
-            add(testFileId);
-        }};
-        assertTrue(fileRequest.deleteFile(fileIds).getSuccess());
-        assertTrue(fileRequest.restoreFileFromTrash(fileIds).getSuccess());
-        fileRequest.deleteAllFileInTrash();
-        assertTrue(fileRequest.deleteFile(fileIds).getSuccess());
-        assertTrue(fileRequest.restoreAllFileInTrash().getSuccess());
-    }
+    // @Test
+    // public void testDeleteAndRestoreFileBatch() throws YfyException {
+    //     List<Long> fileIds = new ArrayList<Long>() {{
+    //         add(testFileId);
+    //     }};
+    //     assertTrue(fileRequest.deleteFile(fileIds).getSuccess());
+    //     assertTrue(fileRequest.restoreFileFromTrash(fileIds).getSuccess());
+    //     fileRequest.deleteAllFileInTrash();
+    //     assertTrue(fileRequest.deleteFile(fileIds).getSuccess());
+    //     assertTrue(fileRequest.restoreAllFileInTrash().getSuccess());
+    // }
 
     @Test
     public void testDeleteFileFromTrash() throws YfyException {
@@ -103,21 +100,21 @@ public class YfyFileRequestTest {
         assertTrue(fileRequest.deleteFileFromTrash(testFileId).getSuccess());
         testFileId = uploadAndAssertFile(FILE_NAME, testParentId);
         assertTrue(fileRequest.deleteFile(testFileId).getSuccess());
-        assertTrue(fileRequest.deleteFileFromTrash(new ArrayList<Long>() {{
-            add(testFileId);
-        }}).getSuccess());
+        // assertTrue(fileRequest.deleteFileFromTrash(new ArrayList<Long>() {{
+        //     add(testFileId);
+        // }}).getSuccess());
         testFileId = uploadAndAssertFile(FILE_NAME, testParentId);
         assertTrue(fileRequest.deleteFile(testFileId).getSuccess());
-        assertTrue(fileRequest.deleteAllFileInTrash().getSuccess());
+        // assertTrue(fileRequest.deleteAllFileInTrash().getSuccess());
         testFileId = uploadAndAssertFile(FILE_NAME, testParentId);
     }
 
     @Test
     public void testMoveFile() throws YfyException {
         assertTrue(fileRequest.moveFile(testFileId, 0L).getSuccess());
-        assertTrue(fileRequest.moveFile(new ArrayList<Long>() {{
-            add(testFileId);
-        }}, testParentId).getSuccess());
+        // assertTrue(fileRequest.moveFile(new ArrayList<Long>() {{
+        //     add(testFileId);
+        // }}, testParentId).getSuccess());
     }
 
     @Test

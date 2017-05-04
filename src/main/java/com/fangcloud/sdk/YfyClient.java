@@ -4,6 +4,7 @@ import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.api.folder.YfyFolderRequest;
 import com.fangcloud.sdk.api.item.YfyItemRequest;
+import com.fangcloud.sdk.api.share_link.YfyShareLinkRequest;
 import com.fangcloud.sdk.api.user.YfyUserRequest;
 import com.fangcloud.sdk.auth.YfyAuthFinish;
 import com.fangcloud.sdk.exception.BadResponseException;
@@ -31,6 +32,7 @@ public class YfyClient<K> {
     private final YfyUserRequest userRequest;
     private final YfyFolderRequest folderRequest;
     private final YfyItemRequest itemRequest;
+    private final YfyShareLinkRequest shareLinkRequest;
 
     private K key;
     private volatile String accessToken;
@@ -55,6 +57,7 @@ public class YfyClient<K> {
         this.userRequest = new YfyUserRequest(internalClient);
         this.folderRequest = new YfyFolderRequest(internalClient);
         this.itemRequest = new YfyItemRequest(internalClient);
+        this.shareLinkRequest = new YfyShareLinkRequest(internalClient);
 
         this.requestConfig = requestConfig;
         this.host = YfyAppInfo.getHost();
@@ -91,6 +94,10 @@ public class YfyClient<K> {
 
     public YfyItemRequest items() {
         return itemRequest;
+    }
+
+    public YfyShareLinkRequest shareLinks() {
+        return shareLinkRequest;
     }
 
     public void setAutoRefresh(boolean autoRefresh) {

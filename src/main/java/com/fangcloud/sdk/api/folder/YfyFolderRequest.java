@@ -4,6 +4,7 @@ import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.ItemTypeEnum;
 import com.fangcloud.sdk.api.SuccessResult;
+import com.fangcloud.sdk.api.share_link.ListShareLinkResult;
 import com.fangcloud.sdk.exception.ClientValidationException;
 import com.fangcloud.sdk.exception.YfyException;
 
@@ -25,6 +26,7 @@ public class YfyFolderRequest {
     private final static String RESTORE_FOLDER_BATCH_FROM_TRASH_PATH = FOLDER_API_PATH + "restore_batch_from_trash";
     private final static String MOVE_FOLDER_PATH = FOLDER_API_PATH + "%s/move";
     private final static String MOVE_FOLDER_BATCH_PATH = FOLDER_API_PATH + "move_batch";
+    private final static String LIST_FOLDER_SHARE_LINK_PATH = FOLDER_API_PATH + "%s/share_links";
 
     private final YfyClient<?>.YfyInternalClient client;
 
@@ -281,5 +283,46 @@ public class YfyFolderRequest {
                 null,
                 params,
                 GetChildrenResult.class);
+    }
+
+    /**
+     * List share links of a folder
+     *
+     * @param folderId Folder id in fangcloud
+     * @param pageId Page id begin with 0
+     * @return All related share links' information
+     * @throws YfyException
+     */
+    public ListShareLinkResult listShareLink(long folderId, final int pageId) throws YfyException {
+        String[] param = { String.valueOf(folderId) };
+        Map<String, String> mapParams = new HashMap<String, String>(){{
+            put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
+        }};
+        return listShareLink(param, mapParams);
+    }
+
+    /**
+     * List folder's share links created by specific owner
+     *
+     * @param folderId Folder id in fangcloud
+     * @param pageId Page id begin with 0
+     * @param ownerId Owner id of share link you want to see
+     * @return All related share links' information
+     * @throws YfyException
+     */
+    public ListShareLinkResult listShareLink(long folderId, final int pageId, final long ownerId) throws YfyException {
+        String[] param = { String.valueOf(folderId) };
+        Map<String, String> mapParams = new HashMap<String, String>(){{
+            put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
+            put(YfySdkConstant.OWNER_ID, String.valueOf(ownerId));
+        }};
+        return listShareLink(param, mapParams);
+    }
+
+    private ListShareLinkResult listShareLink(String[] param, Map<String, String> mapParams) throws YfyException {
+        return client.doGet(LIST_FOLDER_SHARE_LINK_PATH,
+                param,
+                mapParams,
+                ListShareLinkResult.class);
     }
 }

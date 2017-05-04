@@ -9,6 +9,8 @@ public class PagingResult extends YfyBaseDTO {
     private Integer pageId;
     @JsonProperty("page_capacity")
     private Integer pageCapacity;
+    @JsonProperty("page_count")
+    private Integer pageCount;
 
     public Long getTotalCount() {
         return totalCount;
@@ -32,5 +34,13 @@ public class PagingResult extends YfyBaseDTO {
 
     public void setPageCapacity(Integer pageCapacity) {
         this.pageCapacity = pageCapacity;
+    }
+
+    public Integer getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(Integer pageCount) {
+        this.pageCount = pageCount;
     }
 }

@@ -90,12 +90,12 @@ public class YfyAppInfo {
     public static void checkKeyArg(String key) {
         String error = getTokenPartError(key);
         if (error == null) return;
-        throw new IllegalArgumentException("Bad 'key': " + error);
+        throw new IllegalArgumentException("app info not init 'key': " + error);
     }
 
     public static void checkSecretArg(String secret) {
         String error = getTokenPartError(secret);
         if (error == null) return;
-        throw new IllegalArgumentException("Bad 'secret': " + error);
+        throw new IllegalArgumentException("app info not init 'secret': " + error);
     }
 }

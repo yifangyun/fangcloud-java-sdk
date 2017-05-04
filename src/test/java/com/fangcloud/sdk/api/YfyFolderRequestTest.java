@@ -24,8 +24,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class YfyFolderRequestTest {
-    private static final String FOLDER_NAME = "folder-api-test";
-    private static final String TEST_FOLDER_NAME = "java-sdk-test";
+    private static final String PARENT_NAME = "folder-api-test";
+    private static final String FOLDER_NAME = "java-sdk-test";
     private static final YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
 
     private YfyFolderRequest folderRequest;
@@ -37,8 +37,8 @@ public class YfyFolderRequestTest {
         YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test", testHost);
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         folderRequest = client.folders();
-        testParentId = createAndAssertFolder(FOLDER_NAME, 0L);
-        testFolderId = createAndAssertFolder(TEST_FOLDER_NAME, testParentId);
+        testParentId = createAndAssertFolder(PARENT_NAME, 0L);
+        testFolderId = createAndAssertFolder(FOLDER_NAME, testParentId);
     }
 
     private long createAndAssertFolder(String name, long parentId) throws YfyException {
@@ -60,7 +60,7 @@ public class YfyFolderRequestTest {
     
     @Test
     public void testUpdateFolder() throws YfyException {
-        String folderName = TEST_FOLDER_NAME + "-update";
+        String folderName = FOLDER_NAME + "-update";
         YfyFolder folder = folderRequest.updateFolder(testFolderId, folderName);
         assertFolderNotNull(folder);
         assertEquals(folder.getName(), folderName);
@@ -88,15 +88,15 @@ public class YfyFolderRequestTest {
     public void testDeleteFolderFromTrash() throws YfyException {
         assertTrue(folderRequest.deleteFolder(testFolderId).getSuccess());
         assertTrue(folderRequest.deleteFolderFromTrash(testFolderId).getSuccess());
-        testFolderId = createAndAssertFolder(TEST_FOLDER_NAME, testParentId);
+        testFolderId = createAndAssertFolder(FOLDER_NAME, testParentId);
         assertTrue(folderRequest.deleteFolder(testFolderId).getSuccess());
         assertTrue(folderRequest.deleteFolderFromTrash(new ArrayList<Long>() {{
             add(testFolderId);
         }}).getSuccess());
-        testFolderId = createAndAssertFolder(TEST_FOLDER_NAME, testParentId);
+        testFolderId = createAndAssertFolder(FOLDER_NAME, testParentId);
         assertTrue(folderRequest.deleteFolder(testFolderId).getSuccess());
         assertTrue(folderRequest.deleteAllFolderInTrash().getSuccess());
-        testFolderId = createAndAssertFolder(TEST_FOLDER_NAME, testParentId);
+        testFolderId = createAndAssertFolder(FOLDER_NAME, testParentId);
     }
 
     @Test

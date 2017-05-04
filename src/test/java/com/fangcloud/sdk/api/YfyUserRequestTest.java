@@ -10,7 +10,7 @@ import com.fangcloud.sdk.exception.YfyException;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.fangcloud.sdk.SdkTestUtil.assertUserNoyNull;
+import static com.fangcloud.sdk.SdkTestUtil.assertUserNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.deleteFile;
 
 public class YfyUserRequestTest {
@@ -29,13 +29,13 @@ public class YfyUserRequestTest {
 
     @Test
     public void testGetSelf() throws YfyException {
-        assertUserNoyNull(userRequest.getSelf());
+        assertUserNotNull(userRequest.getSelf());
     }
 
     @Test
     public void testGetUserAndDownloadPic() throws YfyException {
         YfyUser user = userRequest.getUser(USER_ID);
-        assertUserNoyNull(user);
+        assertUserNotNull(user);
         userRequest.downloadProfilePic(USER_ID, user.getProfilePicKey(), PROFILE_PIC_NAME);
         deleteFile(PROFILE_PIC_NAME);
     }

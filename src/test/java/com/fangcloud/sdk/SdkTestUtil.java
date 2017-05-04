@@ -6,6 +6,7 @@ import com.fangcloud.sdk.api.YfyMiniUser;
 import com.fangcloud.sdk.api.YfyPathFolder;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.folder.YfyFolder;
+import com.fangcloud.sdk.api.share_link.YfyShareLink;
 import com.fangcloud.sdk.api.user.YfyUser;
 
 import java.io.File;
@@ -66,9 +67,10 @@ public class SdkTestUtil {
         assertNotNull(pagingResult.getTotalCount());
         assertNotNull(pagingResult.getPageCapacity());
         assertNotNull(pagingResult.getPageId());
+        assertNotNull(pagingResult.getPageCount());
     }
 
-    public static void assertUserNoyNull(YfyUser user) {
+    public static void assertUserNotNull(YfyUser user) {
         assertNotNull(user);
         assertNotNull(user.getId());
         assertNotNull(user.getEnterpriseId());
@@ -79,6 +81,16 @@ public class SdkTestUtil {
         assertNotNull(user.getActive());
         assertNotNull(user.getFullNamePinyin());
         assertNotNull(user.getPinyinFirstLetters());
+    }
+
+    public static void assertShareLinkNotNull(YfyShareLink shareLink) {
+        assertNotNull(shareLink);
+        assertNotNull(shareLink.getAccess());
+        assertNotNull(shareLink.getDisableDownload());
+        assertNotNull(shareLink.getDueTime());
+        assertNotNull(shareLink.getPasswordProtected());
+        assertNotNull(shareLink.getShareLink());
+        assertNotNull(shareLink.getUniqueName());
     }
 
     public static void deleteFile(String fileName) {
