@@ -4,6 +4,8 @@ import com.fangcloud.sdk.api.PagingResult;
 import com.fangcloud.sdk.api.YfyItem;
 import com.fangcloud.sdk.api.YfyMiniUser;
 import com.fangcloud.sdk.api.YfyPathFolder;
+import com.fangcloud.sdk.api.collab.YfyCollab;
+import com.fangcloud.sdk.api.comment.YfyComment;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.folder.YfyFolder;
 import com.fangcloud.sdk.api.share_link.YfyShareLink;
@@ -91,6 +93,25 @@ public class SdkTestUtil {
         assertNotNull(shareLink.getPasswordProtected());
         assertNotNull(shareLink.getShareLink());
         assertNotNull(shareLink.getUniqueName());
+    }
+
+    public static void assertCollabNull(YfyCollab collab) {
+        assertNotNull(collab);
+        assertNotNull(collab.getAccepted());
+        assertNotNull(collab.getRole());
+        if (!collab.getRole().equals("owner")) {
+            assertNotNull(collab.getCollabId());
+        }
+        assertMiniUserNotNull(collab.getUser());
+    }
+
+    public static void assertCommentNull(YfyComment comment) {
+        assertNotNull(comment);
+        assertNotNull(comment.getCommentId());
+        assertNotNull(comment.getContent());
+        assertNotNull(comment.getCreatedAt());
+        assertNotNull(comment.getFileId());
+        assertMiniUserNotNull(comment.getUser());
     }
 
     public static void deleteFile(String fileName) {

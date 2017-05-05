@@ -9,7 +9,6 @@ import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.api.folder.YfyFolder;
 import com.fangcloud.sdk.api.folder.YfyFolderRequest;
 import com.fangcloud.sdk.api.share_link.ListShareLinkResult;
-import com.fangcloud.sdk.api.share_link.ShareLinkAccessEnum;
 import com.fangcloud.sdk.api.share_link.YfyShareLink;
 import com.fangcloud.sdk.api.share_link.YfyShareLinkRequest;
 import com.fangcloud.sdk.exception.YfyException;

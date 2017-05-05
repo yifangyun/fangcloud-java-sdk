@@ -4,17 +4,16 @@ import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.ItemTypeEnum;
 import com.fangcloud.sdk.api.SuccessResult;
+import com.fangcloud.sdk.api.collab.ListCollabResult;
 import com.fangcloud.sdk.api.share_link.ListShareLinkResult;
-import com.fangcloud.sdk.exception.ClientValidationException;
 import com.fangcloud.sdk.exception.YfyException;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class YfyFolderRequest {
     private final static String FOLDER_API_PATH = YfySdkConstant.API_VERSION + "folder/";
-    private final static String GET_CHILDREN_PATH = FOLDER_API_PATH + "children";
+    private final static String GET_CHILDREN_PATH = FOLDER_API_PATH + "%s/children";
     private final static String CREATE_FOLDER_PATH = FOLDER_API_PATH + "create";
     private final static String GET_FOLDER_PATH = FOLDER_API_PATH + "%s/info";
     private final static String UPDATE_FOLDER_PATH = FOLDER_API_PATH + "%s/update";
@@ -27,6 +26,7 @@ public class YfyFolderRequest {
     private final static String MOVE_FOLDER_PATH = FOLDER_API_PATH + "%s/move";
     private final static String MOVE_FOLDER_BATCH_PATH = FOLDER_API_PATH + "move_batch";
     private final static String LIST_FOLDER_SHARE_LINK_PATH = FOLDER_API_PATH + "%s/share_links";
+    private final static String LIST_COLLAB_PATH = FOLDER_API_PATH + "%s/collabs";
 
     private final YfyClient<?>.YfyInternalClient client;
 
@@ -269,19 +269,19 @@ public class YfyFolderRequest {
                                          final int pageCapacity,
                                          final ItemTypeEnum itemType)
             throws YfyException {
-        Map<String, String> params = new HashMap<String, String>() {{
-            put(YfySdkConstant.FOLDER_ID, String.valueOf(folderId));
+        String[] params = { String.valueOf(folderId) };
+        Map<String, String> mapParams = new HashMap<String, String>() {{
             put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
             put(YfySdkConstant.PAGE_CAPACITY, String.valueOf(pageCapacity));
             put(YfySdkConstant.TYPE, itemType.getType());
         }};
-        return getChildren(params);
+        return getChildren(params, mapParams);
     }
 
-    private GetChildrenResult getChildren(Map<String, String> params) throws YfyException {
+    private GetChildrenResult getChildren(String[] params, Map<String, String> mapParams) throws YfyException {
         return client.doGet(GET_CHILDREN_PATH,
-                null,
                 params,
+                mapParams,
                 GetChildrenResult.class);
     }
 
@@ -325,4 +325,25 @@ public class YfyFolderRequest {
                 mapParams,
                 ListShareLinkResult.class);
     }
+
+    /**
+     * List specific folder's all collab relationships
+     *
+     * @param folderId Folder id in fangcloud
+     * @return All collab infomations
+     * @throws YfyException
+     */
+    public ListCollabResult listCollab(long folderId) throws YfyException {
+        String[] param = { String.valueOf(folderId) };
+        return listCollab(param);
+    }
+
+    private ListCollabResult listCollab(String[] param) throws YfyException {
+        return client.doGet(LIST_COLLAB_PATH,
+                param,
+                null,
+                ListCollabResult.class);
+    }
+
+
 }

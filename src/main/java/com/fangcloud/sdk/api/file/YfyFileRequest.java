@@ -3,6 +3,7 @@ package com.fangcloud.sdk.api.file;
 import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.SuccessResult;
+import com.fangcloud.sdk.api.comment.ListCommentResult;
 import com.fangcloud.sdk.api.share_link.ListShareLinkResult;
 import com.fangcloud.sdk.exception.NetworkIOException;
 import com.fangcloud.sdk.exception.YfyException;
@@ -33,6 +34,7 @@ public class YfyFileRequest {
     private final static String PREVIEW_PATH = FILE_API_PATH + "%s/preview";
     private final static String DOWNLOAD_PREVIEW_PATH = FILE_API_PATH + "%s/preview_download";
     private final static String LIST_FILE_SHARE_LINK_PATH = FILE_API_PATH + "%s/share_links";
+    private final static String LIST_COMMENT_PATH = FILE_API_PATH + "%s/comments";
 
     private final YfyClient<?>.YfyInternalClient client;
 
@@ -477,6 +479,25 @@ public class YfyFileRequest {
                 param,
                 mapParams,
                 ListShareLinkResult.class);
+    }
+
+    /**
+     * List file's all comments' information
+     *
+     * @param fileId File id in fangcloud
+     * @return All file's comments' information
+     * @throws YfyException
+     */
+    public ListCommentResult listComment(long fileId) throws YfyException {
+        String[] param = { String.valueOf(fileId) };
+        return listComment(param);
+    }
+
+    private ListCommentResult listComment(String[] param) throws YfyException {
+        return client.doGet(LIST_COMMENT_PATH,
+                param,
+                null,
+                ListCommentResult.class);
     }
 
 }

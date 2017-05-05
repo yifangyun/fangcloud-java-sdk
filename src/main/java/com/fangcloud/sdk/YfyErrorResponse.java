@@ -15,6 +15,7 @@ public class YfyErrorResponse {
     public static class SpecificError {
         private String code;
         private String msg;
+        private String field;
 
         public String getCode() {
             return code;
@@ -32,9 +33,17 @@ public class YfyErrorResponse {
             this.msg = msg;
         }
 
+        public String getField() {
+            return field;
+        }
+
+        public void setField(String field) {
+            this.field = field;
+        }
+
         @Override
         public String toString() {
-            return code + " " + msg;
+            return code + " " + field + msg;
         }
     }
 

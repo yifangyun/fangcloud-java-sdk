@@ -2,6 +2,7 @@ package com.fangcloud.sdk.api.share_link;
 
 import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfySdkConstant;
+import com.fangcloud.sdk.api.ShareLinkAccessEnum;
 import com.fangcloud.sdk.api.SuccessResult;
 import com.fangcloud.sdk.exception.YfyException;
 

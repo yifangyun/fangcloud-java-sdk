@@ -1,4 +1,4 @@
-package com.fangcloud.sdk.api.share_link;
+package com.fangcloud.sdk.api;
 
 public enum ShareLinkAccessEnum {
     PUBLIC("public"),
