@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Used in auth related process
+ */
 public class FangcloudAuth {
     private Common common;
 

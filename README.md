@@ -1,20 +1,22 @@
 # 亿方云 Java6+ SDK
 
-亿方云 Java 版本 SDK，集成亿方云 V1 系列API，具有强大的文件管理能力。该 SDK 可以在包括 Java6 以上的各个版本上运行。
+亿方云 Java 版本 SDK，具有强大的文件管理能力。该 SDK 可以在包括 Java6 以上的各个 Java 版本上运行。详细的 api 说明请参考 [亿方云api文档](https://open.fangcloud.com/wiki/v2)。
 
 ## 安装
 
-如果使用 Maven， 编辑项目中的 pom.xml 文件，把下面这些放到 \<dependencies\> 部分下：
+**推荐下载源码，源码中有详细的调用注释可供参考**
+
+如果使用 Maven，需要新加以下依赖：
 
 ```
 <dependency>
-    <groupId>com.fanglcloud</groupId>
+    <groupId>com.fangcloud</groupId>
     <artifactId>java-sdk</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
 
-如果使用 Gradle，编辑项目中的 build.gradle 文件，把下面这些放到 dependencies 部分：
+如果使用 Gradle，则对应加上以下依赖：
 
 ```
 dependencies {
@@ -27,11 +29,11 @@ dependencies {
 
 ## 创建应用
 
-创建完应用后就得到了 app_key 和 app_secret，这两个参数会在 SDK 中使用，请妥善保管，不要泄露给别人。
+目前开放平台并不开放给所有普通用户使用，只开放给有特定商务合作的公司使用，后期会逐步开放。创建完应用后就得到了 app_key 和 app_secret，这两个参数会在 SDK 中使用，请妥善保管，不要泄露给其他人。**应用启动前必须先初始化 YfyAppInfo，即调用 YfyAppInfo.initAppInfo(appKey, appSecret)。**
 
 ## 使用亿方云 API
 
-所有用户必须先通过 OAuth2 授权你的应用，然后才能通过你的应用获取用户的相关信息。完成授权后会返回关联了用户亿方云账号的 access token 和 refresh token 给你，在请求中使用这些 token 才能拿到用户文件。
+所有用户必须先通过 OAuth2 授权你的应用，然后才能通过你的应用获取用户的相关信息。完成授权后会返回关联了用户亿方云账号的 access token 和 refresh token 给你的应用，在具体请求中使用这些 token 才能正确使用 api。
 
 * 授权登录：[授权登录的简单web demo](examples/web-demo)
 
@@ -53,7 +55,7 @@ dependencies {
 
 ### web-demo
 
-web-demo 是一个小型的 web app，包括了完整的 Oauth2 的授权和发送 api 过程。运行此 demo 时需进入企业控制台——企业设置——开放平台，将应用官网URL改成 http://localhost:8088/fangcloud-auth-finish。成功后修改 web-demo 的 resource 目录 下的 config.properties 文件，填入你的 client_id 和 client_secret 按照如下步骤运行 demo（默认会在运行目录下创建 web-demo.db 来存储用户信息）：
+web-demo 是一个小型的 web app，包括了完整的 Oauth2 的授权和发送 api 过程。运行此 demo 时需进入企业控制台——企业设置——开放平台，将应用官网URL改成 http://localhost:8088/fangcloud-auth-finish。 成功后修改 web-demo 的 resource 目录 下的 config.properties 文件，填入你的 client_id 和 client_secret 按照如下步骤运行 demo（默认会在运行目录下创建 web-demo.db 来存储用户信息）：
 
 > cd java-sdk/examples
 >
@@ -69,7 +71,7 @@ tutorial 是一个简单的通过 access token 上传文件的 demo。
 
 ## 授权流程
 
-亿方云开放平台API采用 OAuth2.0 协议进行授权。在SDK中提供了丰富的接口和简单的使用示例，方便开发者对接亿方云的OAuth流程。详细API说明，请参考[亿方云文档](https://open.fangcloud.com/wiki/#OAuth2)。
+亿方云开放平台API采用 OAuth2.0 协议进行授权。在SDK中提供了丰富的接口和简单的使用示例，方便开发者对接亿方云的OAuth流程。详细API说明，请参考[亿方云OAuth文档](https://open.fangcloud.com/wiki/v2/#OAuth2)。
 
 对接的 Demo 位于 example/web-demo 中，运行其中的 Main.java 即可启动web服务。在浏览器中输入 "[http://localhost:8088](http://localhost:8088)" 进入demo流程。在使用之前请确保本地8088端口未被占用。web-demo使用 jetty 框架进行搭建。
 
@@ -90,5 +92,34 @@ YfyAuthFinish authFinish = new YfyWebAuth(new YfyRequestConfig()).finishFromRedi
                     getRedirectUri(request),
                     getSessionStore(request),
                     request.getParameterMap());
+```
+
+用户 access 信息都会保存在返回的 YfyAuthFinish 这个对象中，保存并使用其中的 access token 等信息构造 YfyClient 就可以通过 client 发送所有开放的 api 请求。
+
+## 请求示例
+
+### 应用有自己的账号体系并使用 client 缓存（推荐）
+
+```java
+// 泛型表示账号体系中的用户标识类型，最后一个参数传null表示关闭自动刷新
+YfyClientFactory clientFactory = new YfyClientFactory<String>(100, new YfyRequestConfig(), new YfyRefreshListener<String>(){
+  	@Override
+  	public void tokenRefresh(String key, String accessToken, String refreshToken, long expireIn) {
+    	// 在应用中更新或保存刷新后的用户access信息
+  	}
+});
+
+// 如果缓存中有这个client，则返回，如果没有则创建并放入缓存
+YfyClient client = clientFactory.getClient(identify, accessToken, refreshToken);
+// 如果缓存中有这个client，则返回，如果没有则返回null
+YfyClient client = clientFactory.getClient(identify);
+YfyUser user = client.users.getSelf();
+```
+
+### 应用没有自己的账号体系（demo中使用）
+
+```java
+YfyClient client = new YfyClient(new YfyRequestConfig(), accessToken);
+YfyUser user = client.users.getSelf();
 ```
 

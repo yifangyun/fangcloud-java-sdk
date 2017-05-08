@@ -8,13 +8,20 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * Always used by server, which has multiply users at the same time
  *
- * @param <T> The identify to verify user in your app
+ * @param <T> User identify type in your account system
  */
 public class YfyClientFactory<T> {
     private YfyRequestConfig requestConfig;
     private YfyRefreshListener<T> refreshListener;
     private volatile Map<T, YfyClient<T>> lruCache;
 
+    /**
+     * Get a YfyClientFactory to build YfyClient with the same arguments
+     *
+     * @param maxCapacity Max number of LRU cache to cache user client
+     * @param requestConfig Request config type
+     * @param refreshListener Personal refresh listener
+     */
     public YfyClientFactory(int maxCapacity, YfyRequestConfig requestConfig, YfyRefreshListener<T> refreshListener) {
         if (requestConfig == null) {
             throw new NullPointerException("request config");
@@ -24,6 +31,12 @@ public class YfyClientFactory<T> {
         this.refreshListener = refreshListener;
     }
 
+    /**
+     * Get a YfyClientFactory to build YfyClient with the same arguments
+     *
+     * @param maxCapacity Max number of LRU cache to cache user client
+     * @param requestConfig Request config type
+     */
     public YfyClientFactory(int maxCapacity, YfyRequestConfig requestConfig) {
         this(maxCapacity, requestConfig, null);
     }
@@ -32,10 +45,24 @@ public class YfyClientFactory<T> {
         return lruCache;
     }
 
+    /**
+     * Get YfyClient by user identify in LRU cache. If LRU doesn't contain, return null
+     *
+     * @param key User identify in your account system
+     * @return YfyClient
+     */
     public YfyClient getClient(T key) {
         return lruCache.get(key);
     }
 
+    /**
+     * Get YfyClient by user identify in LRU cache. If LRU doesn't contain, build a new YfyClient
+     *
+     * @param key User identify in your account system
+     * @param accessToken User's access token
+     * @param refreshToken User's refresh token
+     * @return YfyClient
+     */
     public YfyClient getClient(T key, String accessToken, String refreshToken) {
         YfyClient<T> client = lruCache.get(key);
         if (client == null) {

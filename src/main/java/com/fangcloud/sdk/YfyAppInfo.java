@@ -13,6 +13,8 @@ public class YfyAppInfo {
     private static YfyHost host;
 
     /**
+     * Must be invoked before sending any request
+     *
      * @param key Fangcloud app key (see {@link #getKey})
      * @param secret Fangcloud app secret (see {@link #getSecret})
      */
@@ -21,6 +23,8 @@ public class YfyAppInfo {
     }
 
     /**
+     * Must be invoked before sending any request
+     *
      * @param key Fangcloud app key (see {@link #getKey})
      * @param secret Fangcloud app secret (see {@link #getSecret})
      * @param host Fangcloud host configuration (see {@link #getHost})
