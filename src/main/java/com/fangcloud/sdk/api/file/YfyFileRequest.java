@@ -18,7 +18,7 @@ import java.util.Map;
 public class YfyFileRequest {
     private final static String FILE_API_PATH = YfySdkConstant.API_VERSION + "file/";
     private final static String GET_FILE_PATH = FILE_API_PATH + "%s/info";
-    private final static String COPY_FILE_PATH = FILE_API_PATH + "copy";
+    private final static String COPY_FILE_PATH = FILE_API_PATH + "%s/copy";
     private final static String PRE_SIGNATURE_DOWNLOAD_PATH = FILE_API_PATH + "%s/download";
     private final static String PRE_SIGNATURE_UPLOAD_PATH = FILE_API_PATH + "upload";
     private final static String NEW_VERSION_PRE_SIGNATURE_UPLOAD_PATH = FILE_API_PATH + "%s/new_version";
@@ -430,12 +430,13 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public YfyFile copyFile(long fileId, long targetFolderId) throws YfyException {
-        return copyFile(new CopyFileArg(fileId, targetFolderId));
+        String[] param = { String.valueOf(fileId) };
+        return copyFile(param, new CopyFileArg(targetFolderId));
     }
 
-    private YfyFile copyFile(CopyFileArg copyFileArg) throws YfyException {
+    private YfyFile copyFile(String[] param, CopyFileArg copyFileArg) throws YfyException {
         return client.doPost(COPY_FILE_PATH,
-                null,
+                param,
                 copyFileArg,
                 YfyFile.class);
     }

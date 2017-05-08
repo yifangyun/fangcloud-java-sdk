@@ -40,10 +40,10 @@ public class YfyItemRequest {
             put(YfySdkConstant.PAGE_NUMBER, String.valueOf(pageNumber));
             put(YfySdkConstant.SEARCH_IN_FOLDER, String.valueOf(searchInFolder));
         }};
-        return searchInFolder(params);
+        return searchItem(params);
     }
 
-    private SearchItemResult searchInFolder(Map<String, String> params) throws YfyException {
+    private SearchItemResult searchItem(Map<String, String> params) throws YfyException {
         return client.doGet(SEARCH_ITEM_PATH,
                 null,
                 params,

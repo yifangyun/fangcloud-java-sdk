@@ -70,10 +70,10 @@ public class YfyFileRequestTest {
 
     @Test
     public void testUpdateFile() throws YfyException {
-        String fileNewName = "java-sdk-test-update.txt";
+        String fileNewName = "java-sdk-test-update";
         YfyFile file = fileRequest.updateFile(testFileId, fileNewName, null);
         assertFileNotNull(file);
-        assertEquals(fileNewName, file.getName());
+        assertEquals(fileNewName + ".txt", file.getName());
     }
 
     @Test
@@ -103,9 +103,11 @@ public class YfyFileRequestTest {
         // assertTrue(fileRequest.deleteFileFromTrash(new ArrayList<Long>() {{
         //     add(testFileId);
         // }}).getSuccess());
+        assertTrue(fileRequest.deleteFileFromTrash(testFileId).getSuccess());
         testFileId = uploadAndAssertFile(FILE_NAME, testParentId);
         assertTrue(fileRequest.deleteFile(testFileId).getSuccess());
         // assertTrue(fileRequest.deleteAllFileInTrash().getSuccess());
+        assertTrue(fileRequest.deleteFileFromTrash(testFileId).getSuccess());
         testFileId = uploadAndAssertFile(FILE_NAME, testParentId);
     }
 
@@ -115,6 +117,7 @@ public class YfyFileRequestTest {
         // assertTrue(fileRequest.moveFile(new ArrayList<Long>() {{
         //     add(testFileId);
         // }}, testParentId).getSuccess());
+        assertTrue(fileRequest.moveFile(testFileId, testParentId).getSuccess());
     }
 
     @Test

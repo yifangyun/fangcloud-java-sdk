@@ -125,7 +125,7 @@ public class YfyShareLinkRequestTest {
         YfyShareLink passwordShareLinkInfo = shareLinkRequest.getShareLink(passwordShareLink.getUniqueName(), "wenyichao");
         assertShareLinkNotNull(passwordShareLinkInfo);
 
-        ListShareLinkResult listShareLinkResult = folderRequest.listShareLink(testFolderId, 0);
+        ListShareLinkResult listShareLinkResult = fileRequest.listShareLink(testFileId, 0);
         assertNotNull(listShareLinkResult);
         assertNotNull(listShareLinkResult.getShareLinks());
         assertEquals(listShareLinkResult.getShareLinks().size(), 2);

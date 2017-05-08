@@ -43,7 +43,11 @@ public class YfyErrorResponse {
 
         @Override
         public String toString() {
-            return code + " " + field + msg;
+            if (field != null) {
+                return code + " " + field + msg;
+            } else {
+                return code + " " + msg;
+            }
         }
     }
 

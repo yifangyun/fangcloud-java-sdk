@@ -7,6 +7,7 @@ import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.api.folder.YfyFolderRequest;
 import com.fangcloud.sdk.api.item.YfyItemRequest;
 import com.fangcloud.sdk.api.share_link.YfyShareLinkRequest;
+import com.fangcloud.sdk.api.trash.YfyTrashRequest;
 import com.fangcloud.sdk.api.user.YfyUserRequest;
 import com.fangcloud.sdk.auth.YfyAuthFinish;
 import com.fangcloud.sdk.exception.BadResponseException;
@@ -37,6 +38,7 @@ public class YfyClient<K> {
     private final YfyShareLinkRequest shareLinkRequest;
     private final YfyCollabRequest collabRequest;
     private final YfyCommentRequest commentRequest;
+    private final YfyTrashRequest trashRequest;
 
     private K key;
     private volatile String accessToken;
@@ -64,6 +66,7 @@ public class YfyClient<K> {
         this.shareLinkRequest = new YfyShareLinkRequest(internalClient);
         this.collabRequest = new YfyCollabRequest(internalClient);
         this.commentRequest = new YfyCommentRequest(internalClient);
+        this.trashRequest = new YfyTrashRequest(internalClient);
 
         this.requestConfig = requestConfig;
         this.host = YfyAppInfo.getHost();
@@ -108,6 +111,10 @@ public class YfyClient<K> {
 
     public YfyCollabRequest collabs() {
         return collabRequest;
+    }
+
+    public YfyTrashRequest trashs() {
+        return trashRequest;
     }
 
     public YfyCommentRequest comments() {
