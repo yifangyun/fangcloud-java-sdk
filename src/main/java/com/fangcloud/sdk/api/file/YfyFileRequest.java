@@ -318,10 +318,10 @@ public class YfyFileRequest {
      * @return An object contains a attribute named upload url
      * @throws YfyException
      */
-    public PreSignatureUploadResult newVersionPreSignatureUpload(long fileId, String name, String remark)
+    public String newVersionPreSignatureUpload(long fileId, String name, String remark)
             throws YfyException {
         String[] param = { String.valueOf(fileId) };
-        return newVersionPreSignatureUpload(param, new NewVersionPreSignatureUploadArg(name, "api", remark));
+        return newVersionPreSignatureUpload(param, new NewVersionPreSignatureUploadArg(name, "api", remark)).getUploadUrl();
     }
 
     private PreSignatureUploadResult newVersionPreSignatureUpload(
@@ -372,7 +372,7 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public YfyFile directUploadNewVersionFile(long fileId, String name, String remark, InputStream fileStream) throws YfyException {
-        return uploadFile(newVersionPreSignatureUpload(fileId, name, remark).getUploadUrl(), fileStream, name);
+        return uploadFile(newVersionPreSignatureUpload(fileId, name, remark), fileStream, name);
     }
 
     /**

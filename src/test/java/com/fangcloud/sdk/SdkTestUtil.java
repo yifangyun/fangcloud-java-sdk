@@ -69,7 +69,7 @@ public class SdkTestUtil {
         assertNotNull(pagingResult.getTotalCount());
         assertNotNull(pagingResult.getPageCapacity());
         assertNotNull(pagingResult.getPageId());
-        // assertNotNull(pagingResult.getPageCount());
+        assertNotNull(pagingResult.getPageCount());
     }
 
     public static void assertUserNotNull(YfyUser user) {
