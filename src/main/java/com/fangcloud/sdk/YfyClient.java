@@ -240,7 +240,7 @@ public class YfyClient<K> {
             });
         }
 
-        public YfyFile doUpload(String uploadUrl, InputStream fileStream, String fileName) throws YfyException {
+        public YfyFile doUpload(String uploadUrl, InputStream fileStream) throws YfyException {
             List<HttpRequestor.Header> headers = new ArrayList<HttpRequestor.Header>();
             headers.add(new HttpRequestor.Header("Content-Type", "multipart/form-data; boundary=" + BOUNDARY));
 
@@ -248,7 +248,7 @@ public class YfyClient<K> {
                 HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPost(
                         uploadUrl, headers);
                 try {
-                    writeMultipartData(uploader.getBody(), fileStream, fileName);
+                    writeMultipartData(uploader.getBody(), fileStream);
                     return YfyRequestUtil.finishResponse(uploader.finish(), YfyFile.class);
                 } finally {
                     uploader.close();
@@ -259,11 +259,11 @@ public class YfyClient<K> {
 
         }
 
-        private void writeMultipartData(OutputStream outputStream, InputStream fileStream, String fileName)
+        private void writeMultipartData(OutputStream outputStream, InputStream fileStream)
                 throws IOException {
             StringBuilder sb = new StringBuilder(BOUNDARY_STR);
             sb.append("\r\n");
-            sb.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\n");
+            sb.append("Content-Disposition: form-data; name=\"file\"; filename=\"filename\"\r\n");
             sb.append("Content-Type: application/octet-stream");
             sb.append("\r\n\r\n");
             outputStream.write(StringUtil.stringToUtf8(sb.toString()));
