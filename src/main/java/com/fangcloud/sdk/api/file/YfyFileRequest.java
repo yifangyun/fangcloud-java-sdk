@@ -241,12 +241,12 @@ public class YfyFileRequest {
      * Get file download url, then use the url to download file. The url is valid in an hour
      *
      * @param fileId File id in fangcloud
-     * @return An object contains a map with file id as key and download url as value
+     * @return Download url of the file
      * @throws YfyException
      */
-    public PreSignatureDownloadResult preSignatureDownload(long fileId) throws YfyException {
+    public String preSignatureDownload(long fileId) throws YfyException {
         String[] params = { String.valueOf(fileId) };
-        return preSignatureDownload(params);
+        return preSignatureDownload(params).getDownloadUrls().get(fileId);
     }
 
     private PreSignatureDownloadResult preSignatureDownload(String[] params) throws YfyException {
@@ -284,7 +284,7 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public void directDownloadFile(long fileId, String savePath) throws YfyException {
-        downloadFile(preSignatureDownload(fileId).getDownloadUrls().get(fileId), savePath);
+        downloadFile(preSignatureDownload(fileId), savePath);
     }
 
     /**
@@ -293,11 +293,11 @@ public class YfyFileRequest {
      *
      * @param parentId Parent folder id you want to store the file in, the root folder is 0
      * @param name File name
-     * @return An object contains a attribute named upload url
+     * @return Upload url of the file
      * @throws YfyException
      */
-    public PreSignatureUploadResult preSignatureUpload(long parentId, String name) throws YfyException {
-        return preSignatureUpload(new PreSignatureUploadArg(parentId, name, "api"));
+    public String preSignatureUpload(long parentId, String name) throws YfyException {
+        return preSignatureUpload(new PreSignatureUploadArg(parentId, name, "api")).getUploadUrl();
     }
 
     private PreSignatureUploadResult preSignatureUpload(PreSignatureUploadArg preSignatureUploadArg)
@@ -357,7 +357,7 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public YfyFile directUploadFile(long parentId, String name, InputStream fileStream) throws YfyException {
-        return uploadFile(preSignatureUpload(parentId, name).getUploadUrl(), fileStream, name);
+        return uploadFile(preSignatureUpload(parentId, name), fileStream, name);
     }
 
     /**
@@ -376,7 +376,7 @@ public class YfyFileRequest {
     }
 
     /**
-     * Retrieve preview image information and download url()
+     * Retrieve preview image information and download url
      *
      * @param fileId File id in fangcloud
      * @param previewKind The kinds of preview, see {@link PreviewKindEnum}
