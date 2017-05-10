@@ -263,13 +263,13 @@ public class YfyClient<K> {
                 throws IOException {
             StringBuilder sb = new StringBuilder(BOUNDARY_STR);
             sb.append("\r\n");
-            sb.append("Content-Disposition: form-data; name=\"file\"; filename=\"filename\"\r\n");
+            sb.append("Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n");
             sb.append("Content-Type: application/octet-stream");
             sb.append("\r\n\r\n");
             outputStream.write(StringUtil.stringToUtf8(sb.toString()));
             try {
                 IOUtil.copyStreamToStream(fileStream, outputStream);
-                outputStream.write(StringUtil.stringToUtf8("\r\n\r\n" + BOUNDARY_STR + "--"));
+                outputStream.write(StringUtil.stringToUtf8("\r\n" + BOUNDARY_STR + "--"));
             } catch (IOUtil.ReadException ex) {
                 throw ex.getCause();
             } finally {
