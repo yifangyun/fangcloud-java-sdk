@@ -5,6 +5,9 @@ import com.fangcloud.sdk.YfyErrorResponse;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The app has exceeded request limit in a time slot
+ */
 public class RateLimitException extends YfyException {
     private int rateLimitReset;
 

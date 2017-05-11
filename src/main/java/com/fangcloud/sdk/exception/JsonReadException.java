@@ -1,7 +1,7 @@
 package com.fangcloud.sdk.exception;
 
 /**
- * exception in json read mostly when response deserialization
+ * Exception in json read mostly when response deserialization
  */
 public class JsonReadException extends Exception {
     public static final long serialVersionUID = 0;

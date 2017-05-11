@@ -7,14 +7,13 @@ import com.fangcloud.sdk.exception.NetworkIOException;
 import com.fangcloud.sdk.exception.NormalException;
 import com.fangcloud.sdk.exception.RateLimitException;
 import com.fangcloud.sdk.exception.ServerException;
+import com.fangcloud.sdk.exception.OtherErrorException;
 import com.fangcloud.sdk.exception.YfyException;
 import com.fangcloud.sdk.http.HttpRequestor;
 import com.fangcloud.sdk.util.IOUtil;
 import com.fangcloud.sdk.util.StringUtil;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -160,7 +159,7 @@ public final class YfyRequestUtil {
     /**
      * Convenience function for making HTTP POST requests.  Like startPostNoAuth but takes byte[] instead of params.
      */
-    public static HttpRequestor.Response startPostRaw(YfyRequestConfig requestConfig,
+    private static HttpRequestor.Response startPostRaw(YfyRequestConfig requestConfig,
                                                       String host,
                                                       String path,
                                                       byte[] body,
@@ -207,7 +206,17 @@ public final class YfyRequestUtil {
 
     public static YfyException unexpectedStatus(HttpRequestor.Response response)
             throws NetworkIOException, JsonReadException {
-        YfyErrorResponse errorResponse = convertStreamToObj(response.getBody(), YfyErrorResponse.class);
+        YfyErrorResponse errorResponse;
+        try {
+            errorResponse = convertStreamToObj(response.getBody(), YfyErrorResponse.class);
+        } catch (JsonReadException ex) {
+            // deal with download and upload error response
+            if (ex.getJsonStr().startsWith("<!DOCTYPE html>")) {
+                return new OtherErrorException("download url is invalid or expired!");
+            }
+            YfyUploadErrorResponse uploadErrorResponse = convertStrToObj(ex.getJsonStr(), YfyUploadErrorResponse.class);
+            return new OtherErrorException(uploadErrorResponse.getError());
+        }
 
         switch (response.getStatusCode()) {
             case 401:
@@ -220,21 +229,30 @@ public final class YfyRequestUtil {
         return new NormalException(errorResponse);
     }
 
-    public static <T> T convertStreamToObj(InputStream inputStream, Class<T> tClass)
+    private static <T> T convertStreamToObj(InputStream inputStream, Class<T> tClass)
             throws NetworkIOException, JsonReadException {
+        String jsonStr = null;
         try {
-            String jsonStr = IOUtil.toUtf8String(inputStream);
-            return OBJECT_MAPPER.readValue(jsonStr, tClass);
-        } catch (JsonParseException ex) {
-            throw new JsonReadException(ex);
-        } catch (JsonMappingException ex) {
-            throw new JsonReadException(ex);
+            // if read input stream directly, the stream can only be read once
+            jsonStr = IOUtil.toUtf8String(inputStream);
+            return convertStrToObj(jsonStr, tClass);
         } catch (IOException ex) {
             throw new NetworkIOException(ex);
         }
     }
 
-    public static String convertObjToJson(Object object) {
+    private static <T> T convertStrToObj(String jsonStr, Class<T> tClass)
+            throws NetworkIOException, JsonReadException {
+        try {
+            return OBJECT_MAPPER.readValue(jsonStr, tClass);
+        } catch (JsonProcessingException ex) {
+            throw new JsonReadException(jsonStr, ex);
+        } catch (IOException ex) {
+            throw new NetworkIOException(ex);
+        }
+    }
+
+    private static String convertObjToJson(Object object) {
         try {
             return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException ex) {

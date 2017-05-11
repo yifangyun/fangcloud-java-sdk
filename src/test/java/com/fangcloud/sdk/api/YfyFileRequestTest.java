@@ -11,6 +11,7 @@ import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.api.folder.YfyFolder;
 import com.fangcloud.sdk.api.folder.YfyFolderRequest;
+import com.fangcloud.sdk.exception.OtherErrorException;
 import com.fangcloud.sdk.exception.YfyException;
 import org.junit.After;
 import org.junit.Before;
@@ -157,5 +158,19 @@ public class YfyFileRequestTest {
         assertFileNotNull(file);
         assertTrue(fileRequest.deleteFile(file.getId()).getSuccess());
         assertTrue(fileRequest.deleteFileFromTrash(file.getId()).getSuccess());
+    }
+
+    @Test(expected = OtherErrorException.class)
+    public void testUploadUrlExpired() throws YfyException {
+        String fileName = "2" + FILE_NAME;
+        String uploadUrl = fileRequest.preSignatureUpload(testParentId, fileName);
+        fileRequest.uploadFile(uploadUrl, YfyFileRequestTest.class.getResourceAsStream("/" + FILE_NAME));
+        fileRequest.uploadFile(uploadUrl, YfyFileRequestTest.class.getResourceAsStream("/" + FILE_NAME));
+    }
+
+    @Test(expected = OtherErrorException.class)
+    public void testDownloadUrlExpired() throws YfyException {
+        String downloadUrl = "https://download01.fangcloud.net/download/5f3aae24806b489492200040d4126b92/fdb1c1744480d41e05afa021a42037675108eee0056dd97ff92ada9b70ff43fd/IMG_0039.JPG";
+        fileRequest.downloadFile(downloadUrl, FILE_NAME);
     }
 }
