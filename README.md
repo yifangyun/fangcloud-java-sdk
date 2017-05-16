@@ -11,17 +11,21 @@
 ```
 <dependency>
     <groupId>com.fangcloud</groupId>
-    <artifactId>java-sdk</artifactId>
-    <version>1.0.0</version>
+    <artifactId>fangcloud-java-sdk</artifactId>
+    <version>2.2.0</version>
 </dependency>
 ```
 
 如果使用 Gradle，则对应加上以下依赖：
 
 ```
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     // ...
-    compile 'com.fanglcloud:java-sdk:1.0.0'
+    compile 'com.fanglcloud:fangcloud-java-sdk:2.2.0'
 }
 ```
 
@@ -43,7 +47,7 @@ dependencies {
 
 ## 从源码构建
 
-> git clone git@192.168.0.234:platform-sdk/java-sdk.git
+> git clone git@github.com:yifangyun/fangcloud-java-sdk.git
 >
 > cd java-sdk
 >
