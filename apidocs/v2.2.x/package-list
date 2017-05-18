@@ -1,0 +1,14 @@
+com.fangcloud.sdk
+com.fangcloud.sdk.api
+com.fangcloud.sdk.api.collab
+com.fangcloud.sdk.api.comment
+com.fangcloud.sdk.api.file
+com.fangcloud.sdk.api.folder
+com.fangcloud.sdk.api.item
+com.fangcloud.sdk.api.share_link
+com.fangcloud.sdk.api.trash
+com.fangcloud.sdk.api.user
+com.fangcloud.sdk.auth
+com.fangcloud.sdk.exception
+com.fangcloud.sdk.http
+com.fangcloud.sdk.util
