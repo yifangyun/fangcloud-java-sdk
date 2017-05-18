@@ -2,7 +2,6 @@ package com.fangcloud.sdk.api;
 
 import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyClient;
-import com.fangcloud.sdk.YfyHost;
 import com.fangcloud.sdk.YfyRequestConfig;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.file.YfyFileRequest;
@@ -27,7 +26,6 @@ public class YfyShareLinkRequestTest {
     private static final String PARENT_NAME = "share-link-api-test";
     private static final String FILE_NAME = "java-sdk-test.txt";
     private static final String FOLDER_NAME = "java-sdk-test";
-    private static final YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
 
     private YfyFileRequest fileRequest;
     private YfyFolderRequest folderRequest;
@@ -38,7 +36,7 @@ public class YfyShareLinkRequestTest {
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test", testHost);
+        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         folderRequest = client.folders();
         fileRequest = client.files();
@@ -72,16 +70,16 @@ public class YfyShareLinkRequestTest {
     public void testFolderShareLink() throws YfyException {
         // test folder
         YfyShareLink publicShareLink = shareLinkRequest.createFolderShareLink(testFolderId,
-                ShareLinkAccessEnum.PUBLIC, false, "2017-05-11", null);
+                ShareLinkAccessEnum.PUBLIC, false, "2020-05-31", null);
         assertShareLinkNotNull(publicShareLink);
         YfyShareLink companyShareLink = shareLinkRequest.updateShareLink(publicShareLink.getUniqueName(),
-                ShareLinkAccessEnum.COMPANY, false, "2017-05-11", null);
+                ShareLinkAccessEnum.COMPANY, false, "2020-05-11", null);
         assertShareLinkNotNull(companyShareLink);
         YfyShareLink disableDownloadShareLink = shareLinkRequest.createFolderShareLink(testFolderId,
-                ShareLinkAccessEnum.PUBLIC, true, "2017-05-11", null);
+                ShareLinkAccessEnum.PUBLIC, true, "2020-05-11", null);
         assertShareLinkNotNull(disableDownloadShareLink);
         YfyShareLink passwordShareLink = shareLinkRequest.updateShareLink(disableDownloadShareLink.getUniqueName(),
-                ShareLinkAccessEnum.PUBLIC, false, "2017-05-11", "wenyichao");
+                ShareLinkAccessEnum.PUBLIC, false, "2020-05-11", "wenyichao");
         assertShareLinkNotNull(passwordShareLink);
         assertTrue(passwordShareLink.getPasswordProtected());
 
@@ -107,16 +105,16 @@ public class YfyShareLinkRequestTest {
     public void testFileShareLink() throws YfyException {
         // test folder
         YfyShareLink publicShareLink = shareLinkRequest.createFileShareLink(testFileId,
-                ShareLinkAccessEnum.PUBLIC, false, "2017-05-11", null);
+                ShareLinkAccessEnum.PUBLIC, false, "2020-05-11", null);
         assertShareLinkNotNull(publicShareLink);
         YfyShareLink companyShareLink = shareLinkRequest.updateShareLink(publicShareLink.getUniqueName(),
-                ShareLinkAccessEnum.COMPANY, false, "2017-05-11", null);
+                ShareLinkAccessEnum.COMPANY, false, "2020-05-11", null);
         assertShareLinkNotNull(companyShareLink);
         YfyShareLink disableDownloadShareLink = shareLinkRequest.createFileShareLink(testFileId,
-                ShareLinkAccessEnum.PUBLIC, true, "2017-05-11", null);
+                ShareLinkAccessEnum.PUBLIC, true, "2020-05-11", null);
         assertShareLinkNotNull(disableDownloadShareLink);
         YfyShareLink passwordShareLink = shareLinkRequest.updateShareLink(disableDownloadShareLink.getUniqueName(),
-                ShareLinkAccessEnum.PUBLIC, false, "2017-05-11", "wenyichao");
+                ShareLinkAccessEnum.PUBLIC, false, "2020-05-11", "wenyichao");
         assertShareLinkNotNull(passwordShareLink);
         assertTrue(passwordShareLink.getPasswordProtected());
 

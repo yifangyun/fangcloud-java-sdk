@@ -61,7 +61,7 @@ $update_version && {
 	git commit -m "release v$new_version"
 	git push
 
-	git checkout -b "$new_version"
+	git checkout -B "v$new_version"
 
 	# update pom version
 	echo "update pom version..."
@@ -81,8 +81,7 @@ $deploy_maven && {
 	echo 'Deploy to maven center repo...'
 	echo '================================================================================'
 	mvn clean deploy -Dmaven.test.skip=true -DperformRelease=true
-	echo "deploy to sonatype oss successfully, enter https://oss.sonatype.org/#stagingRepositories to release
-	 the $new_version to maven central repository"
+	echo "deploy to sonatype oss successfully, enter https://oss.sonatype.org/#stagingRepositories to releasethe $new_version to maven central repository"
 }
 
 
@@ -96,8 +95,9 @@ $deploy_java_doc && {
 	if [ $count == "0" ]
 	then
 		sed "/$gh_version/ i\    <li><a href=\"apidocs/$gh_new_version\">$gh_new_version</a></li>" -i index.html
+	else
+		rm -rf "apidocs/$gh_version/"
 	fi
-	rm -rf apidocs/v2.2.x/
 	mv target/apidocs "apidocs/$gh_new_version"
 	# sed "s#\".*/index.html\"#\"$new_version/index.html\"#" -i apidocs/index.html
 

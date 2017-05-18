@@ -6,6 +6,7 @@ import static com.fangcloud.sdk.util.StringUtil.jq;
  * Identifying information about your application.
  */
 public class YfyAppInfo {
+    private static final String TEST_FLAG="FangcloudTest";
     private YfyAppInfo() {}
 
     private static String key;
@@ -19,17 +20,14 @@ public class YfyAppInfo {
      * @param secret Fangcloud app secret (see {@link #getSecret})
      */
     public static void initAppInfo(String key, String secret) {
-        initAppInfo(key, secret, YfyHost.DEFAULT);
+        YfyHost host = YfyHost.DEFAULT;
+        if (System.getenv().get(TEST_FLAG) != null) {
+            host = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
+        }
+        initAppInfo(key, secret, host);
     }
 
-    /**
-     * Must be invoked before sending any request
-     *
-     * @param key Fangcloud app key (see {@link #getKey})
-     * @param secret Fangcloud app secret (see {@link #getSecret})
-     * @param host Fangcloud host configuration (see {@link #getHost})
-     */
-    public static void initAppInfo(String key, String secret, YfyHost host) {
+    private static void initAppInfo(String key, String secret, YfyHost host) {
         checkKeyArg(key);
         checkSecretArg(secret);
 

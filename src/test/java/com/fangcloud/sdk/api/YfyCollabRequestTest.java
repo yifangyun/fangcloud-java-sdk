@@ -2,7 +2,6 @@ package com.fangcloud.sdk.api;
 
 import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyClient;
-import com.fangcloud.sdk.YfyHost;
 import com.fangcloud.sdk.YfyRequestConfig;
 import com.fangcloud.sdk.api.collab.ListCollabResult;
 import com.fangcloud.sdk.api.collab.YfyCollab;
@@ -23,7 +22,6 @@ import static org.junit.Assert.assertTrue;
 public class YfyCollabRequestTest {
     private static final String PARENT_NAME = "collab-api-test";
     private static final String FOLDER_NAME = "java-sdk-test";
-    private static final YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
 
     private YfyFolderRequest folderRequest;
     private YfyCollabRequest collabRequest;
@@ -33,7 +31,7 @@ public class YfyCollabRequestTest {
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test", testHost);
+        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         folderRequest = client.folders();
         collabRequest = client.collabs();

@@ -2,7 +2,6 @@ package com.fangcloud.sdk.api;
 
 import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyClient;
-import com.fangcloud.sdk.YfyHost;
 import com.fangcloud.sdk.YfyRequestConfig;
 import com.fangcloud.sdk.api.user.SearchUserResult;
 import com.fangcloud.sdk.api.user.YfyUser;
@@ -17,7 +16,6 @@ import static com.fangcloud.sdk.SdkTestUtil.deleteFile;
 import static org.junit.Assert.assertEquals;
 
 public class YfyUserRequestTest {
-    private static final YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
     private static final long USER_ID = 468L;
     private static final String PROFILE_PIC_NAME = "user_profile_pic_" + USER_ID + ".jpeg";
 
@@ -25,7 +23,7 @@ public class YfyUserRequestTest {
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test", testHost);
+        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         userRequest = client.users();
     }

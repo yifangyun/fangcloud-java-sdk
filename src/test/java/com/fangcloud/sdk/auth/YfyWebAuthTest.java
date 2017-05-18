@@ -48,7 +48,7 @@ public class YfyWebAuthTest {
                         .build()
         );
         assertAuthorizationUrls(
-                "https://oauth.fangcloud.com/oauth/authorize?response_type=code&redirect_uri=https://localhost/auth/finish&state=8mEcdvKM5QRH0LHg0cJmAA==test-state&client_id=test-key",
+                "https://"+ YfyAppInfo.getHost().getAuth() + "/oauth/authorize?response_type=code&redirect_uri=https://localhost/auth/finish&state=8mEcdvKM5QRH0LHg0cJmAA==test-state&client_id=test-key",
                 authUrl);
 
         authUrl = auth.authorize(
@@ -58,7 +58,7 @@ public class YfyWebAuthTest {
         );
 
         assertAuthorizationUrls(
-                "https://oauth.fangcloud.com/oauth/authorize?response_type=code&redirect_uri=https://localhost/auth/finish&state=9WHp6HRzD9r09YgAHYVz_Q==&client_id=test-key",
+                "https://" + YfyAppInfo.getHost().getAuth() + "/oauth/authorize?response_type=code&redirect_uri=https://localhost/auth/finish&state=9WHp6HRzD9r09YgAHYVz_Q==&client_id=test-key",
                 authUrl);
 
         authUrl = auth.authorize(
@@ -68,7 +68,7 @@ public class YfyWebAuthTest {
         );
 
         assertAuthorizationUrls(
-                "https://oauth.fangcloud.com/oauth/authorize?response_type=code&client_id=test-key",
+                "https://" + YfyAppInfo.getHost().getAuth() + "/oauth/authorize?response_type=code&client_id=test-key",
                 authUrl);
 
     }

@@ -2,7 +2,6 @@ package com.fangcloud.sdk.api;
 
 import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyClient;
-import com.fangcloud.sdk.YfyHost;
 import com.fangcloud.sdk.YfyRequestConfig;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.folder.YfyFolder;
@@ -18,13 +17,11 @@ import static com.fangcloud.sdk.SdkTestUtil.assertPagingResultNotNull;
 import static org.junit.Assert.assertNotNull;
 
 public class YfyItemRequestTest {
-    private static final YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
-
     private YfyItemRequest itemRequest;
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test", testHost);
+        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         itemRequest = client.items();
     }
