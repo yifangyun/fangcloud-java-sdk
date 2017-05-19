@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * When you successfully complete the authorization process, the Fangcloud server returns
- * this information to you.
+ * detailed user access information to you.
  */
 public final class YfyAuthFinish {
     @JsonProperty("access_token")

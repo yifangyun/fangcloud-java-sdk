@@ -197,6 +197,53 @@ public class YfyWebAuthTest {
         assertEquals(actual.getTokenType(), expected.getTokenType());
     }
 
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testPasswordLogin() throws Exception {
+        String username = "test-username";
+        String password = "test-test-password";
+        YfyAuthFinish expected = new YfyAuthFinish("test-access-token", "test-refresh-token", 3600, "Bearer", "all");
+        ByteArrayOutputStream body = new ByteArrayOutputStream();
+        ByteArrayInputStream responseStream = new ByteArrayInputStream(
+                (
+                        "{" +
+                                "\"token_type\":\"Bearer\"" +
+                                ",\"access_token\":\"" + expected.getAccessToken() + "\"" +
+                                ",\"refresh_token\":\"" + expected.getRefreshToken() + "\"" +
+                                ",\"expires_in\":" + expected.getExpiresIn() +
+                                ",\"scope\":\"" + expected.getScope() + "\"" +
+                                "}"
+                ).getBytes("UTF-8")
+        );
+        HttpRequestor.Response finishResponse = new HttpRequestor.Response(
+                200, responseStream, new HashMap<String, List<String>>());
+
+        HttpRequestor mockRequestor = mock(HttpRequestor.class);
+        HttpRequestor.Uploader mockUploader = mock(HttpRequestor.Uploader.class);
+        when(mockUploader.getBody())
+                .thenReturn(body);
+        when(mockUploader.finish())
+                .thenReturn(finishResponse);
+        when(mockRequestor.startPost(anyString(), anyListOf(HttpRequestor.Header.class)))
+                .thenReturn(mockUploader);
+
+        YfyRequestConfig mockConfig = new YfyRequestConfig(mockRequestor);
+
+        YfyAuthFinish actual = new YfyWebAuth(mockConfig).passwordLogin(username, password);
+
+        // verify the state param isn't send to the 'oauth2/token' endpoint
+        String finishParams = new String(body.toByteArray(), "UTF-8");
+        assertNull(toParamsMap(finishParams).get("username"));
+        assertNull(toParamsMap(finishParams).get("password"));
+
+        assertNotNull(actual);
+        assertEquals(actual.getAccessToken(), expected.getAccessToken());
+        assertEquals(actual.getRefreshToken(), expected.getRefreshToken());
+        assertEquals(actual.getExpiresIn(), expected.getExpiresIn());
+        assertEquals(actual.getScope(), expected.getScope());
+        assertEquals(actual.getTokenType(), expected.getTokenType());
+    }
+
     private static Map<String, String[]> params(String ... pairs) {
         if ((pairs.length % 2) != 0) {
             fail("pairs must be a multiple of 2.");
