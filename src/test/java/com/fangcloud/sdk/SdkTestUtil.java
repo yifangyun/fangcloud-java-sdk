@@ -44,7 +44,6 @@ public class SdkTestUtil {
             assertPathFolderNotNull(pathFolder);
         }
         assertMiniUserNotNull(item.getOwnedBy());
-        assertNotNull(item.getShared());
         assertPathFolderNotNull(item.getParent());
         assertNotNull(item.getSequenceId());
     }

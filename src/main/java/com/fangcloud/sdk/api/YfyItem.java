@@ -17,7 +17,6 @@ public class YfyItem extends YfyBaseDTO {
     private List<YfyPathFolder> path;
     @JsonProperty("owned_by")
     private YfyMiniUser ownedBy;
-    private Boolean shared;
     private YfyPathFolder parent;
     private List<String> permissions;
     @JsonProperty("sequence_id")
@@ -93,14 +92,6 @@ public class YfyItem extends YfyBaseDTO {
 
     public void setOwnedBy(YfyMiniUser ownedBy) {
         this.ownedBy = ownedBy;
-    }
-
-    public Boolean getShared() {
-        return shared;
-    }
-
-    public void setShared(Boolean shared) {
-        this.shared = shared;
     }
 
     public YfyPathFolder getParent() {
