@@ -218,4 +218,16 @@ public class StringUtil {
             throw new ClientValidationException("name:" + name + " is invalid");
         }
     }
+
+    public static void checkStringNotEmpty(String parameter) throws ClientValidationException {
+        if (parameter == null || parameter.isEmpty()) {
+            throw new ClientValidationException("parameter can not be null or empty");
+        }
+    }
+
+    public static void checkObjectNotNull(Object object) throws ClientValidationException {
+        if (object == null) {
+            throw new ClientValidationException("object can not be null");
+        }
+    }
 }

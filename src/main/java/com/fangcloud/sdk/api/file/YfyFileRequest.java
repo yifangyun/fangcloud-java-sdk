@@ -8,8 +8,11 @@ import com.fangcloud.sdk.api.share_link.ListShareLinkResult;
 import com.fangcloud.sdk.exception.NetworkIOException;
 import com.fangcloud.sdk.exception.YfyException;
 import com.fangcloud.sdk.util.IOUtil;
+import com.fangcloud.sdk.util.StringUtil;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -257,7 +260,7 @@ public class YfyFileRequest {
     }
 
     /**
-     * When get a file download url, can use this method to save the file to the certain path
+     * When get a file download url, use this method to save the file to the certain path
      *
      * @param downloadUrl Download url returned by the {@link YfyFileRequest#preSignatureDownload(long)}
      * @param savePath Where you'd like to save the file
@@ -276,6 +279,17 @@ public class YfyFileRequest {
     }
 
     /**
+     * When get a file download url, use this method to get a InputStream of the file
+     *
+     * @param downloadUrl Download url returned by the {@link YfyFileRequest#preSignatureDownload(long)}
+     * @return InputStream of the file to be downloaded
+     * @throws YfyException
+     */
+    public InputStream downloadFileStream(String downloadUrl) throws YfyException {
+        return client.doDownload(downloadUrl, false);
+    }
+
+    /**
      * Combine the {@link YfyFileRequest#preSignatureDownload(long)}
      * and {@link YfyFileRequest#downloadFile(String,String)} method, direct download the file
      *
@@ -288,6 +302,18 @@ public class YfyFileRequest {
     }
 
     /**
+     * Combine the {@link YfyFileRequest#preSignatureDownload(long)}
+     * and {@link YfyFileRequest#downloadFile(String,String)} method, direct get a InputStream of the file
+     *
+     * @param fileId File id in fangcloud
+     * @return InputStream of the file to be downloaded
+     * @throws YfyException
+     */
+    public InputStream directDownloadFileStream(long fileId) throws YfyException {
+        return downloadFileStream(preSignatureDownload(fileId));
+    }
+
+    /**
      * Get the file upload url, then use the url to upload file.
      * The url is valid in an hour and can only be used for one time
      *
@@ -297,6 +323,7 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public String preSignatureUpload(long parentId, String name) throws YfyException {
+        StringUtil.checkStringNotEmpty(name);
         return preSignatureUpload(new PreSignatureUploadArg(parentId, name, "api")).getUploadUrl();
     }
 
@@ -320,6 +347,7 @@ public class YfyFileRequest {
      */
     public String newVersionPreSignatureUpload(long fileId, String name, String remark)
             throws YfyException {
+        StringUtil.checkStringNotEmpty(name);
         String[] param = { String.valueOf(fileId) };
         return newVersionPreSignatureUpload(param, new NewVersionPreSignatureUploadArg(name, "api", remark)).getUploadUrl();
     }
@@ -334,15 +362,32 @@ public class YfyFileRequest {
     }
 
     /**
-     * When get a file upload url, can use this method to upload the file to the server
+     * When get a file upload url, use this method to upload the file to the server
      * (note that real file name used name in pre signature arg)
      *
      * @param uploadUrl Upload url returned by the {@link this#preSignatureUpload(long,String)}
-     * @param fileStream The file stream which you'd like upload to server
-     * @return Detailed new file info
+     * @param filePath Path of the file which you'd like to upload to server
+     * @return Detailed new file information
+     * @throws YfyException
+     */
+    public YfyFile uploadFile(String uploadUrl, String filePath) throws YfyException, FileNotFoundException {
+        StringUtil.checkStringNotEmpty(uploadUrl);
+        StringUtil.checkStringNotEmpty(filePath);
+        return client.doUpload(uploadUrl, new FileInputStream(filePath));
+    }
+
+    /**
+     * When get a file upload url, use this method to upload the file to the server
+     * (note that real file name used name in pre signature arg)
+     *
+     * @param uploadUrl Upload url returned by the {@link this#preSignatureUpload(long,String)}
+     * @param fileStream The file stream which you'd like to upload to server
+     * @return Detailed new file information
      * @throws YfyException
      */
     public YfyFile uploadFile(String uploadUrl, InputStream fileStream) throws YfyException {
+        StringUtil.checkStringNotEmpty(uploadUrl);
+        StringUtil.checkObjectNotNull(fileStream);
         return client.doUpload(uploadUrl, fileStream);
     }
 
@@ -352,8 +397,22 @@ public class YfyFileRequest {
      *
      * @param parentId Parent folder id you want to store the file in, the root folder is 0
      * @param name File name
-     * @param fileStream The file stream which you'd like upload to server
-     * @return Detailed new file's information
+     * @param filePath Path of the file which you'd like to upload to server
+     * @return Detailed new file information
+     * @throws YfyException
+     */
+    public YfyFile directUploadFile(long parentId, String name, String filePath) throws YfyException, FileNotFoundException {
+        return uploadFile(preSignatureUpload(parentId, name), filePath);
+    }
+
+    /**
+     * Combine the {@link this#preSignatureUpload(long, String)}
+     * and {@link this#uploadFile(String,InputStream)} method, direct upload the file
+     *
+     * @param parentId Parent folder id you want to store the file in, the root folder is 0
+     * @param name File name
+     * @param fileStream The file stream which you'd like to upload to server
+     * @return Detailed new file information
      * @throws YfyException
      */
     public YfyFile directUploadFile(long parentId, String name, InputStream fileStream) throws YfyException {
@@ -367,8 +426,24 @@ public class YfyFileRequest {
      * @param fileId File id that you want to upload the new version to
      * @param name New version file name
      * @param remark Remark of the new version
-     * @param fileStream The file stream which you'd like upload to server
-     * @return Detailed new file's information
+     * @param filePath Path of the file which you'd like to upload to server
+     * @return Detailed new file information
+     * @throws YfyException
+     */
+    public YfyFile directUploadNewVersionFile(long fileId, String name, String remark, String filePath)
+            throws YfyException, FileNotFoundException {
+        return uploadFile(newVersionPreSignatureUpload(fileId, name, remark), filePath);
+    }
+
+    /**
+     * Combine the {@link this#newVersionPreSignatureUpload(long,String,String)}
+     * and {@link this#uploadFile(String,InputStream)} method, direct upload the new version file
+     *
+     * @param fileId File id that you want to upload the new version to
+     * @param name New version file name
+     * @param remark Remark of the new version
+     * @param fileStream The file stream which you'd like to upload to server
+     * @return Detailed new file information
      * @throws YfyException
      */
     public YfyFile directUploadNewVersionFile(long fileId, String name, String remark, InputStream fileStream) throws YfyException {

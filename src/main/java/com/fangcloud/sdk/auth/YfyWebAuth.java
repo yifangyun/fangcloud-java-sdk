@@ -176,6 +176,8 @@ public class YfyWebAuth {
      * @throws YfyException
      */
     public YfyAuthFinish passwordLogin(String username, String password) throws YfyException {
+        if (username == null) throw new NullPointerException("username");
+        if (password == null) throw new NullPointerException("password");
         Map<String, String> params = new HashMap<String, String>();
         params.put("grant_type", "password");
         params.put("username", username);
