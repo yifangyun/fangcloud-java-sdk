@@ -1,7 +1,6 @@
 package com.fangcloud.sdk.example.web_demo;
 
 import com.fangcloud.sdk.YfyAppInfo;
-import com.fangcloud.sdk.YfyHost;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 
@@ -34,8 +33,7 @@ public class Main {
 
         String appKey = prop.getProperty("client_id");
         String appSecret = prop.getProperty("client_secret");
-        YfyHost testHost = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
-        YfyAppInfo.initAppInfo(appKey, appSecret, testHost);
+        YfyAppInfo.initAppInfo(appKey, appSecret);
 
         File dbFile = new File(prop.getProperty("db_file"));
 

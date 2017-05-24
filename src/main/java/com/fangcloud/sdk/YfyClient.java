@@ -204,7 +204,7 @@ public class YfyClient<K> {
                     }
                 });
             } else {
-                return doDownload(downloadUrl, new ArrayList<HttpRequestor.Header>());
+                return doDownload(downloadUrl, YfyRequestUtil.addDownloadCustomHeader(new ArrayList<HttpRequestor.Header>()));
             }
         }
 

@@ -105,6 +105,12 @@ public final class YfyRequestUtil {
         return headers;
     }
 
+    public static List<HttpRequestor.Header> addDownloadCustomHeader(List<HttpRequestor.Header> headers) {
+        headers.add(new HttpRequestor.Header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6)" +
+                " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"));
+        return headers;
+    }
+
     public static <T> T doGetNoAuth(YfyRequestConfig requestConfig,
                                     String host,
                                     String path,

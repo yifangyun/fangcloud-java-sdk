@@ -133,7 +133,7 @@ public class YfyFileRequestTest {
 
     @Test
     public void testPreview() throws YfyException {
-        PreviewResult previewResult = fileRequest.preview(testFileId, PreviewKindEnum.IMAGE_64, false);
+        PreviewResult previewResult = fileRequest.preview(testFileId, PreviewKindEnum.IMAGE_THUMBNAIL, false);
         assertNotNull(previewResult);
         assertNotNull(previewResult.getCategory());
         assertNotNull(previewResult.getExifRotation());
@@ -145,7 +145,7 @@ public class YfyFileRequestTest {
 
     @Test
     public void testDownloadPreview() throws YfyException {
-        DownloadPreviewResult downloadPreviewResult = fileRequest.downloadPreview(testFileId, 1, PreviewKindEnum.IMAGE_64);
+        DownloadPreviewResult downloadPreviewResult = fileRequest.downloadPreview(testFileId, 1, PreviewKindEnum.IMAGE_THUMBNAIL);
         assertNotNull(downloadPreviewResult);
         assertNotNull(downloadPreviewResult.getStatus());
     }
