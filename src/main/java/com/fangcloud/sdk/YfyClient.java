@@ -155,7 +155,7 @@ public class YfyClient<K> {
             accessToken = finish.getAccessToken();
             refreshToken = finish.getRefreshToken();
             lastRefresh = System.currentTimeMillis();
-            refreshListener.tokenRefresh(key, accessToken, refreshToken, finish.getExpiresIn());
+            refreshListener.onTokenRefreshed(key, accessToken, refreshToken, finish.getExpiresIn());
         } catch (YfyException ex) {
             if (ex instanceof InvalidTokenException) {
                 throw new NeedAuthorizationException("The user need authorization again");

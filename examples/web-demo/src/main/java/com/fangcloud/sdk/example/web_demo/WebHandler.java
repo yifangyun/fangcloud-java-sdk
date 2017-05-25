@@ -237,7 +237,7 @@ public class WebHandler extends AbstractHandler {
         }
 
         @Override
-        public void tokenRefresh(String key, String accessToken, String refreshToken, long expireIn) {
+        public void onTokenRefreshed(String key, String accessToken, String refreshToken, long expireIn) {
             System.out.println("user " + key + " has refresh token successfully");
             User user = common.getUserDb().get(key);
             if (user != null) {

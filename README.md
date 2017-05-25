@@ -108,7 +108,7 @@ YfyAuthFinish authFinish = new YfyWebAuth(new YfyRequestConfig()).finishFromRedi
 // 泛型表示账号体系中的用户标识类型，最后一个参数传null表示关闭自动刷新
 YfyClientFactory clientFactory = new YfyClientFactory<String>(100, new YfyRequestConfig(), new YfyRefreshListener<String>(){
   	@Override
-  	public void tokenRefresh(String key, String accessToken, String refreshToken, long expireIn) {
+  	public void onTokenRefreshed(String key, String accessToken, String refreshToken, long expireIn) {
     	// 在应用中更新或保存刷新后的用户access信息
   	}
 });

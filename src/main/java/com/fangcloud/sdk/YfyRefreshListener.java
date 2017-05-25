@@ -14,5 +14,5 @@ public interface YfyRefreshListener<T> {
      * @param accessToken The User's new access token after refreshed(It will not be changed normally)
      * @param expireIn Expire time which access token is valid in this time
      */
-    void tokenRefresh(T key, String accessToken, String refreshToken, long expireIn);
+    void onTokenRefreshed(T key, String accessToken, String refreshToken, long expireIn);
 }

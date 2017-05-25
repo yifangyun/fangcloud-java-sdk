@@ -79,7 +79,7 @@ public class YfyClientTest {
 
         YfyRefreshListener<String> refreshListener = new YfyRefreshListener<String>() {
             @Override
-            public void tokenRefresh(String key, String accessToken, String refreshToken, long expireIn) {
+            public void onTokenRefreshed(String key, String accessToken, String refreshToken, long expireIn) {
                 assertEquals(key, userName);
                 assertEquals(accessToken, expectedAuthFinish.getAccessToken());
                 assertEquals(refreshToken, expectedAuthFinish.getRefreshToken());
