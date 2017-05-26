@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
 
 public class YfySdkVersion {
     public static final String Version;
+    public static final String JavaRuntimeVersion;
     static {
         Version = loadVersion();
+        JavaRuntimeVersion = System.getProperty("java.version");
     }
 
     private static final String ResourceName = "/sdk-version.txt";
