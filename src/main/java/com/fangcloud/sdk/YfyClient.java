@@ -194,26 +194,31 @@ public class YfyClient<K> {
             });
         }
 
-        public InputStream doDownload(final String downloadUrl, boolean needToken) throws YfyException {
+        public InputStream doDownload(final String downloadUrl, boolean needToken,
+                                      final YfyProgressListener progressListener) throws YfyException {
             if (needToken) {
                 return executeRetriable(new RetriableExecution<InputStream>() {
                     @Override
                     public InputStream execute(boolean isRefresh) throws YfyException {
                         final List<HttpRequestor.Header> headers = addApiHeaders(isRefresh);
-                        return doDownload(downloadUrl, headers);
+                        return doDownload(downloadUrl, headers, progressListener);
                     }
                 });
             } else {
-                return doDownload(downloadUrl, YfyRequestUtil.addDownloadCustomHeader(new ArrayList<HttpRequestor.Header>()));
+                return doDownload(downloadUrl, YfyRequestUtil.addDownloadCustomHeader(
+                        new ArrayList<HttpRequestor.Header>()), progressListener);
             }
         }
 
-        public InputStream doDownload(String downloadUrl, List<HttpRequestor.Header> headers) throws YfyException {
+        public InputStream doDownload(String downloadUrl, List<HttpRequestor.Header> headers,
+                                      YfyProgressListener progressListener) throws YfyException {
             try {
                 HttpRequestor.Response response =
                         requestConfig.getHttpRequestor().doGet(downloadUrl, headers);
                 if (response.getStatusCode() != 200) {
                     throw YfyRequestUtil.unexpectedStatus(response);
+                } else if (progressListener != null) {
+                    return new ProgressInputStream(response.getBody(), progressListener, response.getContentLength());
                 } else {
                     return response.getBody();
                 }
@@ -240,7 +245,8 @@ public class YfyClient<K> {
             });
         }
 
-        public YfyFile doUpload(String uploadUrl, InputStream fileStream) throws YfyException {
+        public YfyFile doUpload(String uploadUrl, InputStream fileStream, long fileSize,
+                                YfyProgressListener progressListener) throws YfyException {
             List<HttpRequestor.Header> headers = new ArrayList<HttpRequestor.Header>();
             headers.add(new HttpRequestor.Header("Content-Type", "multipart/form-data; boundary=" + BOUNDARY));
 
@@ -248,7 +254,11 @@ public class YfyClient<K> {
                 HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPost(
                         uploadUrl, headers);
                 try {
-                    writeMultipartData(uploader.getBody(), fileStream);
+                    OutputStream outputStream = uploader.getBody();
+                    if (progressListener != null) {
+                        outputStream = new ProgressOutputStream(outputStream, progressListener, fileSize);
+                    }
+                    writeMultipartData(outputStream, fileStream);
                     return YfyRequestUtil.finishResponse(uploader.finish(), YfyFile.class);
                 } finally {
                     uploader.close();

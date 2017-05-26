@@ -165,7 +165,7 @@ public class YfyWebAuthTest {
                 ).getBytes("UTF-8")
         );
         HttpRequestor.Response finishResponse = new HttpRequestor.Response(
-                200, responseStream, new HashMap<String, List<String>>());
+                200, responseStream, new HashMap<String, List<String>>(), 0);
 
         HttpRequestor mockRequestor = mock(HttpRequestor.class);
         HttpRequestor.Uploader mockUploader = mock(HttpRequestor.Uploader.class);
@@ -216,7 +216,7 @@ public class YfyWebAuthTest {
                 ).getBytes("UTF-8")
         );
         HttpRequestor.Response finishResponse = new HttpRequestor.Response(
-                200, responseStream, new HashMap<String, List<String>>());
+                200, responseStream, new HashMap<String, List<String>>(), 0);
 
         HttpRequestor mockRequestor = mock(HttpRequestor.class);
         HttpRequestor.Uploader mockUploader = mock(HttpRequestor.Uploader.class);

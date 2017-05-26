@@ -1,6 +1,8 @@
 package com.fangcloud.sdk.api.file;
 
+import com.fangcloud.sdk.ProgressInputStream;
 import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyProgressListener;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.SuccessResult;
 import com.fangcloud.sdk.api.comment.ListCommentResult;
@@ -267,7 +269,27 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public void downloadFile(String downloadUrl, String savePath) throws YfyException {
-        InputStream body = client.doDownload(downloadUrl, false);
+        InputStream body = client.doDownload(downloadUrl, false, null);
+        File file = new File(savePath);
+        try {
+            IOUtil.copyStreamToFile(body, file);
+        } catch (IOException ex) {
+            throw new NetworkIOException(ex);
+        } finally {
+            IOUtil.closeQuietly(body);
+        }
+    }
+
+    /**
+     * When get a file download url, use this method to save the file to the certain path
+     *
+     * @param downloadUrl Download url returned by the {@link YfyFileRequest#preSignatureDownload(long)}
+     * @param savePath Where you'd like to save the file
+     * @param progressListener Where get file upload progress
+     * @throws YfyException
+     */
+    public void downloadFile(String downloadUrl, String savePath, YfyProgressListener progressListener) throws YfyException {
+        InputStream body = client.doDownload(downloadUrl, false, progressListener);
         File file = new File(savePath);
         try {
             IOUtil.copyStreamToFile(body, file);
@@ -286,7 +308,19 @@ public class YfyFileRequest {
      * @throws YfyException
      */
     public InputStream downloadFileStream(String downloadUrl) throws YfyException {
-        return client.doDownload(downloadUrl, false);
+        return client.doDownload(downloadUrl, false, null);
+    }
+
+    /**
+     * When get a file download url, use this method to get a InputStream of the file
+     *
+     * @param downloadUrl Download url returned by the {@link YfyFileRequest#preSignatureDownload(long)}
+     * @param progressListener Where get file upload progress
+     * @return InputStream of the file to be downloaded
+     * @throws YfyException
+     */
+    public InputStream downloadFileStream(String downloadUrl, YfyProgressListener progressListener) throws YfyException {
+        return client.doDownload(downloadUrl, false, progressListener);
     }
 
     /**
@@ -373,7 +407,25 @@ public class YfyFileRequest {
     public YfyFile uploadFile(String uploadUrl, String filePath) throws YfyException, FileNotFoundException {
         StringUtil.checkStringNotEmpty(uploadUrl);
         StringUtil.checkStringNotEmpty(filePath);
-        return client.doUpload(uploadUrl, new FileInputStream(filePath));
+        return client.doUpload(uploadUrl, new FileInputStream(filePath), 0L, null);
+    }
+
+    /**
+     * When get a file upload url, use this method to upload the file to the server
+     * (note that real file name used name in pre signature arg)
+     *
+     * @param uploadUrl Upload url returned by the {@link this#preSignatureUpload(long,String)}
+     * @param filePath Path of the file which you'd like to upload to server
+     * @param fileSize The size of file
+     * @param progressListener Where get file upload progress
+     * @return Detailed new file information
+     * @throws YfyException
+     */
+    public YfyFile uploadFile(String uploadUrl, String filePath, long fileSize, YfyProgressListener progressListener)
+            throws YfyException, FileNotFoundException {
+        StringUtil.checkStringNotEmpty(uploadUrl);
+        StringUtil.checkStringNotEmpty(filePath);
+        return client.doUpload(uploadUrl, new FileInputStream(filePath), fileSize, progressListener);
     }
 
     /**
@@ -388,7 +440,25 @@ public class YfyFileRequest {
     public YfyFile uploadFile(String uploadUrl, InputStream fileStream) throws YfyException {
         StringUtil.checkStringNotEmpty(uploadUrl);
         StringUtil.checkObjectNotNull(fileStream);
-        return client.doUpload(uploadUrl, fileStream);
+        return client.doUpload(uploadUrl, fileStream, 0L, null);
+    }
+
+    /**
+     * When get a file upload url, use this method to upload the file to the server
+     * (note that real file name used name in pre signature arg)
+     *
+     * @param uploadUrl Upload url returned by the {@link this#preSignatureUpload(long,String)}
+     * @param fileStream The file stream which you'd like to upload to server
+     * @param fileSize The size of file
+     * @param progressListener Where get file upload progress
+     * @return Detailed new file information
+     * @throws YfyException
+     */
+    public YfyFile uploadFile(String uploadUrl, InputStream fileStream, long fileSize
+            , YfyProgressListener progressListener) throws YfyException {
+        StringUtil.checkStringNotEmpty(uploadUrl);
+        StringUtil.checkObjectNotNull(fileStream);
+        return client.doUpload(uploadUrl, fileStream, fileSize, progressListener);
     }
 
     /**

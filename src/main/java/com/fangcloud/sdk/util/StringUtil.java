@@ -16,6 +16,13 @@ import static com.fangcloud.sdk.util.LangUtil.mkAssert;
 public class StringUtil {
     public static final Charset UTF8 = Charset.forName("UTF-8");
 
+    private static final int UNIT = 1024;
+    private static final String B = "B";
+    private static final String KB = "KB";
+    private static final String MB = "MB";
+    private static final String GB = "GB";
+    private static final String TB = "TB";
+
     private static final char[] HexDigits = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f',};
     public static char hexDigit(int i) { return HexDigits[i]; }
 
@@ -229,5 +236,41 @@ public class StringUtil {
         if (object == null) {
             throw new ClientValidationException("object can not be null");
         }
+    }
+
+    /**
+     * 将字节转换成B、KB、MB或GB
+     *
+     * @param bytes
+     * @return
+     */
+    public static String formatBytes(long bytes) {
+        double bytesDouble = bytes;
+        int unitIndex = 0;
+        String unit;
+        while (bytesDouble >= UNIT) {
+            unitIndex++;
+            bytesDouble = Math.round(bytesDouble * 100 / UNIT) / 100.0;
+        }
+        switch (unitIndex) {
+            case 0:
+                unit = B;
+                break;
+            case 1:
+                unit = KB;
+                break;
+            case 2:
+                unit = MB;
+                break;
+            case 3:
+                unit = GB;
+                break;
+            case 4:
+                unit = TB;
+                break;
+            default:
+                unit = "PB";
+        }
+        return bytesDouble + " " + unit;
     }
 }

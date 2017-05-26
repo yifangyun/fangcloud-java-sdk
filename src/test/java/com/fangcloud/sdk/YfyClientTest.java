@@ -52,7 +52,7 @@ public class YfyClientTest {
                 ).getBytes("UTF-8")
         );
         HttpRequestor.Response finishResponse = new HttpRequestor.Response(
-                401, responseStream, new HashMap<String, List<String>>());
+                401, responseStream, new HashMap<String, List<String>>(), 0);
         when(mockRequestor.doGet(anyString(), anyListOf(HttpRequestor.Header.class)))
                 .thenReturn(finishResponse);
 
@@ -157,7 +157,8 @@ public class YfyClientTest {
         return new HttpRequestor.Response(
                 statusCode,
                 new ByteArrayInputStream(body),
-                Collections.<String,List<String>>emptyMap()
+                Collections.<String,List<String>>emptyMap(),
+                0
         );
     }
 }

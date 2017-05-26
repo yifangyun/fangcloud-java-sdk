@@ -118,7 +118,7 @@ public class SdkTestUtil {
         if (file.isFile() && file.exists()) {
             file.delete();
         } else {
-            throw new RuntimeException(fileName + "is not exist");
+            throw new RuntimeException(fileName + " is not exist");
         }
     }
 

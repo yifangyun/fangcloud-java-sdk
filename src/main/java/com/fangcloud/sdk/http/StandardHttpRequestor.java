@@ -54,7 +54,7 @@ public class StandardHttpRequestor extends HttpRequestor {
             bodyStream = conn.getInputStream();
         }
         interceptResponse(conn);
-        return new Response(responseCode, bodyStream, conn.getHeaderFields());
+        return new Response(responseCode, bodyStream, conn.getHeaderFields(), conn.getContentLength());
     }
 
     @Override
@@ -98,6 +98,7 @@ public class StandardHttpRequestor extends HttpRequestor {
 
     private static OutputStream getOutputStream(HttpURLConnection conn) throws IOException {
         conn.setDoOutput(true);
+        conn.setChunkedStreamingMode(0);
         return conn.getOutputStream();
     }
 

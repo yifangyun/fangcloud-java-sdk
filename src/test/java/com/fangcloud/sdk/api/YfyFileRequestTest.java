@@ -2,6 +2,7 @@ package com.fangcloud.sdk.api;
 
 import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyProgressListener;
 import com.fangcloud.sdk.YfyRequestConfig;
 import com.fangcloud.sdk.api.file.DownloadPreviewResult;
 import com.fangcloud.sdk.api.file.PreviewKindEnum;
@@ -25,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 public class YfyFileRequestTest {
     private static final String FILE_NAME = "java-sdk-test.txt";
+    private static final String FILE_NAME2 = "java-sdk-test2.txt";
     private static final String FOLDER_NAME = "file-api-test";
 
     private YfyFileRequest fileRequest;
@@ -60,6 +62,31 @@ public class YfyFileRequestTest {
     public void after() throws YfyException {
         assertTrue(folderRequest.deleteFolder(testParentId).getSuccess());
         assertTrue(folderRequest.deleteFolderFromTrash(testParentId).getSuccess());
+    }
+
+    @Test
+    public void testProgressListener() throws YfyException {
+        YfyFile file = fileRequest.uploadFile(fileRequest.preSignatureUpload(testParentId, FILE_NAME2),
+                YfyFileRequestTest.class.getResourceAsStream("/" + FILE_NAME2), 1032831L, new YfyProgressListener() {
+                    @Override
+                    public void onProgressChanged(long numBytes, long totalBytes, String speed) {
+                        System.out.println("upload numBytes:" + numBytes);
+                        System.out.println("upload totalBytes:" + totalBytes);
+                        System.out.println("upload speed:" + speed);
+                    }
+                });
+        assertFileNotNull(file);
+        assertEquals(FILE_NAME2, file.getName());
+
+        fileRequest.downloadFile(fileRequest.preSignatureDownload(file.getId()), FILE_NAME2, new YfyProgressListener() {
+            @Override
+            public void onProgressChanged(long numBytes, long totalBytes, String speed) {
+                System.out.println("download numBytes:" + numBytes);
+                System.out.println("download totalBytes:" + totalBytes);
+                System.out.println("download speed:" + speed);
+            }
+        });
+        deleteFile(FILE_NAME2);
     }
 
     @Test

@@ -108,11 +108,13 @@ public abstract class HttpRequestor {
         private final int statusCode;
         private final InputStream body;
         private final Map<String, List<String>> headers;
+        private final int contentLength;
 
-        public Response(int statusCode, InputStream body, Map<String, ? extends List<String>> headers) {
+        public Response(int statusCode, InputStream body, Map<String, ? extends List<String>> headers, int contentLength) {
             this.statusCode = statusCode;
             this.body = body;
             this.headers = asUnmodifiableCaseInsensitiveMap(headers);
+            this.contentLength = contentLength;
         }
 
         /**
@@ -142,6 +144,10 @@ public abstract class HttpRequestor {
          */
         public Map<String, List<String>> getHeaders() {
             return headers;
+        }
+
+        public int getContentLength() {
+            return contentLength;
         }
 
         private static final Map<String, List<String>> asUnmodifiableCaseInsensitiveMap(Map<String, ? extends List<String>> original) {
