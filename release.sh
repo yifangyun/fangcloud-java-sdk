@@ -2,8 +2,8 @@
 
 github_token=$GITHUB_TOKEN
 
-# enter real directory of the script
-cd $(dirname $(readlink -f $0))
+# enter real directory of the script, used in linux soft link
+# cd $(dirname $(readlink -f $0))
 git checkout master
 git fetch
 git reset --hard origin/master
