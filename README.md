@@ -51,9 +51,9 @@ dependencies {
 >
 > cd java-sdk
 >
-> mvn install (or package)
+> mvn install (or package) -DskipTests=true
 
-得到的 jar 包就在 target 目录下。
+得到的 jar 包就在 target 目录下(单元测试需要设置正确测试环境变量,建议跳过)。
 
 ## 运行示例
 
