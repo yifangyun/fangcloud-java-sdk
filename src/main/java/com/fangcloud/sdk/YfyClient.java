@@ -251,7 +251,7 @@ public class YfyClient<K> {
             headers.add(new HttpRequestor.Header("Content-Type", "multipart/form-data; boundary=" + BOUNDARY));
 
             try {
-                HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPost(
+                HttpRequestor.Uploader uploader = requestConfig.getHttpRequestor().startPostWithStreaming(
                         uploadUrl, headers);
                 try {
                     OutputStream outputStream = uploader.getBody();

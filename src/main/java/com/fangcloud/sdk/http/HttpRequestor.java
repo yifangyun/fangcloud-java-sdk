@@ -36,6 +36,7 @@ public abstract class HttpRequestor {
 
     public abstract Response doGet(String url, Iterable<Header> headers) throws IOException;
     public abstract Uploader startPost(String url, Iterable<Header> headers) throws IOException;
+    public abstract Uploader startPostWithStreaming(String url, Iterable<Header> headers) throws IOException;
 
     /**
      * A simple structure holding an HTTP header, which is key/value pair.

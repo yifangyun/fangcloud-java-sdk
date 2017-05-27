@@ -69,7 +69,14 @@ public class StandardHttpRequestor extends HttpRequestor {
     public Uploader startPost(String url, Iterable<Header> headers) throws IOException {
         HttpURLConnection conn = prepRequest(url, headers);
         conn.setRequestMethod(YfySdkConstant.POST_METHOD);
-        return new Uploader(conn);
+        return new Uploader(conn, false);
+    }
+
+    @Override
+    public Uploader startPostWithStreaming(String url, Iterable<Header> headers) throws IOException {
+        HttpURLConnection conn = prepRequest(url, headers);
+        conn.setRequestMethod(YfySdkConstant.POST_METHOD);
+        return new Uploader(conn, true);
     }
 
     /**
@@ -98,7 +105,6 @@ public class StandardHttpRequestor extends HttpRequestor {
 
     private static OutputStream getOutputStream(HttpURLConnection conn) throws IOException {
         conn.setDoOutput(true);
-        conn.setChunkedStreamingMode(0);
         return conn.getOutputStream();
     }
 
@@ -107,10 +113,12 @@ public class StandardHttpRequestor extends HttpRequestor {
 
         private HttpURLConnection conn;
 
-        public Uploader(HttpURLConnection conn) throws IOException {
+        public Uploader(HttpURLConnection conn, boolean enableStreaming) throws IOException {
+            if (enableStreaming) {
+                conn.setChunkedStreamingMode(0);
+            }
             this.conn = conn;
             this.out = getOutputStream(conn);
-
             conn.connect();
         }
 

@@ -85,7 +85,7 @@ public final class YfyRequestUtil {
 
         String credentials = username + ":" + password;
         String base64Credentials = StringUtil.base64Encode(StringUtil.stringToUtf8(credentials));
-        headers.add(new HttpRequestor.Header("Authorization", "Basic " + base64Credentials));
+        headers.add(new HttpRequestor.Header("Authorization", "Basic " + base64Credentials));;
         return headers;
     }
 
