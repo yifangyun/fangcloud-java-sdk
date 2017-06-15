@@ -24,20 +24,20 @@ public class YfyItemRequest {
      *
      * @param queryWords key words want to search for
      * @param itemType Type of item. see {@link ItemTypeEnum}
-     * @param pageNumber Page number begin with 0
+     * @param pageId Page id begin with 0
      * @param searchInFolder Assign the folder id to search in specific folder, usually 0
      * @return Object contains two lists named "folders" and "files", and other page information
      * @throws YfyException
      */
     public SearchItemResult searchItem(final String queryWords,
                                        final ItemTypeEnum itemType,
-                                       final int pageNumber,
+                                       final int pageId,
                                        final long searchInFolder)
             throws YfyException {
         Map<String, String> params = new HashMap<String, String>() {{
             put(YfySdkConstant.QUERY_WORDS, queryWords);
             put(YfySdkConstant.TYPE, itemType.getType());
-            put(YfySdkConstant.PAGE_NUMBER, String.valueOf(pageNumber));
+            put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
             put(YfySdkConstant.SEARCH_IN_FOLDER, String.valueOf(searchInFolder));
         }};
         return searchItem(params);

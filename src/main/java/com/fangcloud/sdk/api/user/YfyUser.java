@@ -1,13 +1,14 @@
 package com.fangcloud.sdk.api.user;
 
 import com.fangcloud.sdk.api.YfyBaseDTO;
+import com.fangcloud.sdk.api.enterprise.YfyEnterprise;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class YfyUser extends YfyBaseDTO {
     private Long id;
-    @JsonProperty("enterprise_id")
-    private Long enterpriseId;
+    private YfyEnterprise enterprise;
     private String name;
+    private String login;
     private String phone;
     private String email;
     @JsonProperty("profile_pic_key")
@@ -26,12 +27,12 @@ public class YfyUser extends YfyBaseDTO {
         this.id = id;
     }
 
-    public Long getEnterpriseId() {
-        return enterpriseId;
+    public YfyEnterprise getEnterprise() {
+        return enterprise;
     }
 
-    public void setEnterpriseId(Long enterpriseId) {
-        this.enterpriseId = enterpriseId;
+    public void setEnterprise(YfyEnterprise enterprise) {
+        this.enterprise = enterprise;
     }
 
     public String getName() {
@@ -40,6 +41,14 @@ public class YfyUser extends YfyBaseDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPhone() {

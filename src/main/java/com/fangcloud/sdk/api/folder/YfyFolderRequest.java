@@ -104,13 +104,13 @@ public class YfyFolderRequest {
         return deleteFolder(DELETE_FOLDER_PATH, param, null);
     }
 
-    /**
-     * Delete folders to trash
-     *
-     * @param folderIds Folder ids list in fangcloud
-     * @return An object only has one attribute named success
-     * @throws YfyException
-     */
+    // /**
+    //  * Delete folders to trash
+    //  *
+    //  * @param folderIds Folder ids list in fangcloud
+    //  * @return An object only has one attribute named success
+    //  * @throws YfyException
+    //  */
     // public SuccessResult deleteFolder(List<Long> folderIds) throws YfyException {
     //     if (folderIds == null || folderIds.isEmpty()) {
     //         throw new ClientValidationException("folder ids can not be null or be empty");
@@ -234,14 +234,14 @@ public class YfyFolderRequest {
         return moveFolder(MOVE_FOLDER_PATH, param, new MoveFolderArg(null, targetFolderId));
     }
 
-    /**
-     * Move folders to another folder
-     *
-     * @param folderIds Folder ids list in fangcloud
-     * @param targetFolderId Folder id of the destination folder in fangcloud
-     * @return An object only has one attribute named success
-     * @throws YfyException
-     */
+    // /**
+    //  * Move folders to another folder
+    //  *
+    //  * @param folderIds Folder ids list in fangcloud
+    //  * @param targetFolderId Folder id of the destination folder in fangcloud
+    //  * @return An object only has one attribute named success
+    //  * @throws YfyException
+    //  */
     // public SuccessResult moveFolder(List<Long> folderIds, long targetFolderId) throws YfyException {
     //     return moveFolder(MOVE_FOLDER_BATCH_PATH, null, new MoveFolderArg(folderIds, targetFolderId));
     // }

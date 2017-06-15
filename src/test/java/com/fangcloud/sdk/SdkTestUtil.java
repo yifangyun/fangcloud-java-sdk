@@ -74,7 +74,10 @@ public class SdkTestUtil {
     public static void assertUserNotNull(YfyUser user) {
         assertNotNull(user);
         assertNotNull(user.getId());
-        assertNotNull(user.getEnterpriseId());
+        assertNotNull(user.getEnterprise());
+        assertNotNull(user.getEnterprise().getId());
+        assertNotNull(user.getEnterprise().getName());
+        assertNotNull(user.getEnterprise().getAdminUserId());
         assertNotNull(user.getName());
         assertNotNull(user.getPhone());
         assertNotNull(user.getEmail());
@@ -92,6 +95,10 @@ public class SdkTestUtil {
         assertNotNull(shareLink.getPasswordProtected());
         assertNotNull(shareLink.getShareLink());
         assertNotNull(shareLink.getUniqueName());
+        assertNotNull(shareLink.getCreatedAt());
+        assertNotNull(shareLink.getModifiedAt());
+        assertNotNull(shareLink.getDownloadCountTotal());
+        assertNotNull(shareLink.getViewCount());
     }
 
     public static void assertCollabNull(YfyCollab collab) {

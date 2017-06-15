@@ -99,13 +99,13 @@ public class YfyFileRequest {
         return deleteFile(DELETE_FILE_PATH, params, null);
     }
 
-    /**
-     * Discard files to the trash
-     *
-     * @param fileIds File ids list in fangcloud
-     * @return An object only has one attribute named success
-     * @throws YfyException
-     */
+    // /**
+    //  * Discard files to the trash
+    //  *
+    //  * @param fileIds File ids list in fangcloud
+    //  * @return An object only has one attribute named success
+    //  * @throws YfyException
+    //  */
     // public SuccessResult deleteFile(List<Long> fileIds) throws YfyException {
     //     return deleteFile(DELETE_FILE_BATCH_PATH, null, new DeleteFileArg(fileIds));
     // }
@@ -223,14 +223,14 @@ public class YfyFileRequest {
         return moveFile(MOVE_FILE_PATH, params, new MoveFileArg(null, targetFolderId));
     }
 
-    /**
-     * Move files to another folder
-     *
-     * @param fileIds File ids list in fangcloud
-     * @param targetFolderId Folder id of the destination folder in fangcloud
-     * @return An object only has one attribute named success
-     * @throws YfyException
-     */
+    // /**
+    //  * Move files to another folder
+    //  *
+    //  * @param fileIds File ids list in fangcloud
+    //  * @param targetFolderId Folder id of the destination folder in fangcloud
+    //  * @return An object only has one attribute named success
+    //  * @throws YfyException
+    //  */
     // public SuccessResult moveFile(List<Long> fileIds, long targetFolderId) throws YfyException {
     //     return moveFile(MOVE_FILE_BATCH_PATH, null, new MoveFileArg(fileIds, targetFolderId));
     // }
@@ -251,7 +251,7 @@ public class YfyFileRequest {
      */
     public String preSignatureDownload(long fileId) throws YfyException {
         String[] params = { String.valueOf(fileId) };
-        return preSignatureDownload(params).getDownloadUrls().get(fileId);
+        return preSignatureDownload(params).getDownloadUrl();
     }
 
     private PreSignatureDownloadResult preSignatureDownload(String[] params) throws YfyException {

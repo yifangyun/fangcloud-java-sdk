@@ -6,14 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 public class PreSignatureDownloadResult extends YfyBaseDTO {
-    @JsonProperty("download_urls")
-    private Map<Long, String> downloadUrls;
+    @JsonProperty("download_url")
+    private String downloadUrl;
 
-    public Map<Long, String> getDownloadUrls() {
-        return downloadUrls;
+    public String getDownloadUrl() {
+        return downloadUrl;
     }
 
-    public void setDownloadUrls(Map<Long, String> downloadUrls) {
-        this.downloadUrls = downloadUrls;
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 }
