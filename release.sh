@@ -56,7 +56,7 @@ $update_version && {
 	echo "update maven dependency version in docs..."
     sed "s#<version>.*</version>#<version>$new_version</version>#" -i README.md
 	sed "s/java-sdk:[0-9].[0-9].[0-9]/java-sdk:$new_version/" -i README.md
-	sed "s/v[0-9].[0-9].[0-9]/v$new_version/g" -i README.md
+	sed "s/[0-9].[0-9].[0-9] v[0-9].[0-9].[0-9]/$new_version v$new_version/" -i README.md
 
 	git add -A
 	git commit -m "release v$new_version"
@@ -122,7 +122,7 @@ $create_release && {
 	fi
 
 	title=`sed -n "$version_line p" ChangeLog.txt`
-	echo "title: $title"
+	echo "title: v$title"
 	echo -e "change log:\n$change_log"
 
 	change_log=`tr "\n" "^" <<< "$change_log"`
