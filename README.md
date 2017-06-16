@@ -51,7 +51,7 @@ dependencies {
 >
 > cd java-sdk
 >
-> git checkout -b v2.2.0 origin/v2.2.0
+> git checkout -b 2.2.0 v2.2.0
 >
 > mvn install -DskipTests=true
 
