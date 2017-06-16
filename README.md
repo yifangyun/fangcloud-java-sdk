@@ -51,7 +51,9 @@ dependencies {
 >
 > cd java-sdk
 >
-> mvn install (or package) -DskipTests=true
+> git checkout -b v2.2.0 origin/v2.2.0
+>
+> mvn install -DskipTests=true
 
 得到的 jar 包就在 target 目录下(单元测试需要设置正确测试环境变量,建议跳过)。
 

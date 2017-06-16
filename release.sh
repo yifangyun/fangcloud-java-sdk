@@ -56,20 +56,22 @@ $update_version && {
 	echo "update maven dependency version in docs..."
     sed "s#<version>.*</version>#<version>$new_version</version>#" -i README.md
 	sed "s/java-sdk:[0-9].[0-9].[0-9]/java-sdk:$new_version/" -i README.md
+	sed "s/v[0-9].[0-9].[0-9]/v$new_version/g" -i README.md
 
 	git add -A
 	git commit -m "release v$new_version"
 	git push
 
-	git checkout -B "v$new_version"
+	git checkout -B "$new_version"
 
 	# update pom version
 	echo "update pom version..."
 	find . -name pom.xml | xargs sed "s/$version/$new_version/" -i
 
+	git add -A
+    git commit -m "update pom version in tag v$new_version"
+
 	$create_tag && {
-		git add -A
-		git commit -m "release v$new_version"
 		git tag -a "v$new_version" -m "release v$new_version" -f
 		git push origin "v$new_version" -f
 		echo "finish create tag v$new_version"
