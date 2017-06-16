@@ -2,6 +2,7 @@ com.fangcloud.sdk
 com.fangcloud.sdk.api
 com.fangcloud.sdk.api.collab
 com.fangcloud.sdk.api.comment
+com.fangcloud.sdk.api.enterprise
 com.fangcloud.sdk.api.file
 com.fangcloud.sdk.api.folder
 com.fangcloud.sdk.api.item
