@@ -12,7 +12,7 @@
 <dependency>
     <groupId>com.fangcloud</groupId>
     <artifactId>fangcloud-java-sdk</artifactId>
-    <version>2.2.0</version>
+    <version>2.2.1</version>
 </dependency>
 ```
 
@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     // ...
-    compile 'com.fanglcloud:fangcloud-java-sdk:2.2.0'
+    compile 'com.fanglcloud:fangcloud-java-sdk:2.2.1'
 }
 ```
 
@@ -51,7 +51,7 @@ dependencies {
 >
 > cd java-sdk
 >
-> git checkout -b 2.2.0 v2.2.0
+> git checkout -b 2.2.0 v2.2.1
 >
 > mvn install -DskipTests=true
 
