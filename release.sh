@@ -122,7 +122,7 @@ $create_release && {
 	fi
 
 	title=`sed -n "$version_line p" ChangeLog.txt`
-	echo "title: v$title"
+	echo "title: $title"
 	echo -e "change log:\n$change_log"
 
 	change_log=`tr "\n" "^" <<< "$change_log"`
@@ -137,9 +137,9 @@ $create_release && {
 			-H 'cache-control: no-cache' \
 			-H 'content-type: application/json' \
 			-d '{
-				"tag_name": "'"$new_version"'",
+				"tag_name": "'"v$new_version"'",
 				"target_commitish": "master",
-				"name": "'"$new_version"'",
+				"name": "'"v$new_version"'",
 				"body": "'"$body"'",
 				"draft": true,
 				"prerelease": false
