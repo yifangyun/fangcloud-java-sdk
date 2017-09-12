@@ -262,6 +262,25 @@ public class YfyFolderRequest {
      * @param pageId Page id begin with 0
      * @param pageCapacity Files and/or folders' list size once return
      * @param itemType Type of item. see {@link ItemTypeEnum}
+     * @return Object contains two lists named "folders" and "files", and other page information
+     * @throws YfyException
+     */
+    public GetChildrenResult getChildren(final long folderId,
+                                         final int pageId,
+                                         final int pageCapacity,
+                                         final ItemTypeEnum itemType)
+            throws YfyException {
+        return getChildren(folderId, pageId, pageCapacity, itemType, 0);
+    }
+
+    /**
+     * Retrieve the files and/or folders contained within this folder without any other info about the folder.
+     * The requests need paging param assigned by developer.
+     *
+     * @param folderId Folder id in fangcloud
+     * @param pageId Page id begin with 0
+     * @param pageCapacity Files and/or folders' list size once return
+     * @param itemType Type of item. see {@link ItemTypeEnum}
      * @param departmentId Assign department id if your folder id is 0
      * @return Object contains two lists named "folders" and "files", and other page information
      * @throws YfyException
