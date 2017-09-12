@@ -21,7 +21,7 @@ public class YfyItemRequestTest {
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
+        YfyAppInfo.initAppInfo("test-client", "123456");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         itemRequest = client.items();
     }

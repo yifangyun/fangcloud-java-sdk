@@ -5,6 +5,7 @@ import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfyRequestConfig;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.folder.GetChildrenResult;
+import com.fangcloud.sdk.api.folder.GetCollabFoldersResult;
 import com.fangcloud.sdk.api.folder.YfyFolder;
 import com.fangcloud.sdk.api.folder.YfyFolderRequest;
 import com.fangcloud.sdk.exception.YfyException;
@@ -29,7 +30,7 @@ public class YfyFolderRequestTest {
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
+        YfyAppInfo.initAppInfo("test-client", "123456");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         folderRequest = client.folders();
         testParentId = createAndAssertFolder(PARENT_NAME, 0L);
@@ -107,7 +108,7 @@ public class YfyFolderRequestTest {
 
     @Test
     public void testGetChildren() throws YfyException {
-        GetChildrenResult getChildrenResult = folderRequest.getChildren(testParentId, 0, 2, ItemTypeEnum.ITEM);
+        GetChildrenResult getChildrenResult = folderRequest.getChildren(testParentId, 0, 2, ItemTypeEnum.ITEM, 0);
         assertPagingResultNotNull(getChildrenResult);
         assertNotNull(getChildrenResult.getFolders());
         for (YfyFolder folder : getChildrenResult.getFolders()) {
@@ -116,6 +117,18 @@ public class YfyFolderRequestTest {
         assertNotNull(getChildrenResult.getFiles());
         for (YfyFile file : getChildrenResult.getFiles()) {
             assertFileNotNull(file);
+        }
+    }
+
+    @Test
+    public void testGetCollabFolders() throws YfyException {
+        GetCollabFoldersResult getCollabFoldersResult = folderRequest.getCollabFolders(0, 20);
+        assertPagingResultNotNull(getCollabFoldersResult);
+        assertNotNull(getCollabFoldersResult.getFolders());
+        for (YfyFolder folder : getCollabFoldersResult.getFolders()) {
+            assertNotNull(folder);
+            assertNotNull(folder.getItemCount());
+            assertNotNull(folder.getFolderType());
         }
     }
 }

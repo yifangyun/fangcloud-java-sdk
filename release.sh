@@ -15,7 +15,7 @@ deploy_maven=false
 create_tag=false
 deploy_java_doc=false
 
-while getopts "brdjtv" arg; do
+while getopts "rdjtv" arg; do
 	case $arg in
 		r)
 			create_release=true

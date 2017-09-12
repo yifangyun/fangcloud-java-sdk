@@ -2,6 +2,7 @@ package com.fangcloud.sdk;
 
 import com.fangcloud.sdk.api.collab.YfyCollabRequest;
 import com.fangcloud.sdk.api.comment.YfyCommentRequest;
+import com.fangcloud.sdk.api.department.YfyDepartmentRequest;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.api.folder.YfyFolderRequest;
@@ -39,6 +40,7 @@ public class YfyClient<K> {
     private final YfyCollabRequest collabRequest;
     private final YfyCommentRequest commentRequest;
     private final YfyTrashRequest trashRequest;
+    private final YfyDepartmentRequest departmentRequest;
 
     private K key;
     private volatile String accessToken;
@@ -67,6 +69,7 @@ public class YfyClient<K> {
         this.collabRequest = new YfyCollabRequest(internalClient);
         this.commentRequest = new YfyCommentRequest(internalClient);
         this.trashRequest = new YfyTrashRequest(internalClient);
+        this.departmentRequest = new YfyDepartmentRequest(internalClient);
 
         this.requestConfig = requestConfig;
         this.host = YfyAppInfo.getHost();
@@ -119,6 +122,10 @@ public class YfyClient<K> {
 
     public YfyCommentRequest comments() {
         return commentRequest;
+    }
+
+    public YfyDepartmentRequest departments() {
+        return departmentRequest;
     }
 
     public void setAutoRefresh(boolean autoRefresh) {

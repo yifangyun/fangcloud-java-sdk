@@ -16,14 +16,14 @@ import static com.fangcloud.sdk.SdkTestUtil.deleteFile;
 import static org.junit.Assert.assertEquals;
 
 public class YfyUserRequestTest {
-    private static final long USER_ID = 468L;
+    private static final long USER_ID = 881525L;
     private static final String PROFILE_PIC_NAME = "user_profile_pic_" + USER_ID + ".jpeg";
 
     private YfyUserRequest userRequest;
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
+        YfyAppInfo.initAppInfo("test-client", "123456");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         userRequest = client.users();
     }
@@ -53,7 +53,7 @@ public class YfyUserRequestTest {
 
     @Test
     public void testSearchUser() throws YfyException {
-        SearchUserResult searchUserResult = userRequest.searchUser("tt", 0);
+        SearchUserResult searchUserResult = userRequest.searchUser("internal", 0);
         for (YfyMiniUser yfyMiniUser : searchUserResult.getUsers()) {
             assertMiniUserNotNull(yfyMiniUser);
         }

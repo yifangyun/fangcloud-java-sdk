@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.fangcloud.sdk.SdkTestUtil.assertCollabNull;
+import static com.fangcloud.sdk.SdkTestUtil.assertCollabNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertFolderNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -31,7 +31,7 @@ public class YfyCollabRequestTest {
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
+        YfyAppInfo.initAppInfo("test-client", "123456");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         folderRequest = client.folders();
         collabRequest = client.collabs();
@@ -55,15 +55,15 @@ public class YfyCollabRequestTest {
     @Test
     public void testCollab() throws YfyException {
         YfyCollab collab = collabRequest.inviteCollab(testFolderId, collabUserId, CollabRoleEnum.COOWNER, "hello");
-        assertCollabNull(collab);
+        assertCollabNotNull(collab);
         assertEquals(CollabRoleEnum.COOWNER.getRole(), collab.getRole());
 
         collab = collabRequest.updateCollab(collab.getCollabId(), CollabRoleEnum.EDITOR);
-        assertCollabNull(collab);
+        assertCollabNotNull(collab);
         assertEquals(CollabRoleEnum.EDITOR.getRole(), collab.getRole());
 
         collab = collabRequest.getCollab(collab.getCollabId());
-        assertCollabNull(collab);
+        assertCollabNotNull(collab);
 
         ListCollabResult listCollabResult = folderRequest.listCollab(testFolderId);
         assertNotNull(listCollabResult);
@@ -71,7 +71,7 @@ public class YfyCollabRequestTest {
         assertNotNull(listCollabResult.getCollabInfo());
         assertEquals(2, listCollabResult.getCollabInfo().size());
         for (YfyCollab yfyCollab : listCollabResult.getCollabInfo()) {
-            assertCollabNull(yfyCollab);
+            assertCollabNotNull(yfyCollab);
         }
 
         assertTrue(collabRequest.deleteCollab(collab.getCollabId()).getSuccess());

@@ -14,6 +14,7 @@ import java.util.Map;
 public class YfyFolderRequest {
     private final static String FOLDER_API_PATH = YfySdkConstant.API_VERSION + "folder/";
     private final static String GET_CHILDREN_PATH = FOLDER_API_PATH + "%s/children";
+    private final static String GET_COLLAB_FOLDER_PATH = FOLDER_API_PATH + "collab_folders";
     private final static String CREATE_FOLDER_PATH = FOLDER_API_PATH + "create";
     private final static String GET_FOLDER_PATH = FOLDER_API_PATH + "%s/info";
     private final static String UPDATE_FOLDER_PATH = FOLDER_API_PATH + "%s/update";
@@ -261,19 +262,22 @@ public class YfyFolderRequest {
      * @param pageId Page id begin with 0
      * @param pageCapacity Files and/or folders' list size once return
      * @param itemType Type of item. see {@link ItemTypeEnum}
+     * @param departmentId Assign department id if your folder id is 0
      * @return Object contains two lists named "folders" and "files", and other page information
      * @throws YfyException
      */
     public GetChildrenResult getChildren(final long folderId,
                                          final int pageId,
                                          final int pageCapacity,
-                                         final ItemTypeEnum itemType)
+                                         final ItemTypeEnum itemType,
+                                         final long departmentId)
             throws YfyException {
         String[] params = { String.valueOf(folderId) };
         Map<String, String> mapParams = new HashMap<String, String>() {{
             put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
             put(YfySdkConstant.PAGE_CAPACITY, String.valueOf(pageCapacity));
             put(YfySdkConstant.TYPE, itemType.getType());
+            put(YfySdkConstant.DEPARTMENT_ID, String.valueOf(departmentId));
         }};
         return getChildren(params, mapParams);
     }
@@ -283,6 +287,29 @@ public class YfyFolderRequest {
                 params,
                 mapParams,
                 GetChildrenResult.class);
+    }
+
+    /**
+     * Retrieve the folders that have collaboration with you. The requests need paging param assigned by developer.
+     *
+     * @param pageId Page id begin with 0
+     * @param pageCapacity Files and/or folders' list size once return
+     * @return Object contains a list named "folders", and other page information
+     * @throws YfyException
+     */
+    public GetCollabFoldersResult getCollabFolders(final int pageId, final int pageCapacity) throws YfyException {
+        Map<String, String> mapParams = new HashMap<String, String>() {{
+            put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
+            put(YfySdkConstant.PAGE_CAPACITY, String.valueOf(pageCapacity));
+        }};
+        return getCollabFolders(mapParams);
+    }
+
+    private GetCollabFoldersResult getCollabFolders(Map<String, String> mapParams) throws YfyException {
+        return client.doGet(GET_COLLAB_FOLDER_PATH,
+                null,
+                mapParams,
+                GetCollabFoldersResult.class);
     }
 
     /**

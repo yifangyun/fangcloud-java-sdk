@@ -15,7 +15,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.fangcloud.sdk.SdkTestUtil.assertCommentNull;
+import static com.fangcloud.sdk.SdkTestUtil.assertCommentNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertFileNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertFolderNotNull;
 import static org.junit.Assert.assertEquals;
@@ -34,7 +34,7 @@ public class YfyCommentRequestTest {
 
     @Before
     public void before() throws YfyException {
-        YfyAppInfo.initAppInfo("java-auto-test", "java-auto-test");
+        YfyAppInfo.initAppInfo("test-client", "123456");
         YfyClient client = new YfyClient(new YfyRequestConfig(), System.getenv().get("YFY_TOKEN"));
         folderRequest = client.folders();
         fileRequest = client.files();
@@ -66,14 +66,14 @@ public class YfyCommentRequestTest {
     @Test
     public void testComment() throws YfyException {
         YfyComment comment = commentRequest.createComment(testFileId, "hello");
-        assertCommentNull(comment);
+        assertCommentNotNull(comment);
 
         ListCommentResult listCommentResult = fileRequest.listComment(testFileId);
         assertNotNull(listCommentResult);
         assertNotNull(listCommentResult.getComments());
         assertEquals(1, listCommentResult.getComments().size());
         for (YfyComment yfyComment : listCommentResult.getComments()) {
-            assertCommentNull(yfyComment);
+            assertCommentNotNull(yfyComment);
         }
 
         assertTrue(commentRequest.deleteComment(comment.getCommentId()).getSuccess());

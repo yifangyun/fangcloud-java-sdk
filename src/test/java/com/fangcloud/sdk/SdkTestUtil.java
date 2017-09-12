@@ -2,10 +2,12 @@ package com.fangcloud.sdk;
 
 import com.fangcloud.sdk.api.PagingResult;
 import com.fangcloud.sdk.api.YfyItem;
+import com.fangcloud.sdk.api.YfyMiniDepartment;
 import com.fangcloud.sdk.api.YfyMiniUser;
 import com.fangcloud.sdk.api.YfyPathFolder;
 import com.fangcloud.sdk.api.collab.YfyCollab;
 import com.fangcloud.sdk.api.comment.YfyComment;
+import com.fangcloud.sdk.api.department.YfyDepartment;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.folder.YfyFolder;
 import com.fangcloud.sdk.api.share_link.YfyShareLink;
@@ -101,7 +103,7 @@ public class SdkTestUtil {
         assertNotNull(shareLink.getViewCount());
     }
 
-    public static void assertCollabNull(YfyCollab collab) {
+    public static void assertCollabNotNull(YfyCollab collab) {
         assertNotNull(collab);
         assertNotNull(collab.getAccepted());
         assertNotNull(collab.getRole());
@@ -111,13 +113,30 @@ public class SdkTestUtil {
         assertMiniUserNotNull(collab.getUser());
     }
 
-    public static void assertCommentNull(YfyComment comment) {
+    public static void assertCommentNotNull(YfyComment comment) {
         assertNotNull(comment);
         assertNotNull(comment.getCommentId());
         assertNotNull(comment.getContent());
         assertNotNull(comment.getCreatedAt());
         assertNotNull(comment.getFileId());
         assertMiniUserNotNull(comment.getUser());
+    }
+
+    public static void assertDepartmentNotNull(YfyDepartment department) {
+        assertNotNull(department);
+        assertNotNull(department.getId());
+        assertNotNull(department.getName());
+        assertNotNull(department.getParentId());
+        assertNotNull(department.getUserCount());
+    }
+
+    public static void assertMiniDepartmentNotNull(YfyMiniDepartment department) {
+        assertNotNull(department);
+        assertNotNull(department.getId());
+        assertNotNull(department.getName());
+        assertNotNull(department.getChildrenDepartmentsCount());
+        assertNotNull(department.getUserCount());
+        assertNotNull(department.getDirectItemCount());
     }
 
     public static void deleteFile(String fileName) {
