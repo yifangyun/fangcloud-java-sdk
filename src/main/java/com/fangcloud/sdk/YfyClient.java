@@ -144,6 +144,14 @@ public class YfyClient<K> {
         return lastRefresh;
     }
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
     /**
      * refresh user token,can be used by developer, must be lock.
      */
