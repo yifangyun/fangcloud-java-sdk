@@ -47,6 +47,7 @@
         <junit.version>4.12</junit.version>
         <mockito.version>2.2.28</mockito.version>
         <httpclient.version>4.5.1</httpclient.version>
+        <jjwt.version>0.7.0</jjwt.version>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
@@ -66,6 +67,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <dependency>
