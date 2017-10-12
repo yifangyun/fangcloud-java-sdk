@@ -6,14 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class InviteCollabArg implements YfyArg {
     @JsonProperty("folder_id")
     private Long folderId;
-    @JsonProperty("invited_user")
-    private InvitedUserIdAndRole invitedUser;
+    @JsonProperty("accessible_by")
+    private AccessibleBy accessibleBy;
     @JsonProperty("invitation_message")
     private String invitationMessage;
 
-    public InviteCollabArg(long folderId, long userId, String role, String invitationMessage) {
+    public InviteCollabArg(long folderId, String accessibleByType, long accessibleById, String role, String invitationMessage) {
         this.folderId = folderId;
-        this.invitedUser = new InvitedUserIdAndRole(userId, role);
+        this.accessibleBy = new AccessibleBy(accessibleByType, accessibleById, role);
         this.invitationMessage = invitationMessage;
     }
 
@@ -25,12 +25,12 @@ public class InviteCollabArg implements YfyArg {
         this.folderId = folderId;
     }
 
-    public InvitedUserIdAndRole getInvitedUser() {
-        return invitedUser;
+    public AccessibleBy getAccessibleBy() {
+        return accessibleBy;
     }
 
-    public void setInvitedUser(InvitedUserIdAndRole invitedUser) {
-        this.invitedUser = invitedUser;
+    public void setAccessibleBy(AccessibleBy accessibleBy) {
+        this.accessibleBy = accessibleBy;
     }
 
     public String getInvitationMessage() {
@@ -41,20 +41,30 @@ public class InviteCollabArg implements YfyArg {
         this.invitationMessage = invitationMessage;
     }
 
-    private class InvitedUserIdAndRole {
-        private long id;
+    public static class AccessibleBy {
+        private String type;
+        private Long id;
         private String role;
 
-        public InvitedUserIdAndRole(long userId, String role) {
-            this.id = userId;
+        public AccessibleBy(String type, Long id, String role) {
+            this.type = type;
+            this.id = id;
             this.role = role;
         }
 
-        public long getId() {
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public Long getId() {
             return id;
         }
 
-        public void setId(long id) {
+        public void setId(Long id) {
             this.id = id;
         }
 

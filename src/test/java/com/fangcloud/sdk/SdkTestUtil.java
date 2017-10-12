@@ -3,6 +3,7 @@ package com.fangcloud.sdk;
 import com.fangcloud.sdk.api.PagingResult;
 import com.fangcloud.sdk.api.YfyItem;
 import com.fangcloud.sdk.api.YfyMiniDepartment;
+import com.fangcloud.sdk.api.YfyMiniElement;
 import com.fangcloud.sdk.api.YfyMiniUser;
 import com.fangcloud.sdk.api.YfyPathFolder;
 import com.fangcloud.sdk.api.collab.YfyCollab;
@@ -65,6 +66,13 @@ public class SdkTestUtil {
         assertNotNull(miniUser.getEnterpriseId());
     }
 
+    public static void assertMiniElementNotNull(YfyMiniElement miniElement) {
+        assertNotNull(miniElement);
+        assertNotNull(miniElement.getId());
+        assertNotNull(miniElement.getName());
+        assertNotNull(miniElement.getType());
+    }
+
     public static void assertPagingResultNotNull(PagingResult pagingResult) {
         assertNotNull(pagingResult);
         assertNotNull(pagingResult.getTotalCount());
@@ -108,9 +116,9 @@ public class SdkTestUtil {
         assertNotNull(collab.getAccepted());
         assertNotNull(collab.getRole());
         if (!collab.getRole().equals("owner")) {
-            assertNotNull(collab.getCollabId());
+            assertNotNull(collab.getId());
         }
-        assertMiniUserNotNull(collab.getUser());
+        assertMiniElementNotNull(collab.getAccessibleBy());
     }
 
     public static void assertCommentNotNull(YfyComment comment) {

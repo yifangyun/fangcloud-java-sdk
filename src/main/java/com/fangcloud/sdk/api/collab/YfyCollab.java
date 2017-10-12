@@ -1,30 +1,31 @@
 package com.fangcloud.sdk.api.collab;
 
 import com.fangcloud.sdk.api.YfyBaseDTO;
+import com.fangcloud.sdk.api.YfyMiniElement;
 import com.fangcloud.sdk.api.YfyMiniUser;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class YfyCollab extends YfyBaseDTO {
-    @JsonProperty("collab_id")
-    private Long collabId;
-    private YfyMiniUser user;
+    private Long id;
+    @JsonProperty("accessible_by")
+    private YfyMiniElement accessibleBy;
     private Boolean accepted;
     private String role;
 
-    public Long getCollabId() {
-        return collabId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCollabId(Long collabId) {
-        this.collabId = collabId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public YfyMiniUser getUser() {
-        return user;
+    public YfyMiniElement getAccessibleBy() {
+        return accessibleBy;
     }
 
-    public void setUser(YfyMiniUser user) {
-        this.user = user;
+    public void setAccessibleBy(YfyMiniElement accessibleBy) {
+        this.accessibleBy = accessibleBy;
     }
 
     public Boolean getAccepted() {

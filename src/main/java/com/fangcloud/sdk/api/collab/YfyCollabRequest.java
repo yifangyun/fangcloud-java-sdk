@@ -2,6 +2,7 @@ package com.fangcloud.sdk.api.collab;
 
 import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfySdkConstant;
+import com.fangcloud.sdk.api.AccessibleByTypeEnum;
 import com.fangcloud.sdk.api.CollabRoleEnum;
 import com.fangcloud.sdk.api.SuccessResult;
 import com.fangcloud.sdk.exception.YfyException;
@@ -41,14 +42,15 @@ public class YfyCollabRequest {
      * Invite a user to a specific folder
      *
      * @param folderId Folder id in fangcloud
-     * @param userId User id you want to invite
+     * @param accessibleById AccessibleBy id that you want to invite
      * @param collabRole Collab role the user will grant
      * @param invitationMessage invitation message
      * @return Detailed collab information
      * @throws YfyException
      */
-    public YfyCollab inviteCollab(long folderId, long userId, CollabRoleEnum collabRole, String invitationMessage) throws YfyException {
-        return inviteCollab(new InviteCollabArg(folderId, userId, collabRole.getRole(), invitationMessage));
+    public YfyCollab inviteCollab(long folderId, AccessibleByTypeEnum accessibleByType, long accessibleById,
+                                  CollabRoleEnum collabRole, String invitationMessage) throws YfyException {
+        return inviteCollab(new InviteCollabArg(folderId, accessibleByType.getType(), accessibleById, collabRole.getRole(), invitationMessage));
     }
 
     private YfyCollab inviteCollab(InviteCollabArg inviteCollabArg) throws YfyException {

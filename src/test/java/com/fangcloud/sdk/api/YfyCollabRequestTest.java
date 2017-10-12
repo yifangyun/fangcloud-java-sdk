@@ -37,7 +37,7 @@ public class YfyCollabRequestTest {
         collabRequest = client.collabs();
         testParentId = createAndAssertFolder(PARENT_NAME, 0L);
         testFolderId = createAndAssertFolder(FOLDER_NAME, testParentId);
-        collabUserId = 1L;
+        collabUserId = 881526L;
     }
 
     private long createAndAssertFolder(String name, long parentId) throws YfyException {
@@ -54,15 +54,15 @@ public class YfyCollabRequestTest {
 
     @Test
     public void testCollab() throws YfyException {
-        YfyCollab collab = collabRequest.inviteCollab(testFolderId, collabUserId, CollabRoleEnum.COOWNER, "hello");
+        YfyCollab collab = collabRequest.inviteCollab(testFolderId, AccessibleByTypeEnum.USER, collabUserId, CollabRoleEnum.COOWNER, "hello");
         assertCollabNotNull(collab);
         assertEquals(CollabRoleEnum.COOWNER.getRole(), collab.getRole());
 
-        collab = collabRequest.updateCollab(collab.getCollabId(), CollabRoleEnum.EDITOR);
+        collab = collabRequest.updateCollab(collab.getId(), CollabRoleEnum.EDITOR);
         assertCollabNotNull(collab);
         assertEquals(CollabRoleEnum.EDITOR.getRole(), collab.getRole());
 
-        collab = collabRequest.getCollab(collab.getCollabId());
+        collab = collabRequest.getCollab(collab.getId());
         assertCollabNotNull(collab);
 
         ListCollabResult listCollabResult = folderRequest.listCollab(testFolderId);
@@ -74,7 +74,7 @@ public class YfyCollabRequestTest {
             assertCollabNotNull(yfyCollab);
         }
 
-        assertTrue(collabRequest.deleteCollab(collab.getCollabId()).getSuccess());
+        assertTrue(collabRequest.deleteCollab(collab.getId()).getSuccess());
     }
 
 
