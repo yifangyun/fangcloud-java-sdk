@@ -12,6 +12,7 @@ import io.jsonwebtoken.impl.DefaultClaims;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.CharBuffer;
@@ -122,13 +123,14 @@ public class YfyEnterpriseAuth {
     /**
      * Load private pkcs8 pem file to get the private key
      *
-     * @param filePath Path of the Pkcs8 file
+     * @param fileStream InputStream of the Pkcs8 file
      * @return Key to construct YfyEnterpriseAuth and used in signature
      * @throws Exception
      */
-    public static PrivateKey loadPrivateKey(String filePath) throws Exception {
+    public static PrivateKey loadPrivateKey(InputStream fileStream) throws Exception {
         String privateKeyPEM;
-        try (Reader reader = new InputStreamReader(new FileInputStream(filePath))) {
+        Reader reader = new InputStreamReader(fileStream);
+        try {
             StringBuilder stringBuilder = new StringBuilder();
 
             CharBuffer buffer = CharBuffer.allocate(2048);
@@ -138,6 +140,8 @@ public class YfyEnterpriseAuth {
                 buffer.clear();
             }
             privateKeyPEM = stringBuilder.toString();
+        } finally {
+            reader.close();
         }
 
         // strip of header, footer, newlines, whitespaces
