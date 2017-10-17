@@ -11,7 +11,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -59,14 +58,55 @@ public class YfyEnterpriseAuth {
      * Get the enterprise token witch can used to invoke admin api,such as managing departments and groups
      *
      * @param enterpriseId Your enterprise id
+     * @param expirationTimeSeconds Expiration time seconds in the future(can not be bigger than 60)
+     * @return Detailed user access information
+     * @throws YfyException
+     */
+    public YfyAuthFinish getEnterpriseToken(long enterpriseId, int expirationTimeSeconds) throws YfyException {
+        Claims claims = new DefaultClaims();
+        claims.put("yifangyun_sub_type", "enterprise");
+        claims.setSubject(String.valueOf(enterpriseId));
+        claims.setExpiration(getExpirationTimeSecondsInTheFuture(expirationTimeSeconds));
+        claims.setIssuedAt(new Date());
+        claims.setId(getGeneratedJwtId(16));
+        final String compactJws = Jwts.builder().setHeader(headers).setClaims(claims).signWith(SignatureAlgorithm.RS256, key).compact();
+
+        return YfyRequestUtil.doPostInAuth(
+                requestConfig,
+                YfyAppInfo.getHost().getAuth(),
+                "oauth/token",
+                new HashMap<String, String>() {{
+                    put("grant_type", "jwt");
+                    put("assertion", compactJws);
+                }},
+                YfyAuthFinish.class);
+    }
+
+    /**
+     * Get the enterprise token witch can used to invoke admin api,such as managing departments and groups
+     *
+     * @param enterpriseId Your enterprise id
      * @return Detailed user access information
      * @throws YfyException
      */
     public YfyAuthFinish getEnterpriseToken(long enterpriseId) throws YfyException {
+        return getEnterpriseToken(enterpriseId, 60);
+    }
+
+    /**
+     * Get the user token witch can used to invoke personal api,such as get folder information
+     *
+     * @param userId The user you want to operate with
+     * @param expirationTimeSeconds Expiration time seconds in the future(can not be bigger than 60)
+     * @return Detailed user access information
+     * @throws YfyException
+     */
+    public YfyAuthFinish getUserToken(long userId, int expirationTimeSeconds) throws YfyException {
         Claims claims = new DefaultClaims();
-        claims.put("yifangyun_sub_type", "enterprise");
-        claims.setSubject(String.valueOf(enterpriseId));
-        claims.setExpiration(getExpirationTimeMinutesInTheFuture(1));
+        claims.put("yifangyun_sub_type", "user");
+        claims.setSubject(String.valueOf(userId));
+        claims.setExpiration(getExpirationTimeSecondsInTheFuture(expirationTimeSeconds));
+        claims.setIssuedAt(new Date());
         claims.setId(getGeneratedJwtId(16));
         final String compactJws = Jwts.builder().setHeader(headers).setClaims(claims).signWith(SignatureAlgorithm.RS256, key).compact();
 
@@ -89,28 +129,13 @@ public class YfyEnterpriseAuth {
      * @throws YfyException
      */
     public YfyAuthFinish getUserToken(long userId) throws YfyException {
-        Claims claims = new DefaultClaims();
-        claims.put("yifangyun_sub_type", "user");
-        claims.setSubject(String.valueOf(userId));
-        claims.setExpiration(getExpirationTimeMinutesInTheFuture(1));
-        claims.setId(getGeneratedJwtId(16));
-        final String compactJws = Jwts.builder().setHeader(headers).setClaims(claims).signWith(SignatureAlgorithm.RS256, key).compact();
-
-        return YfyRequestUtil.doPostInAuth(
-                requestConfig,
-                YfyAppInfo.getHost().getAuth(),
-                "oauth/token",
-                new HashMap<String, String>() {{
-                    put("grant_type", "jwt");
-                    put("assertion", compactJws);
-                }},
-                YfyAuthFinish.class);
+        return getUserToken(userId, 60);
     }
 
-    private Date getExpirationTimeMinutesInTheFuture(int minutes) {
+    private Date getExpirationTimeSecondsInTheFuture(int seconds) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.MINUTE, minutes);
+        calendar.add(Calendar.SECOND, seconds);
         return calendar.getTime();
     }
 

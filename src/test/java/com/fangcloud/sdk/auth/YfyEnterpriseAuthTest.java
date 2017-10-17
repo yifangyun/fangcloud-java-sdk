@@ -41,7 +41,7 @@ public class YfyEnterpriseAuthTest {
     @Test
     public void testGetUserToken() throws Exception {
         YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(CONFIG, "U7TejSsByn",
-                YfyEnterpriseAuth.loadPrivateKey(YfyFileRequestTest.class.getResourceAsStream("/privatekey-pkcs8.pem")));
+                YfyEnterpriseAuth.loadPrivateKey(YfyEnterpriseAuthTest.class.getResourceAsStream("/privatekey-pkcs8.pem")));
         YfyAuthFinish authFinish = enterpriseAuth.getUserToken(881525L);
         assertNotNull(authFinish);
         assertNotNull(authFinish.getAccessToken());

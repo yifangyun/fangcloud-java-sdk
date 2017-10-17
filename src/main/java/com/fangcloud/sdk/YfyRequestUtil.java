@@ -142,6 +142,7 @@ public final class YfyRequestUtil {
         byte[] encodedParams = StringUtil.stringToUtf8(encodeUrlParams(params));
 
         headers.add(new HttpRequestor.Header("Content-Type", "application/x-www-form-urlencoded; charset=utf-8"));
+        headers.add(new HttpRequestor.Header("Accept", "application/json"));
         HttpRequestor.Response response = startPostRaw(requestConfig, host, path, encodedParams, headers);
         return finishResponse(response, tClass);
     }
@@ -218,7 +219,7 @@ public final class YfyRequestUtil {
         } catch (JsonReadException ex) {
             // deal with download and upload error response
             if (ex.getJsonStr().startsWith("<!DOCTYPE html>")) {
-                return new OtherErrorException("download url is invalid or expired!");
+                return new OtherErrorException("download url is invalid or expired!\ndetailed info:" + ex.getJsonStr());
             }
             YfyUploadErrorResponse uploadErrorResponse = convertStrToObj(ex.getJsonStr(), YfyUploadErrorResponse.class);
             return new OtherErrorException(uploadErrorResponse.getError());
