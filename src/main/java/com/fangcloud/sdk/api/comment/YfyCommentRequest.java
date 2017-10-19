@@ -1,6 +1,6 @@
 package com.fangcloud.sdk.api.comment;
 
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.SuccessResult;
 import com.fangcloud.sdk.exception.YfyException;
@@ -10,9 +10,9 @@ public class YfyCommentRequest {
     private final static String CREATE_COMMENT_PATH = COLLAB_PATH + "create";
     private final static String DELETE_COMMENT_PATH = COLLAB_PATH + "%s/delete";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyCommentRequest(YfyClient.YfyInternalClient client) {
+    public YfyCommentRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

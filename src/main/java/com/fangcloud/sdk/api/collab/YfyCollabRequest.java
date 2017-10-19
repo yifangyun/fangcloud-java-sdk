@@ -1,6 +1,6 @@
 package com.fangcloud.sdk.api.collab;
 
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.AccessibleByTypeEnum;
 import com.fangcloud.sdk.api.CollabRoleEnum;
@@ -14,9 +14,9 @@ public class YfyCollabRequest {
     private final static String UPDATE_COLLAB_PATH = COLLAB_PATH + "%s/update";
     private final static String DELETE_COLLAB_PATH = COLLAB_PATH + "%s/delete";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyCollabRequest(YfyClient.YfyInternalClient client) {
+    public YfyCollabRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

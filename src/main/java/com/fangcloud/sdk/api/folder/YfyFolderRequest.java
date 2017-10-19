@@ -1,6 +1,6 @@
 package com.fangcloud.sdk.api.folder;
 
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.ItemTypeEnum;
 import com.fangcloud.sdk.api.SuccessResult;
@@ -29,9 +29,9 @@ public class YfyFolderRequest {
     private final static String LIST_FOLDER_SHARE_LINK_PATH = FOLDER_API_PATH + "%s/share_links";
     private final static String LIST_COLLAB_PATH = FOLDER_API_PATH + "%s/collabs";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyFolderRequest(YfyClient.YfyInternalClient client) {
+    public YfyFolderRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

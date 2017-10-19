@@ -1,6 +1,6 @@
 package com.fangcloud.sdk.api.user;
 
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfyRequestUtil;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.exception.NetworkIOException;
@@ -21,9 +21,9 @@ public class YfyUserRequest {
     private final static String UPDATE_USER_PATH = USER_PATH + "update";
     private final static String SEARCH_USER_PATH = USER_PATH + "search";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyUserRequest(YfyClient.YfyInternalClient client) {
+    public YfyUserRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

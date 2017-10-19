@@ -1,6 +1,6 @@
 package com.fangcloud.sdk.api.share_link;
 
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.ShareLinkAccessEnum;
 import com.fangcloud.sdk.api.SuccessResult;
@@ -16,9 +16,9 @@ public class YfyShareLinkRequest {
     private final static String UPDATE_SHARE_LINK_PATH = ITEM_API_PATH + "%s/update";
     private final static String REVOKE_SHARE_LINK_PATH = ITEM_API_PATH + "%s/revoke";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyShareLinkRequest(YfyClient.YfyInternalClient client) {
+    public YfyShareLinkRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

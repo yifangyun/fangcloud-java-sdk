@@ -1,6 +1,6 @@
 package com.fangcloud.sdk.api.trash;
 
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.ItemTypeEnum;
 import com.fangcloud.sdk.api.SuccessResult;
@@ -11,9 +11,9 @@ public class YfyTrashRequest {
     private final static String CLEAR_TRASH_PATH = TRASH_API_PATH + "clear";
     private final static String RESTORE_TRASH_PATH = TRASH_API_PATH + "restore_all";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyTrashRequest(YfyClient.YfyInternalClient client) {
+    public YfyTrashRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

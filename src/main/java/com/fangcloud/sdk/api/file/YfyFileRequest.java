@@ -1,7 +1,6 @@
 package com.fangcloud.sdk.api.file;
 
-import com.fangcloud.sdk.ProgressInputStream;
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfyProgressListener;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.SuccessResult;
@@ -41,9 +40,9 @@ public class YfyFileRequest {
     private final static String LIST_FILE_SHARE_LINK_PATH = FILE_API_PATH + "%s/share_links";
     private final static String LIST_COMMENT_PATH = FILE_API_PATH + "%s/comments";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyFileRequest(YfyClient.YfyInternalClient client) {
+    public YfyFileRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

@@ -1,12 +1,7 @@
 package com.fangcloud.sdk.api.department;
 
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfySdkConstant;
-import com.fangcloud.sdk.api.CollabRoleEnum;
-import com.fangcloud.sdk.api.SuccessResult;
-import com.fangcloud.sdk.api.collab.InviteCollabArg;
-import com.fangcloud.sdk.api.collab.UpdateCollabArg;
-import com.fangcloud.sdk.api.collab.YfyCollab;
 import com.fangcloud.sdk.exception.YfyException;
 
 import java.util.HashMap;
@@ -17,9 +12,9 @@ public class YfyDepartmentRequest {
     private final static String DEPARTMENT_INFO_PATH = DEPARTMENT_PATH + "%s/info";
     private final static String DEPARTMENT_CHILDREN_PATH = DEPARTMENT_PATH + "%s/children";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyDepartmentRequest(YfyClient.YfyInternalClient client) {
+    public YfyDepartmentRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

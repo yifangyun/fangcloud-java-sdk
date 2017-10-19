@@ -1,6 +1,6 @@
 package com.fangcloud.sdk.api.item;
 
-import com.fangcloud.sdk.YfyClient;
+import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.ItemTypeEnum;
 import com.fangcloud.sdk.exception.YfyException;
@@ -12,9 +12,9 @@ public class YfyItemRequest {
     private final static String ITEM_API_PATH = YfySdkConstant.API_VERSION + "item/";
     private final static String SEARCH_ITEM_PATH = ITEM_API_PATH + "search";
 
-    private final YfyClient<?>.YfyInternalClient client;
+    private final YfyBaseClient<?>.YfyInternalClient client;
 
-    public YfyItemRequest(YfyClient.YfyInternalClient client) {
+    public YfyItemRequest(YfyBaseClient.YfyInternalClient client) {
         this.client = client;
     }
 

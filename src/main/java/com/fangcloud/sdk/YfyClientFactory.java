@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class YfyClientFactory<T> {
     private YfyRequestConfig requestConfig;
+    private YfyEnterpriseClient enterpriseClient;
     private YfyRefreshListener<T> refreshListener;
     private volatile Map<T, YfyClient<T>> lruCache;
 
@@ -75,6 +76,30 @@ public class YfyClientFactory<T> {
             }
         }
         return client;
+    }
+
+    /**
+     * Get YfyEnterpriseClient, if don't exist return null
+     *
+     * @return YfyEnterpriseClient
+     */
+    public YfyEnterpriseClient getEnterpriseClient() {
+        return enterpriseClient;
+    }
+
+    /**
+     * Get YfyClient by user identify in LRU cache. If LRU doesn't contain, build a new YfyClient
+     *
+     * @param key User identify in your account system
+     * @param accessToken User's access token
+     * @param refreshToken User's refresh token
+     * @return YfyClient
+     */
+    public YfyEnterpriseClient getEnterpriseClient(T key, String accessToken, String refreshToken) {
+        if (enterpriseClient == null) {
+            enterpriseClient = new YfyEnterpriseClient<T>(key, requestConfig, accessToken, refreshToken, refreshListener);
+        }
+        return enterpriseClient;
     }
 
     /**
