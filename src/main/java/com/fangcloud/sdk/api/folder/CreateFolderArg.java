@@ -9,11 +9,14 @@ public class CreateFolderArg implements YfyArg {
     private String name;
     @JsonProperty("parent_id")
     private long parentId;
+    @JsonProperty("department_id")
+    private Long departmentId;
 
-    public CreateFolderArg(String name, long parentId) throws ClientValidationException {
+    public CreateFolderArg(String name, long parentId, Long departmentId) throws ClientValidationException {
         StringUtil.checkNameValid(name);
         this.name = name;
         this.parentId = parentId;
+        this.departmentId = departmentId;
     }
 
     public String getName() {
@@ -30,5 +33,13 @@ public class CreateFolderArg implements YfyArg {
 
     public void setParentId(long parentId) {
         this.parentId = parentId;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 }

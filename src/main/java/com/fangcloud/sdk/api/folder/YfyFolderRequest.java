@@ -55,7 +55,7 @@ public class YfyFolderRequest {
     }
 
     /**
-     * Create a new empty folder inside the specified parent folder
+     * Create a new empty folder inside the specified parent folder in the personal space
      *
      * @param name New folder name
      * @param parentId New folder's parent id in fangcloud
@@ -63,7 +63,20 @@ public class YfyFolderRequest {
      * @throws YfyException
      */
     public YfyFolder createFolder(String name, long parentId) throws YfyException {
-        return createFolder(new CreateFolderArg(name, parentId));
+        return createFolder(name, parentId, null);
+    }
+
+    /**
+     * Create a new empty folder inside the specified parent folder in the department space
+     *
+     * @param name New folder name
+     * @param parentId New folder's parent id in fangcloud
+     * @param departmentId New folder's department id in fangcloud(only effect when parent id is 0)
+     * @return Detailed new folder's information
+     * @throws YfyException
+     */
+    public YfyFolder createFolder(String name, long parentId, Long departmentId) throws YfyException {
+        return createFolder(new CreateFolderArg(name, parentId, departmentId));
     }
 
     private YfyFolder createFolder(CreateFolderArg createFolderArg) throws YfyException {
