@@ -1,6 +1,7 @@
 package com.fangcloud.sdk;
 
 import com.fangcloud.sdk.api.PagingResult;
+import com.fangcloud.sdk.api.YfyDetailedGroup;
 import com.fangcloud.sdk.api.YfyItem;
 import com.fangcloud.sdk.api.YfyMiniDepartment;
 import com.fangcloud.sdk.api.YfyMiniElement;
@@ -145,6 +146,18 @@ public class SdkTestUtil {
         assertNotNull(department.getChildrenDepartmentsCount());
         assertNotNull(department.getUserCount());
         assertNotNull(department.getDirectItemCount());
+    }
+
+    public static void assertDetailedGroupNotNull(YfyDetailedGroup detailedGroup) {
+        assertNotNull(detailedGroup);
+        assertNotNull(detailedGroup.getId());
+        assertNotNull(detailedGroup.getName());
+        assertNotNull(detailedGroup.getDescription());
+        assertNotNull(detailedGroup.getCreated());
+        assertNotNull(detailedGroup.getUserCount());
+        assertNotNull(detailedGroup.getItemCount());
+        assertNotNull(detailedGroup.getCollabAutoAccepted());
+        assertNotNull(detailedGroup.getVisiable());
     }
 
     public static void deleteFile(String fileName) {
