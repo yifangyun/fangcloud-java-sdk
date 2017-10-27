@@ -16,4 +16,5 @@ public class YfySdkConstant {
     public final static String OWNER_ID = "owner_id";
     public final static String DEPARTMENT_ID = "department_id";
     public final static String PERMISSION_FILTER = "permission_filter";
+    public final static String QUERY_FILTER = "query_filter";
 }

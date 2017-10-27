@@ -2,7 +2,6 @@ package com.fangcloud.sdk.api.admin.group;
 
 import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfySdkConstant;
-import com.fangcloud.sdk.api.admin.department.AdminDepartmentUserResult;
 import com.fangcloud.sdk.exception.YfyException;
 
 import java.util.HashMap;
@@ -26,15 +25,15 @@ public class YfyAdminGroupRequest {
      * @return Detailed groups info
      * @throws YfyException
      */
-    public AdminGroupListResult getGrouplist(final String queryWords, final int pageId) throws YfyException {
+    public AdminGroupListResult getGroupList(final String queryWords, final int pageId) throws YfyException {
         Map<String, String> params = new HashMap<String, String>() {{
             put(YfySdkConstant.QUERY_WORDS, queryWords);
             put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
         }};
-        return getGrouplist(params);
+        return getGroupList(params);
     }
 
-    private AdminGroupListResult getGrouplist(Map<String, String> params) throws YfyException {
+    private AdminGroupListResult getGroupList(Map<String, String> params) throws YfyException {
         return client.doGet(LIST_GROUPS_PATH,
                 null,
                 params,

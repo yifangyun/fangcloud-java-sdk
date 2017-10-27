@@ -29,7 +29,7 @@ public class YfyAdminGroupTest {
 
     @Test
     public void testGetGroupList() throws YfyException {
-        AdminGroupListResult result = adminGroupRequest.getGrouplist("test", 0);
+        AdminGroupListResult result = adminGroupRequest.getGroupList("test", 0);
         SdkTestUtil.assertPagingResultNotNull(result);
         for (YfyDetailedGroup detailedGroup : result.getGroups()) {
             SdkTestUtil.assertDetailedGroupNotNull(detailedGroup);

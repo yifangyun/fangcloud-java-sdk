@@ -8,8 +8,7 @@ import java.util.List;
 public class ListCollabResult extends YfyBaseDTO {
     @JsonProperty("final_role")
     private String finalRole;
-    @JsonProperty("collab_info")
-    private List<YfyCollab> collabInfo;
+    private List<YfyCollab> collabs;
 
     public String getFinalRole() {
         return finalRole;
@@ -19,11 +18,11 @@ public class ListCollabResult extends YfyBaseDTO {
         this.finalRole = finalRole;
     }
 
-    public List<YfyCollab> getCollabInfo() {
-        return collabInfo;
+    public List<YfyCollab> getCollabs() {
+        return collabs;
     }
 
-    public void setCollabInfo(List<YfyCollab> collabInfo) {
-        this.collabInfo = collabInfo;
+    public void setCollabs(List<YfyCollab> collabs) {
+        this.collabs = collabs;
     }
 }

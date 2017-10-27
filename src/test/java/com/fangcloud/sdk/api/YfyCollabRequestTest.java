@@ -68,9 +68,9 @@ public class YfyCollabRequestTest {
         ListCollabResult listCollabResult = folderRequest.listCollab(testFolderId);
         assertNotNull(listCollabResult);
         assertNotNull(listCollabResult.getFinalRole());
-        assertNotNull(listCollabResult.getCollabInfo());
-        assertEquals(2, listCollabResult.getCollabInfo().size());
-        for (YfyCollab yfyCollab : listCollabResult.getCollabInfo()) {
+        assertNotNull(listCollabResult.getCollabs());
+        assertEquals(2, listCollabResult.getCollabs().size());
+        for (YfyCollab yfyCollab : listCollabResult.getCollabs()) {
             assertCollabNotNull(yfyCollab);
         }
 
