@@ -22,12 +22,10 @@ public class YfyAdminDepartmentTest {
 
     @BeforeClass
     public static void before() throws Exception {
-        String clientId= "e885b1d0-39e4-49eb-be06-16078cf3f613";
-        String clientSecret= "b366fa56-c50e-4a68-bc12-1044d974d7b8";
-        YfyAppInfo.initAppInfo(clientId, clientSecret);
-        YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(new YfyRequestConfig(), "U7TejSsByn",
+        YfyAppInfo.initAppInfo(SdkTestUtil.ENTERPRISE_CLIENT_ID, SdkTestUtil.ENTERPRISE_CLIENT_SECRET);
+        YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(new YfyRequestConfig(), SdkTestUtil.ENTERPRISE_KID,
                 YfyEnterpriseAuth.loadPrivateKey(YfyAdminDepartmentTest.class.getResourceAsStream("/privatekey-pkcs8.pem")));
-        YfyAuthFinish authFinish = enterpriseAuth.getEnterpriseToken(12401);
+        YfyAuthFinish authFinish = enterpriseAuth.getEnterpriseToken(SdkTestUtil.ENTERPRISE_ID);
         YfyEnterpriseClient enterpriseClient = new YfyEnterpriseClient(new YfyRequestConfig(), authFinish.getAccessToken());
         adminDepartmentRequest = enterpriseClient.adminDepartments();
     }

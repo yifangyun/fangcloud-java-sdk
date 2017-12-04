@@ -20,6 +20,11 @@ import java.io.File;
 import static org.junit.Assert.assertNotNull;
 
 public class SdkTestUtil {
+    public final static String ENTERPRISE_CLIENT_ID = "e885b1d0-39e4-49eb-be06-16078cf3f613";
+    public final static String ENTERPRISE_CLIENT_SECRET = "b366fa56-c50e-4a68-bc12-1044d974d7b8";
+    public final static String ENTERPRISE_KID = "U7TejSsByn";
+    public final static long ENTERPRISE_ID = 12401;
+
     public static void assertFileNotNull(YfyFile file) {
         assertNotNull(file);
         assertItemNotNull(file);

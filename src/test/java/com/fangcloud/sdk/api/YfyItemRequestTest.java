@@ -28,7 +28,7 @@ public class YfyItemRequestTest {
 
     @Test
     public void testSearchItem() throws YfyException {
-        SearchItemResult searchItemResult = itemRequest.searchItem("test", ItemTypeEnum.ITEM, 0, 0);
+        SearchItemResult searchItemResult = itemRequest.searchItem("test", ItemTypeEnum.ITEM, QueryFilterEnum.ALL, 0, 0);
         assertPagingResultNotNull(searchItemResult);
         assertNotNull(searchItemResult);
         assertNotNull(searchItemResult.getFolders());

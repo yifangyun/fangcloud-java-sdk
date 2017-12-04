@@ -4,16 +4,17 @@ import com.fangcloud.sdk.SdkTestUtil;
 import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyEnterpriseClient;
 import com.fangcloud.sdk.YfyRequestConfig;
-import com.fangcloud.sdk.api.admin.group.AdminGroupListResult;
-import com.fangcloud.sdk.api.admin.group.YfyAdminGroupRequest;
+import com.fangcloud.sdk.api.admin.user.YfyAdminUserRequest;
 import com.fangcloud.sdk.auth.YfyAuthFinish;
 import com.fangcloud.sdk.auth.YfyEnterpriseAuth;
 import com.fangcloud.sdk.exception.YfyException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class YfyAdminGroupTest {
-    private static YfyAdminGroupRequest adminGroupRequest;
+import static org.junit.Assert.assertTrue;
+
+public class YfyAdminUserTest {
+    private static YfyAdminUserRequest adminUserRequest;
 
     @BeforeClass
     public static void before() throws Exception {
@@ -22,16 +23,13 @@ public class YfyAdminGroupTest {
                 YfyEnterpriseAuth.loadPrivateKey(YfyAdminDepartmentTest.class.getResourceAsStream("/privatekey-pkcs8.pem")));
         YfyAuthFinish authFinish = enterpriseAuth.getEnterpriseToken(SdkTestUtil.ENTERPRISE_ID);
         YfyEnterpriseClient enterpriseClient = new YfyEnterpriseClient(new YfyRequestConfig(), authFinish.getAccessToken());
-        adminGroupRequest = enterpriseClient.adminGroups();
+        adminUserRequest = enterpriseClient.adminUsers();
     }
 
     @Test
-    public void testGetGroupList() throws YfyException {
-        AdminGroupListResult result = adminGroupRequest.getGroupList("test", 0);
-        SdkTestUtil.assertPagingResultNotNull(result);
-        for (YfyDetailedGroup detailedGroup : result.getGroups()) {
-            SdkTestUtil.assertDetailedGroupNotNull(detailedGroup);
-        }
+    public void testDeleteUser() throws YfyException {
+        SuccessResult result = adminUserRequest.deleteUser(1012200L, null);
+        assertTrue(result.getSuccess());
     }
 
 }
