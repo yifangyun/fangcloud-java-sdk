@@ -75,7 +75,7 @@ web-demo 是一个小型的 web app，包括了完整的 Oauth2 的授权和发�
 
 tutorial 是一个简单的通过 access token 上传文件的 demo。
 
-## 授权流程
+## OAuth2.0 授权流程
 
 亿方云开放平台API采用 OAuth2.0 协议进行授权。在SDK中提供了丰富的接口和简单的使用示例，方便开发者对接亿方云的OAuth流程。详细API说明，请参考[亿方云OAuth文档](https://open.fangcloud.com/wiki/v2/#OAuth2)。
 
@@ -91,7 +91,7 @@ YfyWebAuth.Request authRequest = YfyWebAuth.newRequestBuilder()
 String authorizeUrl = new YfyWebAuth(new YfyRequestConfig()).authorize(authRequest);
 ```
 
-### 授权完成后获取用户 access 信息
+### 授权完成后获取用户 token 信息
 
 ```java
 YfyAuthFinish authFinish = new YfyWebAuth(new YfyRequestConfig()).finishFromRedirect(
@@ -100,7 +100,34 @@ YfyAuthFinish authFinish = new YfyWebAuth(new YfyRequestConfig()).finishFromRedi
                     request.getParameterMap());
 ```
 
-用户 access 信息都会保存在返回的 YfyAuthFinish 这个对象中，保存并使用其中的 access token 等信息构造 YfyClient 就可以通过 client 发送所有开放的 api 请求。
+用户 token 信息都会保存在返回的 YfyAuthFinish 这个对象中，保存并使用其中的 access token 等信息构造 YfyClient 就可以通过 client 请求所有用户接口。
+
+## JWT 模式授权流程
+
+### 转换私钥
+
+使用以下 openssl 命令将私钥转化成 Java 程序可以识别的 PKCS#8 格式：
+
+```shell
+openssl pkcs8 -in private_key.pem -topk8 -nocrypt -out private_key_pkcs8.pem
+```
+
+### 读入转化后的私钥
+
+```java
+PrivateKey key = YfyEnterpriseAuth.loadPrivateKey(inputStream);
+```
+
+### 获取企业或用户 token
+
+```java
+YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(new YfyRequestConfig(), kid, key);
+YfyAuthFinish enterpriseToken = enterpriseAuth.getEnterpriseToken(enterpriseId);
+YfyAuthFinish userToken = enterpriseAuth.getUserToken(userId);
+```
+
+用户或企业 token 信息都会保存在返回的 YfyAuthFinish 这个对象中，保存并使用其中的 access token 等信息构造 YfyClient 或 YfyEnterpriseClient 就可以通过 client 请求所有用户或企业接口（YfyClient 和 YfyEnterpriseClient 的请求 api 范围均不同）。
+
 
 ## 请求示例
 

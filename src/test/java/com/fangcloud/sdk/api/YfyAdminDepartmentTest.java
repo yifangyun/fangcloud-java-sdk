@@ -6,12 +6,9 @@ import com.fangcloud.sdk.YfyEnterpriseClient;
 import com.fangcloud.sdk.YfyRequestConfig;
 import com.fangcloud.sdk.api.admin.department.AdminDepartmentUserResult;
 import com.fangcloud.sdk.api.admin.department.YfyAdminDepartmentRequest;
-import com.fangcloud.sdk.api.user.YfyUser;
 import com.fangcloud.sdk.auth.YfyAuthFinish;
 import com.fangcloud.sdk.auth.YfyEnterpriseAuth;
-import com.fangcloud.sdk.auth.YfyEnterpriseAuthTest;
 import com.fangcloud.sdk.exception.YfyException;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,7 +21,7 @@ public class YfyAdminDepartmentTest {
     public static void before() throws Exception {
         YfyAppInfo.initAppInfo(SdkTestUtil.ENTERPRISE_CLIENT_ID, SdkTestUtil.ENTERPRISE_CLIENT_SECRET);
         YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(new YfyRequestConfig(), SdkTestUtil.ENTERPRISE_KID,
-                YfyEnterpriseAuth.loadPrivateKey(YfyAdminDepartmentTest.class.getResourceAsStream("/privatekey-pkcs8.pem")));
+                YfyEnterpriseAuth.loadPrivateKey(YfyAdminDepartmentTest.class.getResourceAsStream(SdkTestUtil.PRIVATE_KEY_NAME)));
         YfyAuthFinish authFinish = enterpriseAuth.getEnterpriseToken(SdkTestUtil.ENTERPRISE_ID);
         YfyEnterpriseClient enterpriseClient = new YfyEnterpriseClient(new YfyRequestConfig(), authFinish.getAccessToken());
         adminDepartmentRequest = enterpriseClient.adminDepartments();

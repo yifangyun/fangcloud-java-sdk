@@ -24,6 +24,7 @@ public class SdkTestUtil {
     public final static String ENTERPRISE_CLIENT_SECRET = "b366fa56-c50e-4a68-bc12-1044d974d7b8";
     public final static String ENTERPRISE_KID = "U7TejSsByn";
     public final static long ENTERPRISE_ID = 12401;
+    public final static String PRIVATE_KEY_NAME = "/private_key_pkcs8.pem";
 
     public static void assertFileNotNull(YfyFile file) {
         assertNotNull(file);

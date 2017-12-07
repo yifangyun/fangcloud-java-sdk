@@ -1,8 +1,8 @@
 package com.fangcloud.sdk.auth;
 
+import com.fangcloud.sdk.SdkTestUtil;
 import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyRequestConfig;
-import com.fangcloud.sdk.api.YfyFileRequestTest;
 import com.fangcloud.sdk.exception.YfyException;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,22 +17,22 @@ public class YfyEnterpriseAuthTest {
 
     @Before
     public void before() throws YfyException {
-        String clientId= "e885b1d0-39e4-49eb-be06-16078cf3f613";
-        String clientSecret= "b366fa56-c50e-4a68-bc12-1044d974d7b8";
+        String clientId = SdkTestUtil.ENTERPRISE_CLIENT_ID;
+        String clientSecret = SdkTestUtil.ENTERPRISE_CLIENT_SECRET;
         YfyAppInfo.initAppInfo(clientId, clientSecret);
     }
 
     @Test
     public void testLoadPrivateKey() throws Exception {
-        PrivateKey key = YfyEnterpriseAuth.loadPrivateKey(YfyEnterpriseAuthTest.class.getResourceAsStream("/privatekey-pkcs8.pem"));
+        PrivateKey key = YfyEnterpriseAuth.loadPrivateKey(YfyEnterpriseAuthTest.class.getResourceAsStream(SdkTestUtil.PRIVATE_KEY_NAME));
         assertEquals(key.getAlgorithm(), "RSA");
     }
 
     @Test
     public void testGetEnterpriseToken() throws Exception {
-        YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(CONFIG, "U7TejSsByn",
-                YfyEnterpriseAuth.loadPrivateKey(YfyEnterpriseAuthTest.class.getResourceAsStream("/privatekey-pkcs8.pem")));
-        YfyAuthFinish authFinish = enterpriseAuth.getEnterpriseToken(12401);
+        YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(CONFIG, SdkTestUtil.ENTERPRISE_KID,
+                YfyEnterpriseAuth.loadPrivateKey(YfyEnterpriseAuthTest.class.getResourceAsStream(SdkTestUtil.PRIVATE_KEY_NAME)));
+        YfyAuthFinish authFinish = enterpriseAuth.getEnterpriseToken(12401L);
         assertNotNull(authFinish);
         assertNotNull(authFinish.getAccessToken());
         assertNotNull(authFinish.getRefreshToken());
@@ -40,8 +40,8 @@ public class YfyEnterpriseAuthTest {
 
     @Test
     public void testGetUserToken() throws Exception {
-        YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(CONFIG, "U7TejSsByn",
-                YfyEnterpriseAuth.loadPrivateKey(YfyEnterpriseAuthTest.class.getResourceAsStream("/privatekey-pkcs8.pem")));
+        YfyEnterpriseAuth enterpriseAuth = new YfyEnterpriseAuth(CONFIG, SdkTestUtil.ENTERPRISE_KID,
+                YfyEnterpriseAuth.loadPrivateKey(YfyEnterpriseAuthTest.class.getResourceAsStream(SdkTestUtil.PRIVATE_KEY_NAME)));
         YfyAuthFinish authFinish = enterpriseAuth.getUserToken(881525L);
         assertNotNull(authFinish);
         assertNotNull(authFinish.getAccessToken());
