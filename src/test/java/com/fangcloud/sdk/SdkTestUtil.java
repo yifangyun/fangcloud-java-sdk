@@ -7,6 +7,7 @@ import com.fangcloud.sdk.api.YfyMiniDepartment;
 import com.fangcloud.sdk.api.YfyMiniElement;
 import com.fangcloud.sdk.api.YfyMiniUser;
 import com.fangcloud.sdk.api.YfyPathFolder;
+import com.fangcloud.sdk.api.admin.user.YfyDetailedUser;
 import com.fangcloud.sdk.api.collab.YfyCollab;
 import com.fangcloud.sdk.api.comment.YfyComment;
 import com.fangcloud.sdk.api.department.YfyDepartment;
@@ -102,6 +103,14 @@ public class SdkTestUtil {
         assertNotNull(user.getActive());
         assertNotNull(user.getFullNamePinyin());
         assertNotNull(user.getPinyinFirstLetters());
+    }
+
+    public static void assertDetailedUserNotNull(YfyDetailedUser detailedUser) {
+        assertUserNotNull(detailedUser);
+        assertNotNull(detailedUser.getDisableDownload());
+        assertNotNull(detailedUser.getHidePhone());
+        assertNotNull(detailedUser.getSpaceTotal());
+        assertNotNull(detailedUser.getSpaceUsed());
     }
 
     public static void assertShareLinkNotNull(YfyShareLink shareLink) {

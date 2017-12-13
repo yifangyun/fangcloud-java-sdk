@@ -2,12 +2,14 @@ package com.fangcloud.sdk;
 
 import com.fangcloud.sdk.api.admin.department.YfyAdminDepartmentRequest;
 import com.fangcloud.sdk.api.admin.group.YfyAdminGroupRequest;
+import com.fangcloud.sdk.api.admin.platform.YfyAdminPlatformRequest;
 import com.fangcloud.sdk.api.admin.user.YfyAdminUserRequest;
 
 public class YfyEnterpriseClient<K> extends YfyBaseClient<K> {
     private final YfyAdminDepartmentRequest adminDepartmentRequest;
     private final YfyAdminGroupRequest adminGroupRequest;
     private final YfyAdminUserRequest adminUserRequest;
+    private final YfyAdminPlatformRequest adminPlatformRequest;
 
     public YfyEnterpriseClient(K key,
                                YfyRequestConfig requestConfig,
@@ -19,6 +21,7 @@ public class YfyEnterpriseClient<K> extends YfyBaseClient<K> {
         this.adminDepartmentRequest = new YfyAdminDepartmentRequest(internalClient);
         this.adminGroupRequest = new YfyAdminGroupRequest(internalClient);
         this.adminUserRequest = new YfyAdminUserRequest(internalClient);
+        this.adminPlatformRequest = new YfyAdminPlatformRequest(internalClient);
     }
 
     public YfyEnterpriseClient(K key, YfyRequestConfig requestConfig, String accessToken, String refreshToken) {
@@ -39,6 +42,10 @@ public class YfyEnterpriseClient<K> extends YfyBaseClient<K> {
 
     public YfyAdminUserRequest adminUsers() {
         return adminUserRequest;
+    }
+
+    public YfyAdminPlatformRequest adminPlatforms() {
+        return adminPlatformRequest;
     }
 
 }

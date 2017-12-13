@@ -7,8 +7,8 @@ import com.fangcloud.sdk.api.user.DeleteUserArg;
 import com.fangcloud.sdk.exception.YfyException;
 
 public class YfyAdminUserRequest {
-    private final static String ADMIN_GROUP_PATH = YfySdkConstant.API_VERSION + "admin/user/";
-    private final static String DELETE_USER_PATH = ADMIN_GROUP_PATH + "%s/delete";
+    private final static String ADMIN_USER_PATH = YfySdkConstant.API_VERSION + "admin/user/";
+    private final static String DELETE_USER_PATH = ADMIN_USER_PATH + "%s/delete";
 
     private final YfyBaseClient<?>.YfyInternalClient client;
 
