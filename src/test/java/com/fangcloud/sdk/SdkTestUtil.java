@@ -1,7 +1,7 @@
 package com.fangcloud.sdk;
 
 import com.fangcloud.sdk.api.PagingResult;
-import com.fangcloud.sdk.api.YfyDetailedGroup;
+import com.fangcloud.sdk.api.admin.group.YfyDetailedGroup;
 import com.fangcloud.sdk.api.YfyItem;
 import com.fangcloud.sdk.api.YfyMiniDepartment;
 import com.fangcloud.sdk.api.YfyMiniElement;

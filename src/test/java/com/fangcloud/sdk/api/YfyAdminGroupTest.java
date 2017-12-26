@@ -6,6 +6,7 @@ import com.fangcloud.sdk.YfyEnterpriseClient;
 import com.fangcloud.sdk.YfyRequestConfig;
 import com.fangcloud.sdk.api.admin.group.AdminGroupListResult;
 import com.fangcloud.sdk.api.admin.group.YfyAdminGroupRequest;
+import com.fangcloud.sdk.api.admin.group.YfyDetailedGroup;
 import com.fangcloud.sdk.auth.YfyAuthFinish;
 import com.fangcloud.sdk.auth.YfyEnterpriseAuth;
 import com.fangcloud.sdk.exception.YfyException;
