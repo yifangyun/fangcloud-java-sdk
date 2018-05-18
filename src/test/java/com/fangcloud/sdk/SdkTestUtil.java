@@ -170,7 +170,6 @@ public class SdkTestUtil {
         assertNotNull(detailedGroup.getDescription());
         assertNotNull(detailedGroup.getCreated());
         assertNotNull(detailedGroup.getUserCount());
-        assertNotNull(detailedGroup.getItemCount());
         assertNotNull(detailedGroup.getCollabAutoAccepted());
         assertNotNull(detailedGroup.getVisiable());
     }
