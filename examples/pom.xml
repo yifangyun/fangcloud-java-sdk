@@ -7,7 +7,7 @@
     <groupId>com.fangcloud</groupId>
     <artifactId>java-sdk-examples</artifactId>
     <packaging>pom</packaging>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>2.2.2</version>
     <modules>
         <module>web-demo</module>
         <module>tutorial</module>
@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.fangcloud</groupId>
             <artifactId>fangcloud-java-sdk</artifactId>
-            <version>2.2.2-SNAPSHOT</version>
+            <version>2.2.2</version>
         </dependency>
     </dependencies>
 
