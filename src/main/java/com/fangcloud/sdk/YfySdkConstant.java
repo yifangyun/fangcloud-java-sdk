@@ -18,4 +18,10 @@ public class YfySdkConstant {
     public final static String PERMISSION_FILTER = "permission_filter";
     public final static String QUERY_FILTER = "query_filter";
     public final static String USER_ID = "user_id";
+    public final static String GROUP_ID = "group_id";
+    public final static String YFY_USER_ID = "yfy_user_id";
+    public final static String YFY_DEPARTMENT_ID = "yfy_department_id";
+    public final static String YFY_GROUP_ID = "yfy_group_id";
+    public final static String FILE_ID = "file_id";
+    public final static String FILE_VERSION_ID = "file_version_id";
 }

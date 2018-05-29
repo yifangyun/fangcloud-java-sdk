@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class YfyFolderRequest {
     private final static String FOLDER_API_PATH = YfySdkConstant.API_VERSION + "folder/";
+    private final static String GET_PERSONAL_ITEMS_PATH = FOLDER_API_PATH + "personal_items";
+    private final static String GET_DEPARTMENT_FOLDERS_PATH = FOLDER_API_PATH + "department_folders";
     private final static String GET_CHILDREN_PATH = FOLDER_API_PATH + "%s/children";
     private final static String GET_COLLAB_FOLDER_PATH = FOLDER_API_PATH + "collab_folders";
     private final static String CREATE_FOLDER_PATH = FOLDER_API_PATH + "create";
@@ -283,35 +285,62 @@ public class YfyFolderRequest {
                                          final int pageCapacity,
                                          final ItemTypeEnum itemType)
             throws YfyException {
-        return getChildren(folderId, pageId, pageCapacity, itemType, 0);
-    }
-
-    /**
-     * Retrieve the files and/or folders contained within this folder without any other info about the folder.
-     * The requests need paging param assigned by developer.
-     *
-     * @param folderId Folder id in fangcloud
-     * @param pageId Page id begin with 0
-     * @param pageCapacity Files and/or folders' list size once return
-     * @param itemType Type of item. see {@link ItemTypeEnum}
-     * @param departmentId Assign department id if your folder id is 0
-     * @return Object contains two lists named "folders" and "files", and other page information
-     * @throws YfyException
-     */
-    public GetChildrenResult getChildren(final long folderId,
-                                         final int pageId,
-                                         final int pageCapacity,
-                                         final ItemTypeEnum itemType,
-                                         final long departmentId)
-            throws YfyException {
         String[] params = { String.valueOf(folderId) };
         Map<String, String> mapParams = new HashMap<String, String>() {{
             put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
             put(YfySdkConstant.PAGE_CAPACITY, String.valueOf(pageCapacity));
             put(YfySdkConstant.TYPE, itemType.getType());
-            put(YfySdkConstant.DEPARTMENT_ID, String.valueOf(departmentId));
         }};
         return getChildren(params, mapParams);
+    }
+
+    /**
+     * Retrieve the files and/or folders contained in personal space.
+     * The requests need paging param assigned by developer.
+     *
+     * @param pageId Page id begin with 0
+     * @param pageCapacity Files and/or folders' list size once return
+     * @param itemType Type of item. see {@link ItemTypeEnum}
+     * @return Object contains two lists named "folders" and "files", and other page information
+     * @throws YfyException
+     */
+    public GetChildrenResult getPersonalItems(
+            final int pageId,
+            final int pageCapacity,
+            final ItemTypeEnum itemType)
+            throws YfyException {
+        Map<String, String> mapParams = new HashMap<String, String>() {{
+            put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
+            put(YfySdkConstant.PAGE_CAPACITY, String.valueOf(pageCapacity));
+            put(YfySdkConstant.TYPE, itemType.getType());
+        }};
+        return client.doGet(GET_PERSONAL_ITEMS_PATH, null, mapParams, GetChildrenResult.class);
+    }
+
+    /**
+     * Retrieve the files and/or folders contained in department space.
+     * The requests need paging param assigned by developer.
+     *
+     * @param departmentId department id in Fangcloud
+     * @param pageId Page id begin with 0
+     * @param pageCapacity Files and/or folders' list size once return
+     * @param itemType Type of item. see {@link ItemTypeEnum}
+     * @return Object contains two lists named "folders" and "files", and other page information
+     * @throws YfyException
+     */
+    public GetChildrenResult getDepartmentFolders(
+            final long departmentId,
+            final int pageId,
+            final int pageCapacity,
+            final ItemTypeEnum itemType)
+            throws YfyException {
+        Map<String, String> mapParams = new HashMap<String, String>() {{
+            put(YfySdkConstant.DEPARTMENT_ID, String.valueOf(departmentId));
+            put(YfySdkConstant.PAGE_ID, String.valueOf(pageId));
+            put(YfySdkConstant.PAGE_CAPACITY, String.valueOf(pageCapacity));
+            put(YfySdkConstant.TYPE, itemType.getType());
+        }};
+        return client.doGet(GET_DEPARTMENT_FOLDERS_PATH, null, mapParams, GetChildrenResult.class);
     }
 
     private GetChildrenResult getChildren(String[] params, Map<String, String> mapParams) throws YfyException {

@@ -4,9 +4,6 @@ import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyClient;
 import com.fangcloud.sdk.YfyProgressListener;
 import com.fangcloud.sdk.YfyRequestConfig;
-import com.fangcloud.sdk.api.file.DownloadPreviewResult;
-import com.fangcloud.sdk.api.file.PreviewKindEnum;
-import com.fangcloud.sdk.api.file.PreviewResult;
 import com.fangcloud.sdk.api.file.YfyFile;
 import com.fangcloud.sdk.api.file.YfyFileRequest;
 import com.fangcloud.sdk.api.folder.YfyFolder;
@@ -21,7 +18,6 @@ import static com.fangcloud.sdk.SdkTestUtil.assertFileNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.assertFolderNotNull;
 import static com.fangcloud.sdk.SdkTestUtil.deleteFile;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class YfyFileRequestTest {
@@ -156,25 +152,6 @@ public class YfyFileRequestTest {
     public void testDirectUploadNewVersionFile() throws YfyException {
         assertFileNotNull(fileRequest.directUploadNewVersionFile(testFileId, FILE_NAME, null,
                 YfyFileRequestTest.class.getResourceAsStream("/" + FILE_NAME)));
-    }
-
-    @Test
-    public void testPreview() throws YfyException {
-        PreviewResult previewResult = fileRequest.preview(testFileId, PreviewKindEnum.IMAGE_THUMBNAIL, false);
-        assertNotNull(previewResult);
-        assertNotNull(previewResult.getCategory());
-        assertNotNull(previewResult.getExifRotation());
-        assertNotNull(previewResult.getFormat());
-        assertNotNull(previewResult.getHas2048());
-        assertNotNull(previewResult.getPageCount());
-        assertNotNull(previewResult.getStatus());
-    }
-
-    @Test
-    public void testDownloadPreview() throws YfyException {
-        DownloadPreviewResult downloadPreviewResult = fileRequest.downloadPreview(testFileId, 1, PreviewKindEnum.IMAGE_THUMBNAIL);
-        assertNotNull(downloadPreviewResult);
-        assertNotNull(downloadPreviewResult.getStatus());
     }
 
     @Test

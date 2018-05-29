@@ -108,7 +108,7 @@ public class YfyFolderRequestTest {
 
     @Test
     public void testGetChildren() throws YfyException {
-        GetChildrenResult getChildrenResult = folderRequest.getChildren(testParentId, 0, 2, ItemTypeEnum.ITEM, 0);
+        GetChildrenResult getChildrenResult = folderRequest.getChildren(testParentId, 0, 2, ItemTypeEnum.ITEM);
         assertPagingResultNotNull(getChildrenResult);
         assertNotNull(getChildrenResult.getFolders());
         for (YfyFolder folder : getChildrenResult.getFolders()) {

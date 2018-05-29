@@ -1,9 +1,11 @@
 package com.fangcloud.sdk.api.file;
 
+import com.fangcloud.sdk.YfyAppInfo;
 import com.fangcloud.sdk.YfyBaseClient;
 import com.fangcloud.sdk.YfyProgressListener;
 import com.fangcloud.sdk.YfySdkConstant;
 import com.fangcloud.sdk.api.SuccessResult;
+import com.fangcloud.sdk.api.YfyFileVersion;
 import com.fangcloud.sdk.api.comment.ListCommentResult;
 import com.fangcloud.sdk.api.share_link.ListShareLinkResult;
 import com.fangcloud.sdk.exception.NetworkIOException;
@@ -39,6 +41,9 @@ public class YfyFileRequest {
     private final static String DOWNLOAD_PREVIEW_PATH = FILE_API_PATH + "%s/preview_download";
     private final static String LIST_FILE_SHARE_LINK_PATH = FILE_API_PATH + "%s/share_links";
     private final static String LIST_COMMENT_PATH = FILE_API_PATH + "%s/comments";
+    private final static String LIST_VERSION_PATH = FILE_API_PATH + "%s/versions";
+    private final static String GET_VERSION_PATH = FILE_API_PATH + "%s/version/%s/info";
+    private final static String GET_PREVIEW_TOKEN_PATH = FILE_API_PATH + "/preview_token";
 
     private final YfyBaseClient<?>.YfyInternalClient client;
 
@@ -520,52 +525,6 @@ public class YfyFileRequest {
     }
 
     /**
-     * Retrieve preview image information and download url
-     *
-     * @param fileId File id in fangcloud
-     * @param previewKind The kinds of preview, see {@link PreviewKindEnum}
-     * @param forceRegenerate if true, the preview image will regenerate force
-     * @return Information about the preview result
-     * @throws YfyException
-     */
-    public PreviewResult preview(long fileId, PreviewKindEnum previewKind, boolean forceRegenerate) throws YfyException {
-        String[] param = { String.valueOf(fileId) };
-        return preview(param, new PreviewArg(previewKind.getKind(), forceRegenerate));
-    }
-
-    private PreviewResult preview(String[] param, PreviewArg previewArg) throws YfyException {
-        return client.doPost(PREVIEW_PATH,
-                param,
-                previewArg,
-                PreviewResult.class);
-    }
-
-    /**
-     * Retrieve download url if the page count of result to {@link this#preview(long,PreviewKindEnum,boolean)} more
-     * than 1. Notice this interface will not trigger preview transform.
-     *
-     * @param fileId File id in fangcloud
-     * @param pageIndex Less than the page count return by {@link this#preview(long,PreviewKindEnum,boolean)}
-     * @param previewKind The kinds of preview, see {@link PreviewKindEnum}
-     * @return Download url means success. Status attribute value "failed" means generating preview fail,
-     *         "ungenerated" means not invoke {@link this#preview(long,PreviewKindEnum,boolean)} before
-     * @throws YfyException
-     */
-    public DownloadPreviewResult downloadPreview(long fileId, int pageIndex, PreviewKindEnum previewKind)
-            throws YfyException {
-        String[] param = { String.valueOf(fileId) };
-        return downloadPreview(param, new DownloadPreviewArg(pageIndex, previewKind.getKind()));
-    }
-
-    private DownloadPreviewResult downloadPreview(String[] param, DownloadPreviewArg downloadPreviewArg)
-            throws YfyException {
-        return client.doPost(DOWNLOAD_PREVIEW_PATH,
-                param,
-                downloadPreviewArg,
-                DownloadPreviewResult.class);
-    }
-
-    /**
      * Copy the specific file to a folder
      *
      * @param fileId File id in fangcloud
@@ -643,6 +602,58 @@ public class YfyFileRequest {
                 param,
                 null,
                 ListCommentResult.class);
+    }
+
+    /**
+     * List file's all versions' information
+     * @param fileId File id in fangcloud
+     * @return All file's versions' information
+     * @throws YfyException
+     */
+    public ListFileVersionsResult listVersions(long fileId) throws YfyException {
+        String[] param = { String.valueOf(fileId) };
+        return client.doGet(LIST_VERSION_PATH, param, null, ListFileVersionsResult.class);
+    }
+
+    /**
+     * List file's version's information
+     * @param fileId File id in fangcloud
+     * @param fileVersionId FileVersion id in fangcloud
+     * @return file's version's information
+     * @throws YfyException
+     */
+    public YfyFileVersion getFileVersion(long fileId, long fileVersionId) throws YfyException {
+        String[] param = { String.valueOf(fileId), String.valueOf(fileVersionId) };
+        return client.doGet(GET_VERSION_PATH, param, null, YfyFileVersion.class);
+    }
+
+
+    /**
+     * get file's preview url
+     *
+     * @param fileId File id in fangcloud
+     * @param period expire in seconds, should be between 300 to 7200
+     * @return file's preview url
+     * @throws YfyException
+     */
+    public String getPreviewUrl(long fileId, int period) throws YfyException {
+        PreviewTokenResult result = client.doPost(GET_PREVIEW_TOKEN_PATH, null, new GetPreviewTokenArg(fileId, period), PreviewTokenResult.class);
+        return "https://" + YfyAppInfo.getHost().getApi() + "/preview/preview.html?preview_token=" + result.getPreviewToken();
+    }
+
+    /**
+     * get fileVersion's preview url
+     *
+     * @param fileId File id in fangcloud
+     * @param fileVersionId FileVersion id in fangcloud
+     * @param period expire in seconds, should be between 300 to 7200
+     * @return fileVersion's preview url
+     * @throws YfyException
+     */
+    public String getPreviewUrl(long fileId, long fileVersionId, int period) throws YfyException {
+        PreviewTokenResult result = client.doPost(GET_PREVIEW_TOKEN_PATH, null, new GetPreviewTokenArg(fileId, fileVersionId, period), PreviewTokenResult
+                .class);
+        return "https://" + YfyAppInfo.getHost().getApi() + "/preview/preview.html?preview_token=" + result.getPreviewToken();
     }
 
 }
