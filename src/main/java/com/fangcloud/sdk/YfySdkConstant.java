@@ -24,4 +24,5 @@ public class YfySdkConstant {
     public final static String YFY_GROUP_ID = "yfy_group_id";
     public final static String FILE_ID = "file_id";
     public final static String FILE_VERSION_ID = "file_version_id";
+    public final static String IDENTIFIER = "identifier";
 }

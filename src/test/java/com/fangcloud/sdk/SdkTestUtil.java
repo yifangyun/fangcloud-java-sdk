@@ -7,6 +7,8 @@ import com.fangcloud.sdk.api.YfyMiniDepartment;
 import com.fangcloud.sdk.api.YfyMiniElement;
 import com.fangcloud.sdk.api.YfyMiniUser;
 import com.fangcloud.sdk.api.YfyPathFolder;
+import com.fangcloud.sdk.api.admin.user.GetUserLoginParamsResult;
+import com.fangcloud.sdk.api.admin.user.GetUserLoginUrlResult;
 import com.fangcloud.sdk.api.admin.user.YfyDetailedUser;
 import com.fangcloud.sdk.api.collab.YfyCollab;
 import com.fangcloud.sdk.api.comment.YfyComment;
@@ -172,6 +174,19 @@ public class SdkTestUtil {
         assertNotNull(detailedGroup.getUserCount());
         assertNotNull(detailedGroup.getCollabAutoAccepted());
         assertNotNull(detailedGroup.getVisiable());
+    }
+
+    public static void assertLoginUrlNotNull(GetUserLoginUrlResult userLoginUrl) {
+        assertNotNull(userLoginUrl);
+        assertNotNull(userLoginUrl.getExpiresIn());
+        assertNotNull(userLoginUrl.getLoginUrl());
+    }
+
+    public static void assertLoginParamsNotNull(GetUserLoginParamsResult userLoginParams) {
+        assertNotNull(userLoginParams);
+        assertNotNull(userLoginParams.getExpiresIn());
+        assertNotNull(userLoginParams.getAuthKey());
+        assertNotNull(userLoginParams.getClientId());
     }
 
     public static void deleteFile(String fileName) {
