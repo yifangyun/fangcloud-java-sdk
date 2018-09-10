@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/fangcloud-java-sdk.iml" filepath="$PROJECT_DIR$/fangcloud-java-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/java-sdk-examples.iml" filepath="$PROJECT_DIR$/examples/java-sdk-examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/tutorial/tutorial.iml" filepath="$PROJECT_DIR$/examples/tutorial/tutorial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/web-demo/web-demo.iml" filepath="$PROJECT_DIR$/examples/web-demo/web-demo.iml" />
+    </modules>
+  </component>
+</project>

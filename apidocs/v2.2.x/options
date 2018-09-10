@@ -1,0 +1,26 @@
+-classpath
+'/Users/xiang/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/xiang/.m2/repository/io/jsonwebtoken/jjwt/0.7.0/jjwt-0.7.0.jar:/Users/xiang/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.7.0/jackson-annotations-2.7.0.jar:/Users/xiang/.m2/repository/org/apache/httpcomponents/httpcore/4.4.3/httpcore-4.4.3.jar:/Users/xiang/.m2/repository/commons-codec/commons-codec/1.9/commons-codec-1.9.jar:/Users/xiang/.m2/repository/org/apache/httpcomponents/httpclient/4.5.1/httpclient-4.5.1.jar:/Users/xiang/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.7.4/jackson-databind-2.7.4.jar:/Users/xiang/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar:/Users/xiang/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.7.4/jackson-core-2.7.4.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/xiang/WorkProjects/fangcloud-java-sdk/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2018 <a href="https://www.fangcloud.com">YiFangYun</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/xiang/WorkProjects/fangcloud-java-sdk/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Official Fangcloud Java SDK 2.2.4-SNAPSHOT API'
+-link
+'http://docs.oracle.com/javase/7/docs/api'
+-linkoffline
+'http://docs.oracle.com/javase/8/docs/api' '/Users/xiang/WorkProjects/fangcloud-java-sdk/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Official Fangcloud Java SDK 2.2.4-SNAPSHOT API'

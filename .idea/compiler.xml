@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="fangcloud-java-sdk" />
+        <module name="tutorial" />
+        <module name="web-demo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="fangcloud-java-sdk" target="1.7" />
+      <module name="java-sdk-examples" target="1.7" />
+      <module name="tutorial" target="1.7" />
+      <module name="web-demo" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
