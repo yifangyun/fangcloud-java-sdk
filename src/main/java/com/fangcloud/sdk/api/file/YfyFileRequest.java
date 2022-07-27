@@ -638,7 +638,16 @@ public class YfyFileRequest {
      */
     public String getPreviewUrl(long fileId, int period) throws YfyException {
         PreviewTokenResult result = client.doPost(GET_PREVIEW_TOKEN_PATH, null, new GetPreviewTokenArg(fileId, period), PreviewTokenResult.class);
-        return "https://" + YfyAppInfo.getHost().getApi() + "/preview/preview.html?preview_token=" + result.getPreviewToken();
+        String protocol ;
+        if (YfyAppInfo.getHost().getApi().contains("-svc")) {
+            protocol = YfySdkConstant.SCHEME_HTTP;
+        } else {
+            protocol = YfySdkConstant.SCHEME_HTTPS;
+        }
+        if(YfyAppInfo.getProtocol() != null){
+            protocol =  YfyAppInfo.getProtocol();
+        }
+        return protocol + "://" + YfyAppInfo.getHost().getApi() + "/preview/preview.html?preview_token=" + result.getPreviewToken();
     }
 
     /**
@@ -653,7 +662,16 @@ public class YfyFileRequest {
     public String getPreviewUrl(long fileId, long fileVersionId, int period) throws YfyException {
         PreviewTokenResult result = client.doPost(GET_PREVIEW_TOKEN_PATH, null, new GetPreviewTokenArg(fileId, fileVersionId, period), PreviewTokenResult
                 .class);
-        return "https://" + YfyAppInfo.getHost().getApi() + "/preview/preview.html?preview_token=" + result.getPreviewToken();
+        String protocol ;
+        if (YfyAppInfo.getHost().getApi().contains("-svc")) {
+            protocol = YfySdkConstant.SCHEME_HTTP;
+        } else {
+            protocol = YfySdkConstant.SCHEME_HTTPS;
+        }
+        if(YfyAppInfo.getProtocol() != null){
+            protocol =  YfyAppInfo.getProtocol();
+        }
+        return protocol + "https://" + YfyAppInfo.getHost().getApi() + "/preview/preview.html?preview_token=" + result.getPreviewToken();
     }
 
 }

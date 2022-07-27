@@ -13,6 +13,8 @@ public class YfyAppInfo {
     private static String secret;
     private static YfyHost host;
 
+    private static String protocol;
+
     /**
      * Must be invoked before sending any request
      *
@@ -24,6 +26,16 @@ public class YfyAppInfo {
         if (System.getenv().get(TEST_FLAG) != null) {
             host = new YfyHost("platform.fangcloud.net", "oauth-server.fangcloud.net");
         }
+        initAppInfo(key, secret, host);
+    }
+    public static void initAppInfo(String key, String secret, String apiHost, String authHost) {
+        host = new YfyHost(apiHost, authHost);
+        initAppInfo(key, secret, host);
+    }
+
+    public static void initAppInfo(String key, String secret, String apiHost, String authHost, String protocol) {
+        host = new YfyHost(apiHost, authHost);
+        YfyAppInfo.protocol = protocol;
         initAppInfo(key, secret, host);
     }
 
@@ -65,10 +77,16 @@ public class YfyAppInfo {
     }
 
     /**
-     * Returns the Fangcloud host configuration.
+     * Returns the Fangcloud protocol configuration.
      *
-     * <p> This is almost always {@link YfyHost#DEFAULT}.  Typically this value will only be
-     * different for testing purposes.
+     * @return Fangcloud app protocol
+     */
+    public static String getProtocol() {
+        return protocol;
+    }
+
+    /**
+     * Returns the Fangcloud host configuration.
      *
      * @return Fangcloud host configuration
      */

@@ -49,7 +49,16 @@ public final class YfyRequestUtil {
 
     public static String buildUri(String host, String path) {
         try {
-            return new URI("https", host, "/" + path, null).toASCIIString();
+            String protocol;
+            if (host.contains("-svc")) {
+                protocol = YfySdkConstant.SCHEME_HTTP;
+            } else {
+                protocol = YfySdkConstant.SCHEME_HTTPS;
+            }
+            if(YfyAppInfo.getProtocol() != null){
+                protocol =  YfyAppInfo.getProtocol();
+            }
+            return protocol + "://" + host + new URI(null, null, "/" + path, null).toASCIIString();
         }
         catch (URISyntaxException ex) {
             throw mkAssert("URI creation failed, host=" + jq(host) + ", path=" + jq(path), ex);

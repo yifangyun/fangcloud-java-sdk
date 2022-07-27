@@ -6,6 +6,9 @@ public class YfySdkConstant {
     public final static String POST_METHOD = "POST";
     public final static String GET_METHOD = "GET";
 
+    public final static String SCHEME_HTTPS = "https";
+    public final static String SCHEME_HTTP = "http";
+
     public final static String PAGE_ID = "page_id";
     public final static String PAGE_CAPACITY = "page_capacity";
     public final static String TYPE = "type";
