@@ -7,7 +7,7 @@
     <groupId>com.fangcloud</groupId>
     <artifactId>fangcloud-java-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>2.2.4-SNAPSHOT</version>
+    <version>2.2.5-SNAPSHOT</version>
     <name>Official Fangcloud Java SDK</name>
     <description>Official Java client library for the Fangcloud API.</description>
     <url>https://github.com/yifangyun/fangcloud-java-sdk</url>
