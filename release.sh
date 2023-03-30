@@ -145,8 +145,8 @@ $create_release && {
 				"prerelease": false
 			}'`
 
-	upload_url="$(echo $upload_response | python -c "import sys, json; print json.load(sys.stdin)['upload_url']")"
-	html_url="$(echo $upload_response | python -c "import sys, json; print json.load(sys.stdin)['html_url']")"
+	upload_url="$(echo $upload_response | python3 -c "import sys, json; print json.load(sys.stdin)['upload_url']")"
+	html_url="$(echo $upload_response | python3 -c "import sys, json; print json.load(sys.stdin)['html_url']")"
 
 	tar_name="fangcloud-java-sdk-${new_version}.tar"
 	zip_name="fangcloud-java-sdk-${new_version}.zip"
@@ -159,7 +159,7 @@ $create_release && {
 			-H "authorization: token $github_token" \
 			-H 'cache-control: no-cache' \
 			-F "filename=@target/build/${tar_name}" \
-			| python -c "import sys, json; print json.load(sys.stdin)['browser_download_url']"`
+			| python3 -c "import sys, json; print json.load(sys.stdin)['browser_download_url']"`
 
 	if [ -z $tar_browser_download_url ]
 	then
@@ -172,7 +172,7 @@ $create_release && {
 			-H "authorization: token $github_token" \
 			-H 'cache-control: no-cache' \
 			-F "filename=@target/build/${zip_name}" \
-			| python -c "import sys, json; print json.load(sys.stdin)['browser_download_url']"`
+			| python3 -c "import sys, json; print json.load(sys.stdin)['browser_download_url']"`
 
 	if [ -z $zip_browser_download_url ]
 	then
